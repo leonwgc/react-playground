@@ -4,6 +4,10 @@ const routes = [
     {
         path: '/Popover',
         component: lazy(() => import('./demos/Popover'))
+    },
+    {
+        path: '/Accordion',
+        component: lazy(() => import('./demos/Accordion'))
     }
 ];
 

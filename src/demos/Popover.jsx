@@ -41,22 +41,6 @@ export default function App() {
 
     return (
         <div>
-            <Accordion title="Title" className="accordion-examples" ref={ref}>
-                <div className="accordion-examples-content">
-                    {list.map(item => (
-                        <div>list{item}</div>
-                    ))}
-                </div>
-            </Accordion>
-            <Button
-                onClick={() => {
-                    updateStore({list: [1, 2, 3, 4, 5, 6]});
-                    ref.current.resetHeight();
-                }}
-            >
-                add more
-            </Button>
-
             <StyledTrigger ref={textAreaRefWrap}>
                 <TextArea
                     autoHeight
