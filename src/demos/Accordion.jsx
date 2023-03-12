@@ -14,7 +14,7 @@ export default function App() {
             <Accordion title="Title" className="accordion-examples" ref={ref}>
                 <div className="accordion-examples-content">
                     {list.map(item => (
-                        <div>list{item}</div>
+                        <div style={{padding: '6px 0'}}>list{item}</div>
                     ))}
                 </div>
             </Accordion>

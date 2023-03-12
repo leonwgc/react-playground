@@ -69,6 +69,7 @@ export default function App() {
                     <div className="accordion-examples-content">
                         {list.map(item => (
                             <div
+                                style={{padding: '6px 0'}}
                                 onClick={() => {
                                     const v = value + 'list' + item + '}';
                                     setValue(v);
