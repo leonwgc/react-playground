@@ -1,106 +1,54 @@
-import React, {useRef, useState} from 'react';
-import {Button, styled} from 'react-uni-comps';
-import {useUpdateStore, useAppData} from 'simple-redux-store';
+import React, {Suspense} from 'react';
+import {ThemeProvider, styled} from 'react-uni-comps';
+import {HashRouter, Route, Switch} from 'react-router-dom';
+import routes from './Route';
+import Widget from 'alcedo-ui/Widget';
+import WidgetHeader from 'alcedo-ui/WidgetHeader';
+import IconButton from 'alcedo-ui/IconButton';
+
+import './assets/fa/fa.css';
 
 import './App.scss';
-import Accordion from 'alcedo-ui/Accordion';
-import Popover from 'alcedo-ui/Popover';
-import TextArea from 'alcedo-ui/TextArea';
 
-const StyledTrigger = styled.div`
-    width: 300px;
-    height: 200px;
-
-    .text-input-el {
-        height: 200px;
-        width: 300px;
+const StyledWrapper = styled.div`
+    .widget-content {
+        padding: 20px;
     }
 `;
 
 export default function App() {
-    const updateStore = useUpdateStore();
-    const {list = [1, 2, 3]} = useAppData();
-
-    const [v, setV] = useState(false);
-
-    const ref = useRef();
-    const textAreaRefWrap = useRef();
-    const textAreaRef = useRef();
-
-    const [value, setValue] = useState('');
-
-    const onTextChange = value => {
-        setValue(value);
-        if (value) {
-            const len = value.length;
-            if (value[len - 1] === '{') {
-                setV(true);
-                return;
-            }
-        }
-        setV(false);
-    };
-
     return (
-        <div>
-            <Accordion title="Title" className="accordion-examples" ref={ref}>
-                <div className="accordion-examples-content">
-                    {list.map(item => (
-                        <div>list{item}</div>
-                    ))}
-                </div>
-            </Accordion>
-            <Button
-                onClick={() => {
-                    updateStore({list: [1, 2, 3, 4, 5, 6]});
-                    ref.current.resetHeight();
-                }}
-            >
-                add more
-            </Button>
+        <ThemeProvider color={'#005cff'}>
+            <HashRouter>
+                <Suspense fallback={null}>
+                    <StyledWrapper>
+                        <Widget>
+                            <WidgetHeader title="Alcedo UI DEMOS">
+                                <IconButton iconCls="far fa-thumbs-up" />
+                                <IconButton iconCls="fas fa-trash-alt" />
+                            </WidgetHeader>
 
-            <StyledTrigger ref={textAreaRefWrap}>
-                <TextArea
-                    autoHeight
-                    value={value}
-                    triggerClassName="text-input-el"
-                    onChange={onTextChange}
-                    ref={textAreaRef}
-                />
-            </StyledTrigger>
-
-            <Popover
-                hasTriangle={false}
-                theme={Popover.Theme.PRIMARY}
-                visible={v}
-                triggerEl={textAreaRefWrap.current}
-                onRequestClose={() => setV(false)}
-                position={Popover.Position.RIGHT}
-                resetPositionWait={0}
-                style={{marginLeft: '-100px'}}
-            >
-                <Accordion
-                    title="Title"
-                    className="accordion-examples"
-                    ref={ref}
-                >
-                    <div className="accordion-examples-content">
-                        {list.map(item => (
-                            <div
-                                onClick={() => {
-                                    const v = value + 'list' + item + '}';
-                                    setValue(v);
-                                    setV(false);
-
-                                    textAreaRef.current.focus();
-                                }}
-                            >
-                                list{item}
+                            <div className="widget-content">
+                                <Switch>
+                                    {routes.map((route, idx) => (
+                                        <Route
+                                            key={idx}
+                                            path={route.path}
+                                            exact={route.exact}
+                                            component={route.component}
+                                        />
+                                    ))}
+                                    <Route
+                                        render={() => (
+                                            <div>demo not found 123123123</div>
+                                        )}
+                                    />
+                                </Switch>
                             </div>
-                        ))}
-                    </div>
-                </Accordion>
-            </Popover>
-        </div>
+                        </Widget>
+                    </StyledWrapper>
+                </Suspense>
+            </HashRouter>
+        </ThemeProvider>
     );
 }
