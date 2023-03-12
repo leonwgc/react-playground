@@ -39,9 +39,7 @@ export default function App() {
                                         />
                                     ))}
                                     <Route
-                                        render={() => (
-                                            <div>demo not found 123123123</div>
-                                        )}
+                                        render={() => <div>demo not found</div>}
                                     />
                                 </Switch>
                             </div>

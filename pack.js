@@ -9,6 +9,19 @@ pack(true, {
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
-        port: 9100
+        port: 9100,
+        proxy: {
+            '/dplatform-cloud-gateway': {
+                target: 'https://click-test-k8s.derbysoft-test.com',
+                '/click-otads': 'https://click-test-k8s.derbysoft-test.com',
+                changeOrigin: true,
+                cookieDomainRewrite: ''
+            },
+            '/click-otads': {
+                target: 'https://click-test-k8s.derbysoft-test.com',
+                changeOrigin: true,
+                cookieDomainRewrite: ''
+            }
+        }
     }
 });

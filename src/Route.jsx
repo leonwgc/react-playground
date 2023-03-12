@@ -8,6 +8,10 @@ const routes = [
     {
         path: '/Accordion',
         component: lazy(() => import('./demos/Accordion'))
+    },
+    {
+        path: '/Table',
+        component: lazy(() => import('./demos/Table'))
     }
 ];
 
