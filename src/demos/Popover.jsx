@@ -37,6 +37,7 @@ export default function App() {
             if (value[len - 1] === '{') {
                 const el = textAreaRef.current.input.current;
                 const pos = getCaretCoordinates(el, el.selectionEnd);
+                // 300 is ta width, 20 is base height
                 setPopStyle({left: pos.left - 300, top: 20 + pos.top});
                 setV(true);
 
