@@ -1,9 +1,10 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {Button, styled} from 'react-uni-comps';
 import {useUpdateStore, useAppData} from 'simple-redux-store';
 import Accordion from 'alcedo-ui/Accordion';
 import Popover from 'alcedo-ui/Popover';
 import TextArea from 'alcedo-ui/TextArea';
+import getCaretCoordinates from './libs/getCaretCoordinates';
 
 const StyledTrigger = styled.div`
     width: 300px;
@@ -27,12 +28,18 @@ export default function App() {
 
     const [value, setValue] = useState('');
 
+    const [popStyle, setPopStyle] = useState({left: 0, top: -16});
+
     const onTextChange = value => {
         setValue(value);
         if (value) {
             const len = value.length;
             if (value[len - 1] === '{') {
+                const el = textAreaRef.current.input.current;
+                const pos = getCaretCoordinates(el, el.selectionEnd);
+                setPopStyle({left: pos.left - 300, top: 20 + pos.top});
                 setV(true);
+
                 return;
             }
         }
@@ -55,11 +62,16 @@ export default function App() {
                 hasTriangle={false}
                 theme={Popover.Theme.PRIMARY}
                 visible={v}
+                // visible
                 triggerEl={textAreaRefWrap.current}
                 onRequestClose={() => setV(false)}
-                position={Popover.Position.RIGHT}
+                position={Popover.Position.RIGHT_TOP}
                 resetPositionWait={0}
-                style={{marginLeft: '-100px'}}
+                style={{
+                    zIndex: 1000,
+                    marginLeft: popStyle.left,
+                    marginTop: popStyle.top
+                }}
             >
                 <Accordion
                     title="Title"
