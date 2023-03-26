@@ -1,11 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const setAsync = createAsyncThunk('counter/setAsync', async () => {
+    const response = await new Promise(resolve => {
+        setTimeout(() => {
+            resolve(~~(Math.random() * 10))
+        }, 500);
+    })
+    return response
+})
+
 
 const initialValue = 0;
 
 const counterSlice = createSlice({
     name: 'counter',
     initialState: {
-        value: initialValue
+        value: initialValue,
+        status: ''
     },
     reducers: {
         increment: state => {
@@ -21,6 +32,21 @@ const counterSlice = createSlice({
         reset: (state) => {
             state.value = initialValue;
         }
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(setAsync.pending, (state, action) => {
+                state.status = 'pending'
+            })
+            .addCase(setAsync.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.value = action.payload as number;
+
+                console.log(action)
+            })
+            .addCase(setAsync.rejected, (state, action) => {
+                state.status = 'rejected'
+            })
     }
 })
 

@@ -2,6 +2,7 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { applyMiddleware, compose, createStore, Store } from 'redux';
 import createRootReducer, { rootAppName } from './reducers';
 export { default as useUpdateStore } from './hooks/useUpdateStore';
+import { configureStore as rtkConfigureStore } from '@reduxjs/toolkit'
 export { Provider } from 'react-redux';
 
 /**
@@ -12,19 +13,23 @@ export { Provider } from 'react-redux';
  * @return {*}  {Store}
  */
 export const configureStore = (initState: Record<string, unknown> = {}, trace = false): Store => {
-  let composeEnhancers = compose;
+  // let composeEnhancers = compose;
 
-  if (trace && typeof window !== 'undefined') {
-    if (typeof window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] === 'function') {
-      composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']({ trace: true });
-    }
-  }
+  // if (trace && typeof window !== 'undefined') {
+  //   if (typeof window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] === 'function') {
+  //     composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']({ trace: true });
+  //   }
+  // }
 
-  const store = createStore(
-    createRootReducer(),
-    { app: initState },
-    composeEnhancers(applyMiddleware())
-  );
+  // const store = createStore(
+  //   createRootReducer(),
+  //   { app: initState },
+  //   composeEnhancers(applyMiddleware())
+  // );
+
+  const store = rtkConfigureStore({
+    reducer: createRootReducer()
+  })
 
   return store;
 };
