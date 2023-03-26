@@ -1,4 +1,4 @@
-const {default: pack} = require('packw');
+const { default: pack } = require('packw');
 const path = require('path');
 
 pack(true, {
@@ -23,5 +23,10 @@ pack(true, {
                 cookieDomainRewrite: ''
             }
         }
-    }
+    },
+    resolve: {
+        alias: {
+            '~': path.resolve(__dirname, './src'),
+        },
+    },
 });

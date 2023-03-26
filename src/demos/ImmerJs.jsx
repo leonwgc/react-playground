@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Collapse } from 'react-uni-comps';
 import { produce } from 'immer';
 
@@ -14,8 +14,6 @@ const baseState = [
 ];
 
 export default function App() {
-  const ref = useRef();
-
   const [list, setList] = useState(baseState);
 
   return (
