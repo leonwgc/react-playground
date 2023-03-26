@@ -18,8 +18,12 @@ const routes = [
     component: lazy(() => import('./demos/ImmerJs')),
   },
   {
-    path: '/ReduxToolKit',
-    component: lazy(() => import('./demos/ReduxToolKit')),
+    path: '/ReduxHooks',
+    component: lazy(() => import('./demos/ReduxHooks')),
+  },
+  {
+    path: '/ReduxConnect',
+    component: lazy(() => import('./demos/ReduxConnect')),
   },
 ];
 
