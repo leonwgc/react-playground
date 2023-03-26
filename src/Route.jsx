@@ -17,6 +17,10 @@ const routes = [
     path: '/Immer',
     component: lazy(() => import('./demos/ImmerJs')),
   },
+  {
+    path: '/ReduxToolKit',
+    component: lazy(() => import('./demos/ReduxToolKit')),
+  },
 ];
 
 export default routes;
