@@ -25,6 +25,10 @@ const routes = [
     path: '/ReduxConnect',
     component: lazy(() => import('./demos/ReduxConnect')),
   },
+  {
+    path: '/ReactHookForm',
+    component: lazy(() => import('./demos/ReactHookForm')),
+  },
 ];
 
 export default routes;
