@@ -20,6 +20,7 @@ export default function App() {
     watch,
     formState: { errors, isValid },
     resetField,
+    reset,
     control,
   } = useForm({ defaultValues, mode: 'all' });
 
@@ -28,7 +29,12 @@ export default function App() {
 
   useMount(() => {
     setTimeout(() => {
-      resetField('name', { defaultValue: 'leonwgc' }); // simulate ajax call to update a field
+      //   resetField('name', { defaultValue: 'leonwgc' }); // simulate ajax call to update a field
+      reset({
+        name: 'leonwgc',
+        gender: 'female',
+        color: 'blue',
+      }); // reset whole form state
     }, 1500);
   });
 
@@ -41,7 +47,7 @@ export default function App() {
           control={control}
           rules={{
             required: 'Name is required',
-            maxLength: { value: 3, message: 'Name max length is 3' },
+            maxLength: { value: 10, message: 'Name max length is 10' },
           }}
           render={({ field }) => (
             <Input {...field} placeholder="react-uni-comps name" />
@@ -50,7 +56,7 @@ export default function App() {
         <ErrorMsg>{errors?.name?.message}</ErrorMsg>
       </div>
 
-      {watched.name === 'wgc' && (
+      {watched.name === 'leonwgc' && (
         <div>
           <Controller
             name="color"
@@ -79,6 +85,10 @@ export default function App() {
         </select>
         <ErrorMsg>{errors?.gender?.message}</ErrorMsg>
       </div>
+
+      <Button style={{ marginTop: 20 }} onClick={() => reset()}>
+        Reset All
+      </Button>
 
       <Button style={{ marginTop: 20 }} onClick={() => resetField('name')}>
         Reset name
