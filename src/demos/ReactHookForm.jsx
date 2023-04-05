@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Input, styled } from 'react-uni-comps';
+import React, { useEffect } from 'react';
+import { Button, Input, styled, useMount } from 'react-uni-comps';
 import MaterialTextField from 'alcedo-ui/MaterialTextField';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -10,18 +10,27 @@ const ErrorMsg = styled.div`
 const defaultValues = {
   name: 'wgc',
   color: 'red',
+  gender: 'male',
 };
+
 export default function App() {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors, isValid },
+    resetField,
     control,
   } = useForm({ defaultValues, mode: 'all' });
 
   // for conditional renderer
   const watched = watch();
+
+  useMount(() => {
+    setTimeout(() => {
+      resetField('name', { defaultValue: 'leonwgc' }); // simulate ajax call to update a field
+    }, 1500);
+  });
 
   return (
     <div>
@@ -60,6 +69,20 @@ export default function App() {
           <ErrorMsg>{errors?.color?.message}</ErrorMsg>
         </div>
       )}
+
+      <div style={{ margin: '10px 0' }}>
+        gender
+        <select {...register('gender', { required: 'gender is required' })}>
+          <option value="">please select</option>
+          <option value="male">male</option>
+          <option value="female">female</option>
+        </select>
+        <ErrorMsg>{errors?.gender?.message}</ErrorMsg>
+      </div>
+
+      <Button style={{ marginTop: 20 }} onClick={() => resetField('name')}>
+        Reset name
+      </Button>
 
       <Button
         type="primary"
