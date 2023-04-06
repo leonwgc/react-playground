@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Button, Input, styled, useMount } from 'react-uni-comps';
 import MaterialTextField from 'alcedo-ui/MaterialTextField';
 import { useForm, Controller } from 'react-hook-form';
+import { DevTool } from '@hookform/devtools';
 
 const ErrorMsg = styled.div`
   color: red;
@@ -40,6 +41,8 @@ export default function App() {
 
   return (
     <div>
+      {/* TODO: devtool  */}
+      <DevTool control={control} />
       <div>
         name:
         <Controller
