@@ -1,13 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  Button,
-  Input,
-  styled,
-  useMount,
-  Space,
-  Divider,
-  useUpdateEffect,
-} from 'react-uni-comps';
+import { Button, Input, styled, useMount, Space, Divider, useUpdateEffect } from 'react-uni-comps';
 import MaterialTextField from 'alcedo-ui/MaterialTextField';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
@@ -22,16 +14,16 @@ export default function App() {
     register,
     getValues,
     watch,
-    formState: { errors, isValid },
+    formState: { errors, isValid }
   } = useForm({
     defaultValues: {
-      tels: [''],
+      tels: ['']
     },
-    mode: 'all',
+    mode: 'all'
   });
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'tels',
+    name: 'tels'
   });
 
   const watchedTels = watch('tels');
@@ -57,8 +49,8 @@ export default function App() {
                 required: 'required',
                 pattern: {
                   value: /\d{11}/,
-                  message: 'not a valid tel',
-                },
+                  message: 'not a valid tel'
+                }
               }}
               render={({ field }) => (
                 <MaterialTextField
@@ -81,16 +73,12 @@ export default function App() {
         <Button type="primary" onClick={() => append('')}>
           Add
         </Button>
-        <Button
-          type="primary"
-          disabled={!isValid}
-          onClick={() => console.log(getValues())}
-        >
+        <Button type="primary" disabled={!isValid} onClick={() => console.log(getValues())}>
           Save
         </Button>
       </Space>
 
-      <div>{watchedTels.find(t => t.value === 'wgc') && 'hello wgc'}</div>
+      <div>{watchedTels.find((t) => t.value === 'wgc') && 'hello wgc'}</div>
       <DevTool control={control} />
     </div>
   );
