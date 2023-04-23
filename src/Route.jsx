@@ -29,6 +29,10 @@ const routes = [
     path: '/ReactHookForm',
     component: lazy(() => import('./demos/ReactHookForm')),
   },
+  {
+    path: '/ReactHookFormWithDynamic',
+    component: lazy(() => import('./demos/ReactHookFormWithDynamic')),
+  },
 ];
 
 export default routes;
