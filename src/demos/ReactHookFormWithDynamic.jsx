@@ -17,11 +17,12 @@ export default function App() {
     formState: { errors, isValid }
   } = useForm({
     defaultValues: {
-      tels: ['']
+      tels: ['11', '22'],
+      name: ''
     },
     mode: 'all'
   });
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     control,
     name: 'tels'
   });
@@ -34,7 +35,8 @@ export default function App() {
 
   useMount(() => {
     // add first input
-    append('');
+    // append('');
+    // replace(['11', '22', '33', '44']);
   });
 
   return (
@@ -48,7 +50,7 @@ export default function App() {
               rules={{
                 required: 'required',
                 pattern: {
-                  value: /\d{11}/,
+                  value: /\d+/,
                   message: 'not a valid tel'
                 }
               }}
@@ -66,14 +68,19 @@ export default function App() {
         </div>
       ))}
       <div style={{ marginTop: 16 }}>
-        <Input {...register('name', { required: 'must have value' })} />
+        <Controller
+          name="name"
+          control={control}
+          rules={{ required: 'must have value' }}
+          render={({ field }) => <Input {...field} />}
+        />
         <ErrorMsg>{errors?.name?.message}</ErrorMsg>
       </div>
       <Space style={{ marginTop: 16 }}>
         <Button type="primary" onClick={() => append('')}>
-          Add
+          +
         </Button>
-        <Button type="primary" disabled={!isValid} onClick={() => console.log(getValues())}>
+        <Button type="default" disabled={!isValid} onClick={() => console.log(getValues())}>
           Save
         </Button>
       </Space>
