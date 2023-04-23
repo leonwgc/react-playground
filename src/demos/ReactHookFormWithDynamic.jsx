@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Input, styled, useMount, Space, Divider, useUpdateEffect } from 'react-uni-comps';
 import MaterialTextField from 'alcedo-ui/MaterialTextField';
+import CircularLoading from 'alcedo-ui/CircularLoading';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 
@@ -9,9 +10,11 @@ const ErrorMsg = styled.div`
 `;
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
   const {
     control,
     register,
+    reset,
     getValues,
     watch,
     formState: { errors, isValid }
@@ -22,7 +25,7 @@ export default function App() {
     },
     mode: 'all'
   });
-  const { fields, append, remove, replace } = useFieldArray({
+  const { fields, append, remove, swap } = useFieldArray({
     control,
     name: 'tels'
   });
@@ -34,14 +37,19 @@ export default function App() {
   }, [watchedTels]);
 
   useMount(() => {
-    // add first input
-    // append('');
-    // replace(['11', '22', '33', '44']);
+    setTimeout(() => {
+      setLoading(false);
+      reset({
+        name: 'wgc',
+        tels: ['15901634301']
+      });
+    }, 1000);
   });
 
   return (
     <div>
-      {fields.map((field, index) => (
+      {loading && <CircularLoading size={CircularLoading.Size.LARGE} />}
+      {fields.map((field, index, ar) => (
         <div key={field.id}>
           <Space>
             <Controller
@@ -64,6 +72,8 @@ export default function App() {
               )}
             />
             <Button onClick={() => remove(index)}>Remove</Button>
+            {index < ar.length - 1 && <Button onClick={() => swap(index, index + 1)}>down</Button>}
+            {index > 0 && <Button onClick={() => swap(index, index - 1)}>up</Button>}
           </Space>
         </div>
       ))}
@@ -77,7 +87,7 @@ export default function App() {
         <ErrorMsg>{errors?.name?.message}</ErrorMsg>
       </div>
       <Space style={{ marginTop: 16 }}>
-        <Button type="primary" onClick={() => append('')}>
+        <Button type="primary" onClick={() => append()}>
           +
         </Button>
         <Button type="default" disabled={!isValid} onClick={() => console.log(getValues())}>
@@ -85,8 +95,7 @@ export default function App() {
         </Button>
       </Space>
 
-      <div>{watchedTels.find((t) => t.value === 'wgc') && 'hello wgc'}</div>
-      <DevTool control={control} />
+      {/* <DevTool control={control} /> */}
     </div>
   );
 }
