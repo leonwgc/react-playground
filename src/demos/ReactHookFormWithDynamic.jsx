@@ -41,7 +41,7 @@ export default function App() {
       setLoading(false);
       reset({
         name: 'wgc',
-        tels: ['15901634301']
+        tels: ['11', '22', '33', '44']
       });
     }, 1000);
   });
