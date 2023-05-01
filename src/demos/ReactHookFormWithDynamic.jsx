@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Input, styled, useMount, Space, Divider, useUpdateEffect } from 'react-uni-comps';
+import { Button, Input, styled, useMount, Space, Icon, useUpdateEffect } from 'react-uni-comps';
 import MaterialTextField from 'alcedo-ui/MaterialTextField';
 import CircularLoading from 'alcedo-ui/CircularLoading';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
@@ -71,9 +71,19 @@ export default function App() {
                 />
               )}
             />
-            <Button onClick={() => remove(index)}>Remove</Button>
-            {index < ar.length - 1 && <Button onClick={() => swap(index, index + 1)}>down</Button>}
-            {index > 0 && <Button onClick={() => swap(index, index - 1)}>up</Button>}
+            <Button onClick={() => remove(index)}>
+              <Icon type="icon-delete" />
+            </Button>
+            {index < ar.length - 1 && (
+              <Button onClick={() => swap(index, index + 1)}>
+                <Icon type="icon-down" />
+              </Button>
+            )}
+            {index > 0 && (
+              <Button onClick={() => swap(index, index - 1)}>
+                <Icon type="icon-up" />
+              </Button>
+            )}
           </Space>
         </div>
       ))}
