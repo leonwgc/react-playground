@@ -26,11 +26,10 @@ const getAndProcessHtmlContent = (rootEl) => {
         if (el.innerText.length > 10) {
           el.style.color = 'red';
         } else {
-          el.style.color = 'unset';
+          el.removeAttribute('style');
         }
       }
       default: {
-        console.log(el);
         break;
       }
     }
@@ -41,7 +40,7 @@ const getAndProcessHtmlContent = (rootEl) => {
 };
 
 const App = () => {
-  const [value, setValue] = useState(`111\n222`);
+  const [value, setValue] = useState(`111\n222\nAlcedo UI DEMOS`);
 
   return (
     <div>
@@ -71,6 +70,9 @@ function MultiplelineInput({ value, onChage }) {
         .split(/\n/g)
         .map((txt) => (ref.current.innerHTML += `<div>${filterNextLineSymbol(txt)}</div>`));
     }
+
+    // trigger
+    getAndProcessHtmlContent(ref.current);
   });
 
   return (
