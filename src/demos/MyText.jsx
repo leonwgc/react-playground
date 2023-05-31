@@ -23,7 +23,8 @@ const getAndProcessHtmlContent = (rootEl) => {
       }
       case 1: {
         arr.push(el.innerText);
-        if (el.innerText.length > 10) {
+
+        if (filterNextLineSymbol(el.innerText).length > 10) {
           el.style.color = 'red';
         } else {
           el.removeAttribute('style');
