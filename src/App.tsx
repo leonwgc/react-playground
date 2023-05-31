@@ -1,6 +1,6 @@
-import React, {Suspense} from 'react';
-import {ThemeProvider, styled} from 'react-uni-comps';
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { ThemeProvider, styled } from 'react-uni-comps';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import routes from './Route';
 import Widget from 'alcedo-ui/Widget';
 import WidgetHeader from 'alcedo-ui/WidgetHeader';
@@ -23,7 +23,7 @@ export default function App() {
                 <Suspense fallback={null}>
                     <StyledWrapper>
                         <Widget>
-                            <WidgetHeader title="Alcedo UI DEMOS">
+                            <WidgetHeader title="React Playgound">
                                 <IconButton iconCls="far fa-thumbs-up" />
                                 <IconButton iconCls="fas fa-trash-alt" />
                             </WidgetHeader>
