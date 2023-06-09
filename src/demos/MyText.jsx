@@ -1,6 +1,42 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { styled, useMount } from 'react-uni-comps';
-import getCaretCoordinates from './libs/getCaretCoordinates';
+// import getCaretCoordinates from './libs/getCaretCoordinates';
+
+// https://javascript.plainenglish.io/how-to-find-the-caret-inside-a-contenteditable-element-955a5ad9bf81
+function getCaretCoordinates() {
+  let x = 0,
+    y = 0;
+  const isSupported = typeof window.getSelection !== 'undefined';
+  if (isSupported) {
+    const selection = window.getSelection();
+    if (selection.rangeCount !== 0) {
+      const range = selection.getRangeAt(0).cloneRange();
+      range.collapse(true);
+      const rect = range.getClientRects()[0];
+      if (rect) {
+        x = rect.left;
+        y = rect.top;
+      }
+    }
+  }
+  return { x, y };
+}
+
+function getCaretIndex(element) {
+  let position = 0;
+  const isSupported = typeof window.getSelection !== 'undefined';
+  if (isSupported) {
+    const selection = window.getSelection();
+    if (selection.rangeCount !== 0) {
+      const range = window.getSelection().getRangeAt(0);
+      const preCaretRange = range.cloneRange();
+      preCaretRange.selectNodeContents(element);
+      preCaretRange.setEnd(range.endContainer, range.endOffset);
+      position = preCaretRange.toString().length;
+    }
+  }
+  return position;
+}
 
 const Container = styled.div`
   display: inline-block;
@@ -51,6 +87,32 @@ const Container = styled.div`
 `;
 
 const filterNextLineSymbol = (text) => text.replace(/\n/g, '');
+
+function getCaretPosition(editableDiv) {
+  var caretPos = 0,
+    sel,
+    range;
+  if (window.getSelection) {
+    sel = window.getSelection();
+    if (sel.rangeCount) {
+      range = sel.getRangeAt(0);
+      if (range.commonAncestorContainer.parentNode == editableDiv) {
+        caretPos = range.endOffset;
+      }
+    }
+  } else if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    if (range.parentElement() == editableDiv) {
+      var tempEl = document.createElement('span');
+      editableDiv.insertBefore(tempEl, editableDiv.firstChild);
+      var tempRange = range.duplicate();
+      tempRange.moveToElementText(tempEl);
+      tempRange.setEndPoint('EndToEnd', range);
+      caretPos = tempRange.text.length;
+    }
+  }
+  return caretPos;
+}
 
 const convertHtmlToPlainText = (rootEl) => {
   if (!rootEl) {
@@ -139,6 +201,8 @@ export function MyCustTextArea({ value, onChange, ...rest }) {
   useEffect(() => {
     const pos = getCaretCoordinates(ref.current);
     console.log(pos);
+
+    console.log(getCaretIndex(ref.current));
   }, [value]);
 
   return (
