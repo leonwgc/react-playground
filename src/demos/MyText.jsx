@@ -1,41 +1,61 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { styled, useMount } from 'react-uni-comps';
+import getCaretCoordinates from './libs/getCaretCoordinates';
 
-const Wrapper = styled.div`
-  overflow-y: visible;
-  height: 300px;
+const Container = styled.div`
+  display: inline-block;
+  position: relative;
   border: 1px solid #eee;
-  padding: 4px;
   outline: none;
-`;
+  overflow-y: scroll;
 
-function getCaretOffset(element) {
-  var caretOffset = 0;
-  var doc = element.ownerDocument || element.document;
-  var win = doc.defaultView || doc.parentWindow;
-  var sel;
-  if (typeof win.getSelection != 'undefined') {
-    sel = win.getSelection();
-    if (sel.rangeCount > 0) {
-      var range = win.getSelection().getRangeAt(0);
-      var preCaretRange = range.cloneRange();
-      preCaretRange.selectNodeContents(element);
-      preCaretRange.setEnd(range.endContainer, range.endOffset);
-      caretOffset = preCaretRange.toString().length;
-    }
-  } else if ((sel = doc.selection) && sel.type != 'Control') {
-    var textRange = sel.createRange();
-    var preCaretTextRange = doc.body.createTextRange();
-    preCaretTextRange.moveToElementText(element);
-    preCaretTextRange.setEndPoint('EndToEnd', textRange);
-    caretOffset = preCaretTextRange.text.length;
+  .el {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    box-sizing: content-box;
+    text-size-adjust: 100%;
+    direction: ltr;
+    padding: 2px;
+    margin: 0px;
+    border: 1px solid transparent;
+    font-size: 13.3333px;
+    font-family: monospace;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    font-stretch: 100%;
+    text-align: start;
+    text-transform: none;
+    text-indent: 0px;
+    letter-spacing: normal;
+    word-spacing: 0px;
+    line-height: normal;
+    white-space: pre-wrap;
+    word-break: normal;
+    overflow-wrap: break-word;
+    tab-size: 8;
+    z-index: 1;
+    caret-color: #333;
   }
-  return caretOffset;
-}
+  textarea {
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+  }
+`;
 
 const filterNextLineSymbol = (text) => text.replace(/\n/g, '');
 
-const getAndProcessHtmlContent = (rootEl) => {
+const convertHtmlToPlainText = (rootEl) => {
+  if (!rootEl) {
+    return '';
+  }
   const childNodes = rootEl.childNodes;
   const arr = [];
   for (let el of childNodes) {
@@ -43,6 +63,15 @@ const getAndProcessHtmlContent = (rootEl) => {
     switch (nodeType) {
       case 3: {
         arr.push(el.textContent);
+
+        if (filterNextLineSymbol(el.textContent).length > 10) {
+          const div = document.createElement('div');
+          div.innerText = el.textContent;
+          div.style.color = 'red';
+          el.parentNode.replaceChild(div, el);
+          setCaret(div, 0, el.textContent.length);
+        }
+
         break;
       }
       case 1: {
@@ -60,23 +89,37 @@ const getAndProcessHtmlContent = (rootEl) => {
     }
   }
 
-  const reseult = arr.map((item) => item.replace(/\n/, ''));
-  return reseult;
+  return arr.join('\n');
 };
+
+function setCaret(el, row, col) {
+  var range = document.createRange();
+  var sel = window.getSelection();
+
+  range.setStart(el.childNodes[row], col);
+  range.collapse(true);
+
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
 
 const App = () => {
   const [value, setValue] = useState(`111\n222\nAlcedo UI DEMOS`);
 
   return (
     <div>
-      <MultiplelineInput value={value} onChage={(v) => setValue(v)} />
-      <textarea style={{ width: '100%', height: 200 }} value={value}></textarea>
+      <MyCustTextArea
+        value={value}
+        onChange={(v) => setValue(v)}
+        style={{ width: 300, height: 100 }}
+      />
     </div>
   );
 };
 
-function MultiplelineInput({ value, onChage }) {
+export function MyCustTextArea({ value, onChange, ...rest }) {
   const ref = useRef();
+  const textareaRef = useRef();
 
   useMount(() => {
     ref.current.addEventListener('paste', function (e) {
@@ -90,28 +133,27 @@ function MultiplelineInput({ value, onChage }) {
       document.execCommand('insertHTML', false, text);
     });
 
-    if (value && value.length) {
-      value
-        .split(/\n/g)
-        .map((txt) => (ref.current.innerHTML += `<div>${filterNextLineSymbol(txt)}</div>`));
-    }
-
-    // trigger
-    getAndProcessHtmlContent(ref.current);
+    ref.current.focus();
   });
 
+  useEffect(() => {
+    const pos = getCaretCoordinates(ref.current);
+    console.log(pos);
+  }, [value]);
+
   return (
-    <div>
-      <Wrapper
+    <Container {...rest}>
+      {/* <textarea className="el" ref={textareaRef} value={convertHtmlToPlainText(ref.current)} /> */}
+      <div
+        className="el"
         ref={ref}
         contentEditable
         onInput={(e) => {
-          console.log(getCaretOffset(e.target));
-          const v = getAndProcessHtmlContent(e.target).join('\n');
-          onChage(v);
+          // onChange(ref.current.innerHTML);
+          onChange(convertHtmlToPlainText(e.target));
         }}
       />
-    </div>
+    </Container>
   );
 }
 

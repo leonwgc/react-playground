@@ -3,7 +3,8 @@ import { Button, styled } from 'react-uni-comps';
 import { useUpdateStore, useAppData } from '~/redux';
 import Accordion from 'alcedo-ui/Accordion';
 import Popover from 'alcedo-ui/Popover';
-import TextArea from 'alcedo-ui/TextArea';
+// import TextArea from 'alcedo-ui/TextArea';
+import { MyCustTextArea as TextArea } from './MyText';
 import getCaretCoordinates from './libs/getCaretCoordinates';
 
 const StyledTrigger = styled.div`
@@ -40,6 +41,7 @@ export default function App() {
           value={value}
           triggerClassName="text-input-el"
           onChange={onTextChange}
+          style={{ width: 300, height: 100 }}
           ref={textAreaRef}
           onKeyUp={(e) => {
             if (e.shiftKey) {
