@@ -6,8 +6,8 @@ import { styled, useMount } from 'react-uni-comps';
 function getCaretCoordinates() {
   let x = 0,
     y = 0;
-  const isSupported = typeof window.getSelection !== 'undefined';
-  if (isSupported) {
+
+  if (typeof window.getSelection !== 'undefined') {
     const selection = window.getSelection();
     if (selection.rangeCount !== 0) {
       const range = selection.getRangeAt(0).cloneRange();
@@ -24,8 +24,8 @@ function getCaretCoordinates() {
 
 function getCaretIndex(element) {
   let position = 0;
-  const isSupported = typeof window.getSelection !== 'undefined';
-  if (isSupported) {
+
+  if (typeof window.getSelection !== 'undefined') {
     const selection = window.getSelection();
     if (selection.rangeCount !== 0) {
       const range = window.getSelection().getRangeAt(0);
@@ -38,52 +38,17 @@ function getCaretIndex(element) {
   return position;
 }
 
-const Container = styled.div`
+const HtmlTextArea = styled.div`
   display: inline-block;
   position: relative;
   border: 1px solid #eee;
   outline: none;
   overflow-y: scroll;
-
-  .el {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    outline: none;
-    box-sizing: content-box;
-    text-size-adjust: 100%;
-    direction: ltr;
-    padding: 2px;
-    margin: 0px;
-    border: 1px solid transparent;
-    font-size: 13.3333px;
-    font-family: monospace;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 400;
-    font-stretch: 100%;
-    text-align: start;
-    text-transform: none;
-    text-indent: 0px;
-    letter-spacing: normal;
-    word-spacing: 0px;
-    line-height: normal;
-    white-space: pre-wrap;
-    word-break: normal;
-    overflow-wrap: break-word;
-    tab-size: 8;
-    z-index: 1;
-    caret-color: #333;
-  }
-  textarea {
-    background: transparent;
-    color: transparent;
-    caret-color: transparent;
-  }
+  padding: 2px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: normal;
+  overflow-wrap: break-word;
 `;
 
 const filterNextLineSymbol = (text) => text.replace(/\n/g, '');
@@ -206,18 +171,15 @@ export function MyCustTextArea({ value, onChange, ...rest }) {
   }, [value]);
 
   return (
-    <Container {...rest}>
-      {/* <textarea className="el" ref={textareaRef} value={convertHtmlToPlainText(ref.current)} /> */}
-      <div
-        className="el"
-        ref={ref}
-        contentEditable
-        onInput={(e) => {
-          // onChange(ref.current.innerHTML);
-          onChange(convertHtmlToPlainText(e.target));
-        }}
-      />
-    </Container>
+    <HtmlTextArea
+      ref={ref}
+      contentEditable
+      onInput={(e) => {
+        // onChange(ref.current.innerHTML);
+        onChange(convertHtmlToPlainText(e.target));
+      }}
+      {...rest}
+    />
   );
 }
 
