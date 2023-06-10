@@ -1,42 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { styled, useMount } from 'react-uni-comps';
-// import getCaretCoordinates from './libs/getCaretCoordinates';
-
-// https://javascript.plainenglish.io/how-to-find-the-caret-inside-a-contenteditable-element-955a5ad9bf81
-function getCaretCoordinates() {
-  let x = 0,
-    y = 0;
-
-  if (typeof window.getSelection !== 'undefined') {
-    const selection = window.getSelection();
-    if (selection.rangeCount !== 0) {
-      const range = selection.getRangeAt(0).cloneRange();
-      range.collapse(true);
-      const rect = range.getClientRects()[0];
-      if (rect) {
-        x = rect.left;
-        y = rect.top;
-      }
-    }
-  }
-  return { x, y };
-}
-
-function getCaretIndex(element) {
-  let position = 0;
-
-  if (typeof window.getSelection !== 'undefined') {
-    const selection = window.getSelection();
-    if (selection.rangeCount !== 0) {
-      const range = window.getSelection().getRangeAt(0);
-      const preCaretRange = range.cloneRange();
-      preCaretRange.selectNodeContents(element);
-      preCaretRange.setEnd(range.endContainer, range.endOffset);
-      position = preCaretRange.toString().length;
-    }
-  }
-  return position;
-}
+import { getCaretIndex, getCaretCoordinate, setCaret } from './helper';
 
 const HtmlTextArea = styled.div`
   display: inline-block;
@@ -49,35 +13,11 @@ const HtmlTextArea = styled.div`
   white-space: pre-wrap;
   word-break: normal;
   overflow-wrap: break-word;
+  width: 100%;
+  min-height: 24px;
 `;
 
 const filterNextLineSymbol = (text) => text.replace(/\n/g, '');
-
-function getCaretPosition(editableDiv) {
-  var caretPos = 0,
-    sel,
-    range;
-  if (window.getSelection) {
-    sel = window.getSelection();
-    if (sel.rangeCount) {
-      range = sel.getRangeAt(0);
-      if (range.commonAncestorContainer.parentNode == editableDiv) {
-        caretPos = range.endOffset;
-      }
-    }
-  } else if (document.selection && document.selection.createRange) {
-    range = document.selection.createRange();
-    if (range.parentElement() == editableDiv) {
-      var tempEl = document.createElement('span');
-      editableDiv.insertBefore(tempEl, editableDiv.firstChild);
-      var tempRange = range.duplicate();
-      tempRange.moveToElementText(tempEl);
-      tempRange.setEndPoint('EndToEnd', range);
-      caretPos = tempRange.text.length;
-    }
-  }
-  return caretPos;
-}
 
 const convertHtmlToPlainText = (rootEl) => {
   if (!rootEl) {
@@ -119,34 +59,18 @@ const convertHtmlToPlainText = (rootEl) => {
   return arr.join('\n');
 };
 
-function setCaret(el, row, col) {
-  var range = document.createRange();
-  var sel = window.getSelection();
-
-  range.setStart(el.childNodes[row], col);
-  range.collapse(true);
-
-  sel.removeAllRanges();
-  sel.addRange(range);
-}
-
 const App = () => {
   const [value, setValue] = useState(`111\n222\nAlcedo UI DEMOS`);
 
   return (
     <div>
-      <MyCustTextArea
-        value={value}
-        onChange={(v) => setValue(v)}
-        style={{ width: 300, height: 100 }}
-      />
+      <MyCustTextArea value={value} onChange={(v) => setValue(v)} style={{ height: 100 }} />
     </div>
   );
 };
 
 export function MyCustTextArea({ value, onChange, ...rest }) {
   const ref = useRef();
-  const textareaRef = useRef();
 
   useMount(() => {
     ref.current.addEventListener('paste', function (e) {
@@ -164,7 +88,7 @@ export function MyCustTextArea({ value, onChange, ...rest }) {
   });
 
   useEffect(() => {
-    const pos = getCaretCoordinates(ref.current);
+    const pos = getCaretCoordinate(ref.current);
     console.log(pos);
 
     console.log(getCaretIndex(ref.current));
