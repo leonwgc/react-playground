@@ -1,8 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { styled, useMount } from 'react-uni-comps';
-import { getCaretIndex, getCaretCoordinate, setCaret } from './helper';
+import React, { useState, useRef, useEffect, useImperativeHandle } from 'react';
+import { styled, useMount, useUpdateEffect } from 'react-uni-comps';
+import {
+  getCaretIndex,
+  getCaretCoordinate,
+  setCaret,
+  getHTMLFromText,
+  getTextFromElement
+} from './helper';
 
-const HtmlTextArea = styled.div`
+const StyledHtmlTextArea = styled.div`
   display: inline-block;
   position: relative;
   border: 1px solid #eee;
@@ -17,63 +23,56 @@ const HtmlTextArea = styled.div`
   min-height: 24px;
 `;
 
-const filterNextLineSymbol = (text) => text.replace(/\n/g, '');
-
-const convertHtmlToPlainText = (rootEl) => {
-  if (!rootEl) {
-    return '';
-  }
-  const childNodes = rootEl.childNodes;
-  const arr = [];
-  for (let el of childNodes) {
-    const nodeType = el.nodeType;
-    switch (nodeType) {
-      case 3: {
-        arr.push(el.textContent);
-
-        if (filterNextLineSymbol(el.textContent).length > 10) {
-          const div = document.createElement('div');
-          div.innerText = el.textContent;
-          div.style.color = 'red';
-          el.parentNode.replaceChild(div, el);
-          setCaret(div, 0, el.textContent.length);
-        }
-
-        break;
-      }
-      case 1: {
-        arr.push(el.innerText);
-
-        if (filterNextLineSymbol(el.innerText).length > 10) {
-          el.style.color = 'red';
-        } else {
-          el.removeAttribute('style');
-        }
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  return arr.join('\n');
-};
+const styleFn = (txt) => (txt.length > 10 ? 'color:red;font-weight:bold' : '');
 
 const App = () => {
+  const ref = useRef({
+    index: -1,
+    value: ''
+  });
   const [value, setValue] = useState(`111\n222\nAlcedo UI DEMOS`);
 
   return (
     <div>
-      <MyCustTextArea value={value} onChange={(v) => setValue(v)} style={{ height: 100 }} />
+      <HTMLTextArea
+        value={value}
+        onChange={(v) => setValue(v)}
+        style={{ height: 100 }}
+        onKeyUp={(e) => {
+          if (e.key === '{') {
+            ref.current.index = getCaretIndex(e.target);
+            ref.current.value = value;
+            console.log('open', getCaretCoordinate(e.target), getCaretIndex(e.target));
+          } else if (e.key === '}' || e.key === 'Backspace') {
+            if (ref.current.index !== -1) {
+              const info = ref.current;
+              const left = info.value.slice(0, info.index);
+              const right = info.value.slice(info.index);
+              console.log('close', ':', left, '|', right);
+              ref.current.index = -1;
+            }
+          }
+        }}
+      />
     </div>
   );
 };
 
-export function MyCustTextArea({ value, onChange, ...rest }) {
-  const ref = useRef();
+const HTMLTextArea = React.forwardRef((props, ref) => {
+  const { value, onChange, ...rest } = props;
+
+  const elRef = useRef();
+  useImperativeHandle(ref, () => elRef);
+
+  useUpdateEffect(() => {
+    const currentText = getTextFromElement(elRef.current);
+    if (currentText !== value) {
+      elRef.current.innerHTML = getHTMLFromText(value, styleFn);
+    }
+  }, [value]);
 
   useMount(() => {
-    ref.current.addEventListener('paste', function (e) {
+    elRef.current.addEventListener('paste', function (e) {
       e.preventDefault();
       var text = '';
       if (e.clipboardData && e.clipboardData.getData) {
@@ -84,27 +83,30 @@ export function MyCustTextArea({ value, onChange, ...rest }) {
       document.execCommand('insertHTML', false, text);
     });
 
-    ref.current.focus();
+    elRef.current.focus();
+
+    elRef.current.innerHTML = getHTMLFromText(value, styleFn);
+
+    if (value.length) {
+      const lastNodeEl = elRef.current.lastElementChild;
+      if (lastNodeEl) {
+        setCaret(lastNodeEl, 0, lastNodeEl.innerText.length);
+      }
+    }
   });
 
-  useEffect(() => {
-    const pos = getCaretCoordinate(ref.current);
-    console.log(pos);
-
-    console.log(getCaretIndex(ref.current));
-  }, [value]);
-
   return (
-    <HtmlTextArea
-      ref={ref}
+    <StyledHtmlTextArea
+      ref={elRef}
       contentEditable
       onInput={(e) => {
-        // onChange(ref.current.innerHTML);
-        onChange(convertHtmlToPlainText(e.target));
+        const text = getTextFromElement(e.target);
+        console.log(text);
+        onChange(text);
       }}
       {...rest}
     />
   );
-}
+});
 
 export default App;
