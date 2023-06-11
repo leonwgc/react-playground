@@ -58,11 +58,11 @@ const App = () => {
   );
 };
 
-const HTMLTextArea = React.forwardRef((props, ref) => {
+export const HTMLTextArea = React.forwardRef((props, ref) => {
   const { value, onChange, ...rest } = props;
 
   const elRef = useRef();
-  useImperativeHandle(ref, () => elRef);
+  useImperativeHandle(ref, () => elRef.current);
 
   useUpdateEffect(() => {
     const currentText = getTextFromElement(elRef.current);
