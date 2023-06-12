@@ -96,3 +96,7 @@ export const getHTMLFromText = (text, styleFn) => {
     .map((item) => `<div style="${styleFn?.(item) || ''}">${item}</div>`)
     .join('');
 };
+
+const uid = () => {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
