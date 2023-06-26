@@ -3,8 +3,8 @@ import { Button, styled } from 'react-uni-comps';
 import { useUpdateStore, useAppData } from '~/redux';
 import Accordion from 'alcedo-ui/Accordion';
 import Popover from 'alcedo-ui/Popover';
-// import TextArea from 'alcedo-ui/TextArea';
-import { MyCustTextArea as TextArea } from './MyText';
+import TextArea from 'alcedo-ui/TextArea';
+// import { MyCustTextArea as TextArea } from './MyText';
 import getCaretCoordinates from './libs/getCaretCoordinates';
 
 const StyledTrigger = styled.div`
