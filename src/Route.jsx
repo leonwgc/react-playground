@@ -14,6 +14,10 @@ const routes = [
     component: lazy(() => import('./demos/Table'))
   },
   {
+    path: '/Table1',
+    component: lazy(() => import('./demos/Table1'))
+  },
+  {
     path: '/Immer',
     component: lazy(() => import('./demos/ImmerJs'))
   },
