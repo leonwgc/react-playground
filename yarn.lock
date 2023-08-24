@@ -1261,6 +1261,13 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
+"@babel/runtime@^7.14.5":
+  version "7.22.10"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.10.tgz#ae3e9631fd947cb7e3610d3e9d8fef5f76696682"
+  integrity sha512-21t/fkKLMZI4pqP2wlmsQAWnYW1PDyKyyUV4vCi+B25ydmdaYTKXPwCj0BzSUnZf4seIiYvSA3jcZ3gdsMFkLQ==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.16.7", "@babel/template@^7.18.10", "@babel/template@^7.20.7", "@babel/template@^7.4.0":
   version "7.20.7"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.20.7.tgz#a15090c2839a83b02aa996c0b4994005841fd5a8"
@@ -2325,6 +2332,11 @@
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
+
+"@types/sortablejs@~1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.13.0.tgz#870223438f8f2cd81157b128a4c0261adbcaa946"
+  integrity sha512-C3064MH72iEfeGCYEGCt7FCxXoAXaMPG0QPnstcxvPmbl54erpISu06d++FY37Smja64iWy5L8wOyHHBghWbJQ==
 
 "@types/source-list-map@*":
   version "0.1.2"
@@ -6428,6 +6440,13 @@ html-minifier-terser@^6.0.2:
     relateurl "^0.2.7"
     terser "^5.10.0"
 
+html-parse-stringify@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/html-parse-stringify/-/html-parse-stringify-3.0.1.tgz#dfc1017347ce9f77c8141a507f233040c59c55d2"
+  integrity sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==
+  dependencies:
+    void-elements "3.1.0"
+
 html-webpack-plugin@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-5.5.0.tgz#c3911936f57681c1f9f4d8b68c158cd9dfe52f50"
@@ -6556,6 +6575,13 @@ husky@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/husky/-/husky-6.0.0.tgz#810f11869adf51604c32ea577edbc377d7f9319e"
   integrity sha512-SQS2gDTB7tBN486QSoKPKQItZw97BMOd+Kdb6ghfpBc0yXyzrddI0oDV5MkDAbuB4X2mO3/nj60TRMcYxwzZeQ==
+
+i18next@^21.6.16:
+  version "21.10.0"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.10.0.tgz#85429af55fdca4858345d0e16b584ec29520197d"
+  integrity sha512-YeuIBmFsGjUfO3qBmMOc0rQaun4mIpGKET5WDwvu8lU7gvwpcariZLNtL0Fzj+zazcHUrlXHiptcFhBMFaxzfg==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
 
 iconv-lite@0.4.24, iconv-lite@^0.4.15, iconv-lite@^0.4.24:
   version "0.4.24"
@@ -8179,7 +8205,12 @@ nan@^2.12.1:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.17.0.tgz#c0150a2368a182f033e9aa5195ec76ea41a199cb"
   integrity sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==
 
-nanoid@^3.1.30, nanoid@^3.3.4:
+nanoid@^3.0.0:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
+  integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
+
+nanoid@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
@@ -10158,6 +10189,14 @@ react-hook-form@^7.43.9:
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.43.9.tgz#84b56ac2f38f8e946c6032ccb760e13a1037c66d"
   integrity sha512-AUDN3Pz2NSeoxQ7Hs6OhQhDr6gtF9YRuutGDwPQqhSUAHJSgGl2VeY3qN19MG0SucpjgDiuMJ4iC5T5uB+eaNQ==
 
+react-i18next@^11.16.7:
+  version "11.18.6"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.18.6.tgz#e159c2960c718c1314f1e8fcaa282d1c8b167887"
+  integrity sha512-yHb2F9BiT0lqoQDt8loZ5gWP331GwctHz9tYQ8A2EIEUu+CcEdjBLQWli1USG3RdWQt3W+jqQLg/d4rrQR96LA==
+  dependencies:
+    "@babel/runtime" "^7.14.5"
+    html-parse-stringify "^3.0.1"
+
 react-is@^16.12.0, react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -10236,25 +10275,29 @@ react-transition-group@^4.4.2, react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-uni-comps@1.5.10:
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/react-uni-comps/-/react-uni-comps-1.5.10.tgz#d3cff3122a2e8ad19ab6684a34f05786601d9213"
-  integrity sha512-fnCv37l6sxakBM3W3PTDDj7S1Y6PU3qXN5FQO7mfnbBOl3G3J1zQbLeQG4i2kklxVHp6xYQf4L34LWsJMBkJIA==
+react-uni-comps@1.8.7:
+  version "1.8.7"
+  resolved "https://registry.yarnpkg.com/react-uni-comps/-/react-uni-comps-1.8.7.tgz#4a0732340e3109fcbd6712f8dbb98ef5c94af10e"
+  integrity sha512-PUolFMmiCBmn3jG1FkwG1PULxFPyEWbS+DhPhOoJOf+eRbv81orynx5UDwjgfgFg3FVcqICH1qnpONOP1zkl+w==
   dependencies:
     "@react-spring/web" "^9.4.2"
+    "@types/sortablejs" "~1.13.0"
     clsx "^1.1.1"
     color "^4.1.0"
+    i18next "^21.6.16"
     intersection-observer "^0.12.0"
-    nanoid "^3.1.30"
+    nanoid "^3.0.0"
     rc-field-form "^1.22.1"
+    react-i18next "^11.16.7"
     react-is "^17.0.2"
     react-transition-group "^4.4.2"
     signature_pad "^4.0.2"
     sortablejs "^1.14.0"
     styled-components "^5.3.3"
+    tslib "^2.4.0"
     w-popover "1.1.8"
-    w-qrcode "1.0.0"
-    w-touch "1.0.2"
+    w-qrcode "~1.1.0"
+    w-touch "2.0.0"
 
 react@^17.0.2:
   version "17.0.2"
@@ -10384,6 +10427,11 @@ regenerator-runtime@^0.13.11:
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz#f6dca3e7ceec20590d07ada785636a90cdca17f9"
   integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
+
+regenerator-runtime@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.14.0.tgz#5e19d68eb12d486f797e15a3c6a918f7cec5eb45"
+  integrity sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==
 
 regenerator-transform@^0.15.1:
   version "0.15.1"
@@ -12483,20 +12531,25 @@ vm2@^3.9.8:
     acorn "^8.7.0"
     acorn-walk "^8.2.0"
 
+void-elements@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-3.1.0.tgz#614f7fbf8d801f0bb5f0661f5b2f5785750e4f09"
+  integrity sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==
+
 w-popover@1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/w-popover/-/w-popover-1.1.8.tgz#e0e0532ee65d9fbe9a3a036002b22b3468146dc2"
   integrity sha512-38ukt3RcY32Bj/wMd00XB3zdGA07Dkx/dSiYgQ4QUe22EW3RtnKB742ro7/q574Wqi/d8KKppDvDuVS0kjMiJw==
 
-w-qrcode@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/w-qrcode/-/w-qrcode-1.0.0.tgz#5e5fa9990d36400dc547e74994e4d29c7f4127f1"
-  integrity sha512-G9y9meJzcAbFfqO8XSj24FBrquq/ngpBbHtVHDVr9cxVdLV/J9nLdcwQzt5gTAtXvfWxEBqS1pz2WDGdF0wUGg==
+w-qrcode@~1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/w-qrcode/-/w-qrcode-1.1.0.tgz#1bf28f0187cca7d757428737bd60191c2c2ab812"
+  integrity sha512-jkXlIzqpd+KKkFiB7jED4xLjgPWwb3HiAmU0qO34d1AwsfPgELxdi0Pdnq3csYDL7gMx8N5STziCq4Dn5X+idg==
 
-w-touch@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/w-touch/-/w-touch-1.0.2.tgz#f9f15c6bf56918647ecab69aa64b902a46360bd8"
-  integrity sha512-nug2uZW0VlYaU6UPcILwBf6HABgjpZnsdTnrt2dH2ZEKFkPXKjdwt8LcArs/H0rg4pDWeF9+soRSbhUzVr3TZw==
+w-touch@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/w-touch/-/w-touch-2.0.0.tgz#9d8e2c479e56d6006cdbed52c49aeeee0d7bb764"
+  integrity sha512-PYnngF+KHzZRBFI6qsm5PHwVNO5Lx3dYDrvNv//Ei9fvnYlaOWr9sKAriD/crlshWee9ZPsyvDMA4UnoR1LUHw==
 
 watchpack@^2.4.0:
   version "2.4.0"
