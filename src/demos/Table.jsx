@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { useMount, useUpdateEffect } from 'react-uni-comps';
+import { useMount, Divider, Button } from 'react-uni-comps';
 import Table from 'alcedo-ui/Table';
 import TextField from 'alcedo-ui/TextField';
 import { get } from '~/utils/req';
@@ -20,25 +20,23 @@ export default function App() {
     }
   ]);
 
-  useEffect(() => {
-    fetch('/dplatform-cloud-gateway/dplatform-cloud-common/v1/translation/translate', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        originalText: 'Free Cancellation',
-        targetLanguageCodes: ['CN', 'JP']
-      })
-    })
-      .then(function (res) {
-        console.log(res);
-      })
-      .catch(function (res) {
-        console.log(res);
-      });
-  }, []);
+  // dynamic add
+  const [data1, setData1] = useState([
+    {
+      name: 'hotel name',
+      index: 1,
+      ch: 'nihao',
+      english: 'hi',
+      children: []
+    },
+    {
+      name: 'hotel name',
+      index: 1,
+      ch: 'nihao',
+      english: 'hi',
+      children: []
+    }
+  ]);
 
   const columns = [
     {
@@ -69,6 +67,73 @@ export default function App() {
     }
   ];
 
+  const columns1 = [
+    {
+      key: 'name',
+      align: Table.Align.LEFT,
+      headRenderer: 'Name',
+      bodyRenderer: (rowData) => (
+        <div>
+          {rowData.name}
+          {rowData.name && (
+            <div>
+              <Button
+                type="primary"
+                onClick={() => {
+                  let lastLen = rowData.children?.length || 0;
+                  lastLen += 2;
+
+                  rowData.children.push({
+                    english: '',
+                    chinese: '',
+                    index: lastLen
+                  });
+
+                  setData1([...data1]);
+                }}
+              >
+                Add Value
+              </Button>
+            </div>
+          )}
+        </div>
+      )
+    },
+    {
+      key: 'text',
+      align: Table.Align.LEFT,
+      headRenderer: 'Values',
+      bodyRenderer: (
+        rowData,
+        rowIndex,
+        colIndex,
+        parentData,
+        tableData,
+        collapsed,
+        depth,
+        path
+      ) => {
+        return <div>value {rowData.index}</div>;
+      }
+    },
+    {
+      key: 'english',
+      align: Table.Align.LEFT,
+      headRenderer: 'English',
+      bodyRenderer: (rowData, rowIndex) => (
+        <TextField
+          value={rowData.english}
+          onChange={(v) => {
+            rowData.english = v;
+            setData1([...data1]);
+          }}
+        />
+      )
+    }
+  ];
+
+  console.log(data1);
+
   return (
     <div>
       <Table
@@ -80,6 +145,9 @@ export default function App() {
         data={data}
         selectMode={Table.SelectMode.MULTI_SELECT}
       />
+      <Divider>dynamic</Divider>
+
+      <Table isHeadFixed={true} isPaginated={false} canBeExpanded columns={columns1} data={data1} />
     </div>
   );
 }
