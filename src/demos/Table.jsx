@@ -1,40 +1,20 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { useMount, Divider, Button } from 'react-uni-comps';
+import { useMount, Divider, Button, Space, Icon } from 'react-uni-comps';
 import Table from 'alcedo-ui/Table';
 import TextField from 'alcedo-ui/TextField';
 import { get } from '~/utils/req';
 import { useAppData, useUpdateStore } from '~/redux';
 
 export default function App() {
+  // dynamic add
   const [data, setData] = useState([
     {
-      name: 'hotel name',
-      text: 'Title',
-      id: 1,
-      english: 'hi',
-      children: [
-        { name: '', text: 'Url', id: 11, english: 'www.baidu.com' },
-        { name: '', text: 'Description1', id: 12, english: 'des1' },
-        { name: '', text: 'Description2', id: 13, english: 'des2' }
-      ]
-    }
-  ]);
-
-  // dynamic add
-  const [data1, setData1] = useState([
-    {
-      name: 'hotel name',
-      index: 1,
-      ch: 'nihao',
-      english: 'hi',
-      children: []
+      name: 'hotel1',
+      children: [{ en: 'h1 en1', ch: 'h1 ch1' }]
     },
     {
-      name: 'hotel name',
-      index: 1,
-      ch: 'nihao',
-      english: 'hi',
-      children: []
+      name: 'hotel2',
+      children: [{ en: 'h2 en1', ch: '' }]
     }
   ]);
 
@@ -42,65 +22,40 @@ export default function App() {
     {
       key: 'name',
       align: Table.Align.LEFT,
-      headRenderer: 'name',
-      bodyRenderer: (rowData) => rowData.name
-    },
-    {
-      key: 'text',
-      align: Table.Align.LEFT,
-      headRenderer: 'Text',
-      bodyRenderer: (rowData) => rowData.text
-    },
-    {
-      key: 'english',
-      align: Table.Align.LEFT,
-      headRenderer: 'English',
-      bodyRenderer: (rowData) => (
-        <TextField
-          value={rowData.english}
-          onChange={(v) => {
-            rowData.english = v;
-            setData([...data]);
-          }}
-        />
-      )
-    }
-  ];
-
-  const columns1 = [
-    {
-      key: 'name',
-      align: Table.Align.LEFT,
       headRenderer: 'Name',
-      bodyRenderer: (rowData) => (
-        <div>
+      bodyRenderer: (
+        rowData,
+        rowIndex,
+        colIndex,
+        parentData,
+        tableData,
+        collapsed,
+        depth,
+        path
+      ) => (
+        <Space align="center">
           {rowData.name}
-          {rowData.name && (
+          {!collapsed && (
             <div>
-              <Button
-                type="primary"
+              <Icon
+                type="uc-icon-jia2"
+                style={{ color: '#4c637b', cursor: 'pointer' }}
                 onClick={() => {
-                  let lastLen = rowData.children?.length || 0;
-                  lastLen += 2;
-
                   rowData.children.push({
-                    english: '',
-                    chinese: '',
-                    index: lastLen
+                    en: '',
+                    ch: ''
                   });
 
-                  setData1([...data1]);
+                  setData([...data]);
                 }}
-              >
-                Add Value
-              </Button>
+              ></Icon>
             </div>
           )}
-        </div>
+        </Space>
       )
     },
     {
-      key: 'text',
+      key: 'values',
       align: Table.Align.LEFT,
       headRenderer: 'Values',
       bodyRenderer: (
@@ -113,41 +68,72 @@ export default function App() {
         depth,
         path
       ) => {
-        return <div>value {rowData.index}</div>;
+        return (
+          <div>
+            {collapsed && depth === 0 ? `Values(${rowData.children?.length})` : ''}
+
+            {depth > 0 && (
+              <>
+                Value {path[1].index + 1}
+                <Icon
+                  type="uc-icon-guanbi"
+                  style={{ color: '#4c637b', marginLeft: 8, cursor: 'pointer' }}
+                  onClick={() => {
+                    tableData[rowIndex].children.splice(path[1].index, 1);
+                    setData([...data]);
+                  }}
+                ></Icon>
+              </>
+            )}
+          </div>
+        );
       }
     },
     {
-      key: 'english',
+      key: 'en',
       align: Table.Align.LEFT,
-      headRenderer: 'English',
-      bodyRenderer: (rowData, rowIndex) => (
-        <TextField
-          value={rowData.english}
-          onChange={(v) => {
-            rowData.english = v;
-            setData1([...data1]);
-          }}
-        />
-      )
+      headRenderer: 'En',
+      bodyRenderer: (rowData, rowIndex, colIndex, parentData, tableData, collapsed, depth, path) =>
+        depth > 0 ? (
+          <TextField
+            value={rowData.en}
+            onChange={(v) => {
+              rowData.en = v;
+              setData([...data]);
+            }}
+          />
+        ) : collapsed ? (
+          rowData.children
+            .filter((item) => item.en)
+            .map((item) => item.en)
+            .join(', ')
+        ) : null
+    },
+    {
+      key: 'ch',
+      align: Table.Align.LEFT,
+      headRenderer: 'Ch',
+      bodyRenderer: (rowData, rowIndex, colIndex, parentData, tableData, collapsed, depth, path) =>
+        depth > 0 ? (
+          <TextField
+            value={rowData.ch}
+            onChange={(v) => {
+              rowData.ch = v;
+              setData([...data]);
+            }}
+          />
+        ) : collapsed ? (
+          rowData.children
+            .filter((item) => item.ch)
+            .map((item) => item.ch)
+            .join(', ')
+        ) : null
     }
   ];
 
-  console.log(data1);
-
   return (
     <div>
-      <Table
-        idField="content"
-        isHeadFixed={true}
-        isPaginated={false}
-        canBeExpanded
-        columns={columns}
-        data={data}
-        selectMode={Table.SelectMode.MULTI_SELECT}
-      />
-      <Divider>dynamic</Divider>
-
-      <Table isHeadFixed={true} isPaginated={false} canBeExpanded columns={columns1} data={data1} />
+      <Table isHeadFixed={true} isPaginated={false} canBeExpanded columns={columns} data={data} />
     </div>
   );
 }
