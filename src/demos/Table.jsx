@@ -11,11 +11,11 @@ export default function App() {
       name: 'hotel name',
       text: 'Title',
       id: 1,
-      english: '',
+      english: 'hi',
       children: [
-        { name: '', text: 'Url', id: 11, english: '' },
-        { name: '', text: 'Description1', id: 12, english: '' },
-        { name: '', text: 'Description2', id: 13, english: '' }
+        { name: '', text: 'Url', id: 11, english: 'www.baidu.com' },
+        { name: '', text: 'Description1', id: 12, english: 'des1' },
+        { name: '', text: 'Description2', id: 13, english: 'des2' }
       ]
     }
   ]);
