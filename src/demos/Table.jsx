@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useMount, useUpdateEffect } from 'react-uni-comps';
 import Table from 'alcedo-ui/Table';
 import TextField from 'alcedo-ui/TextField';
@@ -19,6 +19,26 @@ export default function App() {
       ]
     }
   ]);
+
+  useEffect(() => {
+    fetch('/dplatform-cloud-gateway/dplatform-cloud-common/v1/translation/translate', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        originalText: 'Free Cancellation',
+        targetLanguageCodes: ['CN', 'JP']
+      })
+    })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (res) {
+        console.log(res);
+      });
+  }, []);
 
   const columns = [
     {
