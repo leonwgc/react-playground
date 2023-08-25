@@ -66,6 +66,9 @@ export default function App() {
         <MyTextInput maxLength={10} value={text} onChange={setText} width={300} />
       </p>
       <p>
+        <MyTextInput placeholder="no length limit" value={text} onChange={setText} width={300} />
+      </p>
+      <p>
         <MyTextInput maxLength={10} value={text} onChange={setText} width={500} />
       </p>
       <p>
