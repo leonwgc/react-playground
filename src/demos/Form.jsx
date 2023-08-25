@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
-import { Button } from 'react-uni-comps';
+import { Space, Divider } from 'react-uni-comps';
 import DropdownSelect from 'alcedo-ui/DropdownSelect';
+import Switcher from 'alcedo-ui/Switcher';
 import Theme from 'alcedo-ui/Theme';
 
 const data = [
@@ -24,23 +25,39 @@ const data = [
 export default function App() {
   return (
     <div>
-      <DropdownSelect
-        placeholder="select sth..."
-        theme={Theme.DEFAULT}
-        popupTheme={Theme.DEFAULT}
-        useFilter
-        filterPlaceholder="search sth.."
-        useSelectAll
-        selectAllText="all"
-        isLoading={false}
-        selectMode={DropdownSelect.SelectMode.MULTI_SELECT}
-        itemDisabled={false}
-        value={[{ value: 2 }]} // MULTI_SELECT value is array
-        data={data}
-        onChange={(value) => {
-          console.log(value);
-        }}
-      />
+      <Divider>DropdownSelect</Divider>
+      <Space size={16}>
+        <DropdownSelect
+          placeholder="select sth..."
+          theme={Theme.DEFAULT}
+          popupTheme={Theme.DEFAULT}
+          useFilter
+          filterPlaceholder="search sth.."
+          useSelectAll
+          selectAllText="all"
+          isLoading={false}
+          selectMode={DropdownSelect.SelectMode.MULTI_SELECT}
+          itemDisabled={false}
+          value={[{ value: 2 }]} // MULTI_SELECT value is array
+          data={data}
+          onChange={(value) => {
+            console.log(value);
+          }}
+        />
+
+        <DropdownSelect
+          value={[{ value: 2 }]}
+          data={data}
+          onChange={(value) => {
+            console.log(value);
+          }}
+        />
+      </Space>
+      <Divider>Switcher</Divider>
+      <Space>
+        <Switcher value={true} />
+        <Switcher size={Switcher.Size.SMALL} />
+      </Space>
     </div>
   );
 }
