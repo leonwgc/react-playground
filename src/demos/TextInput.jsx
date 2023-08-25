@@ -19,14 +19,13 @@ const getStringByteLength = (str) => {
   return byteLength;
 };
 
+/** static part use styled template , dynamic part use style prop  */
 const StyledTextInputWrapper = styled.div`
-  display: ${({ $width }) => (typeof $width === 'number' ? 'inline-flex' : 'flex')};
   flex-direction: column;
   .material-text-field {
-    width: ${({ $width = '100%' }) => (typeof $width === 'string' ? $width : $width + 'px')};
+    width: unset;
   }
   .count-info {
-    width: ${({ $width = '100%' }) => (typeof $width === 'string' ? $width : $width + 'px')};
     font-size: 12px;
     color: #999;
     display: flex;
@@ -46,10 +45,14 @@ const MyTextInput = ({ maxLength, width, ...rest }) => {
   const hasError = maxLength > 0 && getStringByteLength(val) > maxLength;
 
   return (
-    <StyledTextInputWrapper $hasError={hasError} $width={width}>
+    <StyledTextInputWrapper
+      $hasError={hasError}
+      $width={width}
+      style={{ display: typeof width === 'number' ? 'inline-flex' : 'flex' }}
+    >
       <MaterialTextField {...rest} theme={hasError ? Theme.ERROR : Theme.DEFAULT} />
       {maxLength && (
-        <div className="count-info">
+        <div className="count-info" style={{ width }}>
           ({getStringByteLength(val)}/{maxLength})
         </div>
       )}
