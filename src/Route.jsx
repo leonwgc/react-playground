@@ -46,7 +46,7 @@ const routes = [
     component: lazy(() => import('./demos/ReactHookFormWithDynamic'))
   },
   {
-    path: '/MyText',
+    path: '/TextArea',
     component: lazy(() => import('./demos/MyText'))
   }
 ];

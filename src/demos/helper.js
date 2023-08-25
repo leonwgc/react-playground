@@ -19,7 +19,7 @@ export function getCaretCoordinate() {
       }
     }
   }
-  return { x, y };
+  return { x, y, left: x, top: y };
 }
 
 export function getCaretIndex(element) {
@@ -99,4 +99,96 @@ export const getHTMLFromText = (text, styleFn) => {
 
 const uid = () => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
+
+export const getData = (dynamticValues) => {
+  if (!dynamticValues) {
+    return null;
+  }
+  let showObject = {};
+  Object.entries(dynamticValues)?.map((item) => {
+    const key = item[0],
+      val = item[1];
+    if (typeof val === 'string') {
+      showObject[key] = val;
+    }
+    if (Array.isArray(val)) {
+      let secondArray = [];
+      let secondArrayObject = [];
+
+      val?.map((second) => {
+        if (typeof second === 'string') {
+          secondArray.push(second);
+        } else {
+          let thirdArray = [];
+          second?.tags?.map((tag) => {
+            thirdArray?.push(tag);
+          });
+          if (thirdArray.length > 0) {
+            secondArrayObject.push({
+              ...second,
+              tags: thirdArray
+            });
+          }
+        }
+      });
+      if (secondArray.length > 0) {
+        showObject[key] = secondArray;
+      }
+      if (secondArrayObject.length > 0) {
+        showObject[key] = secondArrayObject;
+      }
+    }
+  });
+  return showObject;
+};
+
+export const getDataByFilter = (dynamticValues, value) => {
+  const formatedValue = value.toLocaleLowerCase().trim();
+  if (!dynamticValues) {
+    return null;
+  }
+  if (!formatedValue) {
+    return getData(dynamticValues);
+  }
+  let showObject = {};
+  Object.entries(dynamticValues)?.map((item) => {
+    const key = item[0],
+      val = item[1];
+    if (typeof val === 'string' && val.toLocaleLowerCase().includes(formatedValue)) {
+      showObject[key] = val;
+    }
+    if (Array.isArray(val)) {
+      let secondArray = [];
+      let secondArrayObject = [];
+
+      val?.map((second) => {
+        if (typeof second === 'string' && second.toLocaleLowerCase().includes(formatedValue)) {
+          secondArray.push(second);
+        } else {
+          let thirdArray = [];
+          second?.tags?.map((tag) => {
+            const lowerCaseContent = tag?.content?.toLocaleLowerCase();
+            if (lowerCaseContent.includes(formatedValue)) {
+              thirdArray?.push(tag);
+            }
+          });
+          if (thirdArray.length > 0) {
+            secondArrayObject.push({
+              ...second,
+              tags: thirdArray
+            });
+          }
+        }
+      });
+      if (secondArray.length > 0) {
+        showObject[key] = secondArray;
+      }
+      if (secondArrayObject.length > 0) {
+        showObject[key] = secondArrayObject;
+      }
+    }
+  });
+
+  return showObject;
 };
