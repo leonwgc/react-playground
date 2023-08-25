@@ -46,13 +46,11 @@ const MyTextInput = ({ maxLength, width, ...rest }) => {
 
   return (
     <StyledTextInputWrapper
-      $hasError={hasError}
-      $width={width}
-      style={{ display: typeof width === 'number' ? 'inline-flex' : 'flex' }}
+      style={{ display: typeof width === 'number' ? 'inline-flex' : 'flex', width }}
     >
       <MaterialTextField {...rest} theme={hasError ? Theme.ERROR : Theme.DEFAULT} />
       {maxLength && (
-        <div className="count-info" style={{ width }}>
+        <div className="count-info">
           ({getStringByteLength(val)}/{maxLength})
         </div>
       )}
