@@ -22,6 +22,10 @@ const routes = [
     component: lazy(() => import('./demos/Table2'))
   },
   {
+    path: '/Form',
+    component: lazy(() => import('./demos/Form'))
+  },
+  {
     path: '/Immer',
     component: lazy(() => import('./demos/ImmerJs'))
   },
