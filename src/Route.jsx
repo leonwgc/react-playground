@@ -26,6 +26,10 @@ const routes = [
     component: lazy(() => import('./demos/Form'))
   },
   {
+    path: '/Image',
+    component: lazy(() => import('./demos/Img'))
+  },
+  {
     path: '/Immer',
     component: lazy(() => import('./demos/ImmerJs'))
   },
