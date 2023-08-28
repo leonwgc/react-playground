@@ -1,5 +1,5 @@
 import React, { useRef, useState, Fragment } from 'react';
-import { styled, clsx, useUpdateEffect } from 'react-uni-comps';
+import { styled, clsx, useUpdateEffect, useEventListener, Icon, Button } from 'react-uni-comps';
 import GroupList from 'alcedo-ui/GroupList';
 import TipProvider from 'alcedo-ui/TipProvider';
 import TextField from 'alcedo-ui/TextField';
@@ -16,6 +16,7 @@ const StyledMarketTags = styled.div`
   border-bottom: 1px solid #06789d;
   padding-bottom: 8px;
   overflow: hidden;
+  font-size: 12px;
 
   &::before,
   &::after {
@@ -142,6 +143,10 @@ const StyledMarketTags = styled.div`
 `;
 
 const StyledMarketFitler = styled.div`
+  font-size: 12px;
+  .list-item {
+    color: #333;
+  }
   &::before,
   &::after {
     display: table;
@@ -257,12 +262,6 @@ const Tags = (props) => {
       activated: popupVisible
     });
 
-  const handleScroll = () => {
-    if (popupVisible) {
-      changeVisible(false);
-    }
-  };
-
   const resetPopPosition = () => {
     pop?.current?.resetPosition();
   };
@@ -291,9 +290,19 @@ const Tags = (props) => {
     // );
   };
 
+  useEventListener(window, 'scroll', () => {
+    if (popupVisible) {
+      setPopupVisible(false);
+    }
+  });
+
   //   useUpdateEffect(() => {
   //     setFilterInput('');
   //   }, [popupVisible]);
+
+  useUpdateEffect(() => {
+    resetPopPosition();
+  }, [value]);
 
   const changeCountryValue = (items, type) => {
     const { value, onChange } = props;
@@ -374,7 +383,7 @@ const Tags = (props) => {
               }}
             >
               {item.name}
-              <IconButton
+              {/* <IconButton
                 className="geography-tag-item-remove-button"
                 iconCls="icon icon-ico-alert-error"
                 disabled={disabled}
@@ -382,6 +391,15 @@ const Tags = (props) => {
                   e.preventDefault();
                   changeCountryValue(item, 'remove');
                 }}
+              /> */}
+              <Icon
+                type="uc-icon-cuowu"
+                className="geography-tag-item-remove-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  changeCountryValue(item, 'remove');
+                }}
+                style={{ width: 18, height: 18, fontSize: 18, top: 6, right: 6 }}
               />
             </div>
           </TipProvider>
@@ -494,22 +512,12 @@ const TagSelect = (props) => {
 };
 
 export default function App() {
-  const [value, setValue] = useState([
-    {
-      id: 5,
-      code: 'zh_CN',
-      name: 'Chinese (simplified)'
-    },
-    {
-      id: 11,
-      code: 'en',
-      name: 'English'
-    }
-  ]);
+  const [value, setValue] = useState([]);
   return (
     <div>
       <label className="campaign-label">Target Languages</label>
       <TagSelect data={data} value={value} onChange={setValue} />
+      <div style={{ height: 10000 }}></div>
     </div>
   );
 }
