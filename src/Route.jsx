@@ -56,6 +56,10 @@ const routes = [
   {
     path: '/TextInput',
     component: lazy(() => import('./demos/TextInput'))
+  },
+  {
+    path: '/TagSelect',
+    component: lazy(() => import('./demos/TagSelect'))
   }
 ];
 
