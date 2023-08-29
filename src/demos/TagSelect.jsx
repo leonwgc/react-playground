@@ -9,10 +9,11 @@ import Theme from 'alcedo-ui/Theme';
 import Checkbox from 'alcedo-ui/Checkbox';
 import List from 'alcedo-ui/List';
 import DynamicRenderList from 'alcedo-ui/DynamicRenderList';
+import HelpTip from './HelpTip';
 
 //#region  styles
 
-const StyledMarketTags = styled.div`
+const StyledListTags = styled.div`
   border-bottom: 1px solid #06789d;
   padding-bottom: 8px;
   overflow: hidden;
@@ -24,13 +25,13 @@ const StyledMarketTags = styled.div`
     content: '';
   }
 
-  .geography-tag-item {
+  .list-tag-item {
     float: left;
     user-select: none;
     height: 30px;
     line-height: 28px;
     width: auto;
-    border: 1px solid #e4eaf2;
+    border: 1px solid #ddd;
     border-radius: 15px;
     color: #06789d;
     cursor: pointer;
@@ -39,7 +40,7 @@ const StyledMarketTags = styled.div`
     position: relative;
     margin: 16px 8px 0 0;
 
-    .geography-tag-item-remove-button {
+    .list-tag-item-remove-button {
       height: 30px;
       width: 30px;
       font-size: 16px;
@@ -53,7 +54,7 @@ const StyledMarketTags = styled.div`
       color: #ff5959;
       border-color: #ff5959;
 
-      .geography-tag-item-remove-button {
+      .list-tag-item-remove-button {
         color: #ff5959;
       }
 
@@ -61,7 +62,7 @@ const StyledMarketTags = styled.div`
         color: #fff;
         background: #ff5959;
 
-        .geography-tag-item-remove-button {
+        .list-tag-item-remove-button {
           color: #fff;
         }
       }
@@ -201,7 +202,9 @@ const data = [
   {
     id: 5,
     code: 'zh_CN',
-    name: 'Chinese (simplified)'
+    name: 'Chinese (simplified)',
+    helpTip: 'chinese zh-cn',
+    disabled: true
   },
   {
     id: 11,
@@ -291,7 +294,7 @@ const Tags = (props) => {
     resetPopPosition();
   }, [value]);
 
-  const changeCountryValue = (items, type) => {
+  const changeValue = (items, type) => {
     const { value, onChange } = props;
     let newValue = [];
     if (!Array.isArray(items)) {
@@ -300,27 +303,25 @@ const Tags = (props) => {
 
     switch (type) {
       case 'add':
-        const result = value.filter(
-          (market) => items?.findIndex((item) => item?.id === market?.id) === -1
-        );
+        const result = value.filter((v) => items?.findIndex((item) => item?.id === v?.id) === -1);
         newValue = [...new Set([...result, ...items])];
         break;
       case 'remove':
-        newValue = value.filter((geo) => {
-          return !items.find((item) => item.name === geo.name);
+        newValue = value.filter((v) => {
+          return !items.find((item) => item.name === v.name);
         });
         break;
     }
 
-    onChange && onChange(newValue);
+    onChange?.(newValue);
   };
 
   const filterDataFn = (data, filter) => {
-    return data.filter((market) => {
+    return data.filter((item) => {
       return (
         !filter ||
-        market?.name.toString().toUpperCase().includes(filter.toUpperCase()) ||
-        market?.code?.toString().toUpperCase().includes(filter.toUpperCase())
+        item?.name.toString().toUpperCase().includes(filter.toUpperCase()) ||
+        item?.code?.toString().toUpperCase().includes(filter.toUpperCase())
       );
     });
   };
@@ -330,7 +331,7 @@ const Tags = (props) => {
     viewValue = viewAll ? filterValue.slice() : filterValue.slice(0, 30);
 
   // filter
-  let geoListWidth = 240,
+  let width = 240,
     // commonProps = {
     //   checkboxUncheckedIconCls: 'icon icon-ico-checkbox-off',
     //   checkboxCheckedIconCls: 'icon icon-ico-checkbox-on',
@@ -343,7 +344,7 @@ const Tags = (props) => {
       data.some((item) => value.find((pos) => pos.id === item.id));
 
   const selectAllHandler = (bool) => {
-    changeCountryValue(
+    changeValue(
       data?.filter((item) => !item?.disabled),
       bool ? 'add' : 'remove'
     );
@@ -351,7 +352,7 @@ const Tags = (props) => {
 
   return (
     <Fragment>
-      <StyledMarketTags ref={filter} className="market-tags">
+      <StyledListTags ref={filter} className="list-tags">
         {viewValue?.map?.((item) => (
           <TipProvider
             key={item.name}
@@ -359,7 +360,7 @@ const Tags = (props) => {
             tipContent={item?.helpTip}
           >
             <div
-              className={clsx('geography-tag-item', {
+              className={clsx('list-tag-item', {
                 error: item?.disabled
               })}
               title={item.name}
@@ -369,7 +370,7 @@ const Tags = (props) => {
             >
               {item.name}
               {/* <IconButton
-                className="geography-tag-item-remove-button"
+                className="list-tag-item-remove-button"
                 iconCls="icon icon-ico-alert-error"
                 disabled={disabled}
                 onClick={(e) => {
@@ -379,10 +380,10 @@ const Tags = (props) => {
               /> */}
               <Icon
                 type="uc-icon-cuowu"
-                className="geography-tag-item-remove-button"
+                className="list-tag-item-remove-button"
                 onClick={(e) => {
                   e.preventDefault();
-                  changeCountryValue(item, 'remove');
+                  changeValue(item, 'remove');
                 }}
                 style={{ width: 18, height: 18, fontSize: 18, top: 6, right: 6 }}
               />
@@ -423,21 +424,21 @@ const Tags = (props) => {
             changeCountryValue={changeCountryValue}
             clearValue={clearValue}
           /> */}
-          <StyledMarketFitler className="market-filter" style={{ width: geoListWidth }}>
+          <StyledMarketFitler className="market-filter" style={{ width: width }}>
             {data.length > 0 ? (
               <div className="region-geography-map">
                 <DynamicRenderList
                   //   {...commonProps}
                   className="geography-list"
-                  style={{ width: geoListWidth }}
+                  style={{ width: width }}
                   data={filterData}
                   value={value}
                   disabled={disabled}
                   displayField="name"
                   valueField="id"
                   selectMode={List.SelectMode.MULTI_SELECT}
-                  onItemSelect={(item) => changeCountryValue(item, 'add')}
-                  onItemDeselect={(item) => changeCountryValue(item, 'remove')}
+                  onItemSelect={(item) => changeValue(item, 'add')}
+                  onItemDeselect={(item) => changeValue(item, 'remove')}
                   renderer={(item) => (
                     <span>
                       <span title={item.name}>{item.name}</span>
@@ -446,7 +447,7 @@ const Tags = (props) => {
                   )}
                 />
 
-                <div className="region-bottom" style={{ width: geoListWidth }}>
+                <div className="region-bottom" style={{ width: width }}>
                   <span className="select-num">{value.length} selected</span>
                   <Checkbox
                     className="select-all"
@@ -463,7 +464,7 @@ const Tags = (props) => {
             )}
           </StyledMarketFitler>
         </Popup>
-      </StyledMarketTags>
+      </StyledListTags>
       {showTotalSelected && value?.length > 30 ? (
         <p className="select-market-num">
           Total {value.length} selected
