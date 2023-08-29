@@ -385,3 +385,56 @@ export const testData = {
     }
   ]
 };
+
+export const tagSelectData = [
+  {
+    id: 5,
+    code: 'zh_CN',
+    name: 'Chinese (simplified)'
+  },
+  {
+    id: 11,
+    code: 'en',
+    name: 'English'
+  },
+  {
+    id: 15,
+    code: 'fr',
+    name: 'French'
+  },
+  {
+    id: 16,
+    code: 'de',
+    name: 'German'
+  },
+  {
+    id: 24,
+    code: 'it',
+    name: 'Italian'
+  },
+  {
+    id: 25,
+    code: 'ja',
+    name: 'Japanese'
+  },
+  {
+    id: 36,
+    code: 'pt',
+    name: 'Portuguese'
+  },
+  {
+    id: 39,
+    code: 'ru',
+    name: 'Russian'
+  },
+  {
+    id: 43,
+    code: 'es',
+    name: 'Spanish'
+  },
+  {
+    id: 0,
+    code: '__AOL__',
+    name: 'All Other Languages'
+  }
+];

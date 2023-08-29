@@ -10,6 +10,7 @@ import Checkbox from 'alcedo-ui/Checkbox';
 import List from 'alcedo-ui/List';
 import DynamicRenderList from 'alcedo-ui/DynamicRenderList';
 import HelpTip from './HelpTip';
+import { tagSelectData } from './libs/testData';
 
 //#region  styles
 
@@ -197,61 +198,6 @@ const StyledMarketFitler = styled.div`
 `;
 
 //#endregion
-
-const data = [
-  {
-    id: 5,
-    code: 'zh_CN',
-    name: 'Chinese (simplified)',
-    helpTip: 'chinese zh-cn',
-    disabled: true
-  },
-  {
-    id: 11,
-    code: 'en',
-    name: 'English'
-  },
-  {
-    id: 15,
-    code: 'fr',
-    name: 'French'
-  },
-  {
-    id: 16,
-    code: 'de',
-    name: 'German'
-  },
-  {
-    id: 24,
-    code: 'it',
-    name: 'Italian'
-  },
-  {
-    id: 25,
-    code: 'ja',
-    name: 'Japanese'
-  },
-  {
-    id: 36,
-    code: 'pt',
-    name: 'Portuguese'
-  },
-  {
-    id: 39,
-    code: 'ru',
-    name: 'Russian'
-  },
-  {
-    id: 43,
-    code: 'es',
-    name: 'Spanish'
-  },
-  {
-    id: 0,
-    code: '__AOL__',
-    name: 'All Other Languages'
-  }
-];
 
 const Tags = (props) => {
   const [popupVisible, setPopupVisible] = useState(false);
@@ -502,7 +448,7 @@ export default function App() {
   return (
     <div>
       <label className="campaign-label">Target Languages</label>
-      <TagSelect data={data} value={value} onChange={setValue} />
+      <TagSelect data={tagSelectData} value={value} onChange={setValue} />
       <div style={{ height: 10000 }}></div>
     </div>
   );
