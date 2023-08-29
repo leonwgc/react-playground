@@ -12,6 +12,8 @@ import DynamicRenderList from 'alcedo-ui/DynamicRenderList';
 import HelpTip from './HelpTip';
 import { tagSelectData } from './libs/testData';
 
+const defaultViewMaxCount = 5;
+
 //#region  styles
 
 const StyledListTags = styled.div`
@@ -155,7 +157,7 @@ const StyledMarketFitler = styled.div`
     display: table;
     content: '';
   }
-  .region-geography-map {
+  .dynamic-list-wrap {
     &::before,
     &::after {
       display: table;
@@ -194,6 +196,18 @@ const StyledMarketFitler = styled.div`
         }
       }
     }
+  }
+`;
+
+const StyledSelectedInfo = styled.div`
+  margin: 8px;
+  color: #333;
+  font-size: 12px;
+  .view-all {
+    color: #06789d;
+    margin-left: 24px;
+    cursor: pointer;
+    text-decoration: underline;
   }
 `;
 
@@ -274,7 +288,7 @@ const Tags = (props) => {
 
   let filterData = filterDataFn(data, filterInput),
     filterValue = value.slice(),
-    viewValue = viewAll ? filterValue.slice() : filterValue.slice(0, 30);
+    viewValue = viewAll ? filterValue.slice() : filterValue.slice(0, defaultViewMaxCount);
 
   // filter
   let width = 240,
@@ -372,10 +386,10 @@ const Tags = (props) => {
           /> */}
           <StyledMarketFitler className="market-filter" style={{ width: width }}>
             {data.length > 0 ? (
-              <div className="region-geography-map">
+              <div className="dynamic-list-wrap">
                 <DynamicRenderList
                   //   {...commonProps}
-                  className="geography-list"
+                  //   className="geography-list"
                   style={{ width: width }}
                   data={filterData}
                   value={value}
@@ -411,29 +425,23 @@ const Tags = (props) => {
           </StyledMarketFitler>
         </Popup>
       </StyledListTags>
-      {showTotalSelected && value?.length > 30 ? (
-        <p className="select-market-num">
+      {showTotalSelected && value?.length > defaultViewMaxCount ? (
+        <StyledSelectedInfo>
           Total {value.length} selected
           <span className="view-all" onClick={toggleViewAll}>
             {viewAll ? 'Fold all' : 'View all'}
           </span>
-        </p>
+        </StyledSelectedInfo>
       ) : null}
     </Fragment>
   );
 };
 
 const TagSelect = (props) => {
-  const { data, value, popupClassNames, onChange, parentEl, disabled, showTotalSelected } = props,
-    popupClassName = clsx('create-campaign-popup', {
-      [popupClassNames]: popupClassNames
-    });
+  const { data, value, onChange, disabled, showTotalSelected } = props;
 
   return (
     <Tags
-      className="placement-market-select"
-      popupClassName={popupClassName}
-      parentEl={parentEl}
       data={data}
       value={value}
       disabled={disabled}
@@ -448,7 +456,7 @@ export default function App() {
   return (
     <div>
       <label className="campaign-label">Target Languages</label>
-      <TagSelect data={tagSelectData} value={value} onChange={setValue} />
+      <TagSelect data={tagSelectData} value={value} onChange={setValue} showTotalSelected />
       <div style={{ height: 10000 }}></div>
     </div>
   );
