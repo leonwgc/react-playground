@@ -26,6 +26,7 @@ const StyledMarketTags = styled.div`
 
   .geography-tag-item {
     float: left;
+    user-select: none;
     height: 30px;
     line-height: 28px;
     width: auto;
@@ -278,16 +279,6 @@ const Tags = (props) => {
   const changeVisible = (bool) => {
     setPopupVisible(bool);
     setFilterInput('');
-    // setState(
-    //   {
-    //     popupVisible: bool,
-    //     filterInput: ''
-    //   },
-    //   () => {
-    //     Event[bool ? 'addEvent' : 'removeEvent'](document, 'scroll', handleScroll);
-    //     !bool && textField?.current?.blur();
-    //   }
-    // );
   };
 
   useEventListener(window, 'scroll', () => {
@@ -295,10 +286,6 @@ const Tags = (props) => {
       setPopupVisible(false);
     }
   });
-
-  //   useUpdateEffect(() => {
-  //     setFilterInput('');
-  //   }, [popupVisible]);
 
   useUpdateEffect(() => {
     resetPopPosition();
@@ -356,8 +343,6 @@ const Tags = (props) => {
       data.some((item) => value.find((pos) => pos.id === item.id));
 
   const selectAllHandler = (bool) => {
-    // const { changeCountryValue, data } = props;
-
     changeCountryValue(
       data?.filter((item) => !item?.disabled),
       bool ? 'add' : 'remove'
