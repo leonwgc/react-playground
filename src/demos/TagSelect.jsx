@@ -1,6 +1,5 @@
 import React, { useRef, useState, Fragment } from 'react';
-import { styled, clsx, useUpdateEffect, useEventListener, Icon, Button } from 'react-uni-comps';
-import GroupList from 'alcedo-ui/GroupList';
+import { styled, clsx, useUpdateEffect, useEventListener, Icon } from 'react-uni-comps';
 import TipProvider from 'alcedo-ui/TipProvider';
 import TextField from 'alcedo-ui/TextField';
 import Popup from 'alcedo-ui/Popup';
@@ -147,7 +146,7 @@ const StyledListTags = styled.div`
   }
 `;
 
-const StyledMarketFitler = styled.div`
+const StyledPopupContent = styled.div`
   font-size: 12px;
   .list-item {
     color: #333;
@@ -194,6 +193,9 @@ const StyledMarketFitler = styled.div`
         .checkbox-icon-wrapper {
           width: 32px;
         }
+        &[disabled] {
+          color: #d9d9d9;
+        }
       }
     }
   }
@@ -221,7 +223,7 @@ const Tags = (props) => {
     pop = useRef(),
     filter = useRef();
 
-  const { data, value, parentEl, disabled, popupClassName, showTotalSelected } = props,
+  const { data, value, parentEl, disabled, showTotalSelected } = props,
     filterClassName = clsx('filter-input', {
       activated: popupVisible
     });
@@ -365,9 +367,6 @@ const Tags = (props) => {
 
         <Popup
           ref={pop}
-          className={clsx('geography-filter-popup create-campaign-popup', {
-            [popupClassName]: popupClassName
-          })}
           triggerEl={filter.current}
           parentEl={parentEl}
           visible={popupVisible}
@@ -376,21 +375,14 @@ const Tags = (props) => {
           style={{ width: 'auto' }}
           onRequestClose={() => changeVisible(false)}
         >
-          {/* <MarketFilter
-            filterInput={filterInput}
-            data={filterData}
-            value={value}
-            disabled={disabled}
-            changeCountryValue={changeCountryValue}
-            clearValue={clearValue}
-          /> */}
-          <StyledMarketFitler className="market-filter" style={{ width: width }}>
+          <StyledPopupContent>
             {data.length > 0 ? (
               <div className="dynamic-list-wrap">
                 <DynamicRenderList
                   //   {...commonProps}
                   //   className="geography-list"
-                  style={{ width: width }}
+                  listHeight={300}
+                  style={{ width }}
                   data={filterData}
                   value={value}
                   disabled={disabled}
@@ -422,7 +414,7 @@ const Tags = (props) => {
             ) : (
               <div className="no-matched">No matched</div>
             )}
-          </StyledMarketFitler>
+          </StyledPopupContent>
         </Popup>
       </StyledListTags>
       {showTotalSelected && value?.length > defaultViewMaxCount ? (
@@ -456,7 +448,7 @@ export default function App() {
   return (
     <div>
       <label className="campaign-label">Target Languages</label>
-      <TagSelect data={tagSelectData} value={value} onChange={setValue} showTotalSelected />
+      <TagSelect data={tagSelectData} onChange={setValue} showTotalSelected value={value} />
       <div style={{ height: 10000 }}></div>
     </div>
   );
