@@ -150,11 +150,21 @@ const StyledPopupContent = styled.div`
   font-size: 12px;
   .list-item {
     color: #333;
+
+    &[disabled] {
+      color: #d9d9d9;
+    }
   }
   &::before,
   &::after {
     display: table;
     content: '';
+  }
+  .no-matched {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 16px;
+    color: #999;
   }
   .dynamic-list-wrap {
     &::before,
@@ -173,6 +183,7 @@ const StyledPopupContent = styled.div`
       padding: 0 16px;
       border-top: 1px solid #e7e7e7;
       background: #fff;
+      width: 100%;
 
       .select-num {
         color: #9b9b9b;
@@ -218,7 +229,7 @@ const StyledSelectedInfo = styled.div`
 const Tags = (props) => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [filterInput, setFilterInput] = useState('');
-  const [viewAll, setViewAll] = useState(false);
+  const [viewAll, setViewAll] = useState(true);
   const textField = useRef(),
     pop = useRef(),
     filter = useRef();
@@ -293,8 +304,7 @@ const Tags = (props) => {
     viewValue = viewAll ? filterValue.slice() : filterValue.slice(0, defaultViewMaxCount);
 
   // filter
-  let width = 240,
-    // commonProps = {
+  let // commonProps = {
     //   checkboxUncheckedIconCls: 'icon icon-ico-checkbox-off',
     //   checkboxCheckedIconCls: 'icon icon-ico-checkbox-on',
     //   checkboxIndeterminateIconCls: 'icon icon-ico-checkbox-half'
@@ -372,17 +382,16 @@ const Tags = (props) => {
           visible={popupVisible}
           position={Popup.Position.BOTTOM_LEFT}
           hasTriangle={false}
-          style={{ width: 'auto' }}
+          style={{ width: 240 }}
           onRequestClose={() => changeVisible(false)}
         >
           <StyledPopupContent>
-            {data.length > 0 ? (
+            {filterData.length > 0 ? (
               <div className="dynamic-list-wrap">
                 <DynamicRenderList
                   //   {...commonProps}
                   //   className="geography-list"
                   listHeight={300}
-                  style={{ width }}
                   data={filterData}
                   value={value}
                   disabled={disabled}
@@ -399,7 +408,7 @@ const Tags = (props) => {
                   )}
                 />
 
-                <div className="region-bottom" style={{ width: width }}>
+                <div className="region-bottom">
                   <span className="select-num">{value.length} selected</span>
                   <Checkbox
                     className="select-all"
@@ -430,7 +439,7 @@ const Tags = (props) => {
 };
 
 const TagSelect = (props) => {
-  const { data, value, onChange, disabled, showTotalSelected } = props;
+  const { data, value, onChange, disabled, showTotalSelected = true } = props;
 
   return (
     <Tags
@@ -448,7 +457,7 @@ export default function App() {
   return (
     <div>
       <label className="campaign-label">Target Languages</label>
-      <TagSelect data={tagSelectData} onChange={setValue} showTotalSelected value={value} />
+      <TagSelect data={tagSelectData} onChange={setValue} value={value}  />
       <div style={{ height: 10000 }}></div>
     </div>
   );
