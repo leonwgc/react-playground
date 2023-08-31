@@ -377,7 +377,7 @@ const Tags = (props) => {
 
         <Popup
           ref={pop}
-          triggerEl={filter.current}
+          triggerEl={textField.current?.inputEl}
           parentEl={parentEl}
           visible={popupVisible}
           position={Popup.Position.BOTTOM_LEFT}
@@ -457,7 +457,7 @@ export default function App() {
   return (
     <div>
       <label className="campaign-label">Target Languages</label>
-      <TagSelect data={tagSelectData} onChange={setValue} value={value}  />
+      <TagSelect data={tagSelectData} onChange={setValue} value={value} />
       <div style={{ height: 10000 }}></div>
     </div>
   );
