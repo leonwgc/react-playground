@@ -22,6 +22,10 @@ const routes = [
     component: lazy(() => import('./demos/Table2'))
   },
   {
+    path: '/Table3',
+    component: lazy(() => import('./demos/Table3'))
+  },
+  {
     path: '/Form',
     component: lazy(() => import('./demos/Form'))
   },
