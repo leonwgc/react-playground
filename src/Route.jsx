@@ -60,6 +60,14 @@ const routes = [
   {
     path: '/TagSelect',
     component: lazy(() => import('./demos/TagSelect'))
+  },
+  {
+    path: '/Dropdown',
+    component: lazy(() => import('./demos/DropdownDemo'))
+  },
+  {
+    path: '/Input',
+    component: lazy(() => import('./demos/Input'))
   }
 ];
 

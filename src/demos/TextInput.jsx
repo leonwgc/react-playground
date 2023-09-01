@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { styled } from 'react-uni-comps';
 import MaterialTextField from 'alcedo-ui/MaterialTextField';
+import TextField from 'alcedo-ui/TextField';
 import Theme from 'alcedo-ui/Theme';
 
 const getStringByteLength = (str) => {
@@ -33,7 +34,8 @@ const StyledTextInputWrapper = styled.div`
     margin-top: 2px;
   }
 
-  .material-provider.has-separator .material-provider-field {
+  .material-provider.has-separator .material-provider-field,
+  .text-field {
     &.theme-error {
       border-color: red;
     }
@@ -58,12 +60,31 @@ const MyTextInput = ({ maxLength, width, ...rest }) => {
   );
 };
 
+const MyTextInput1 = ({ maxLength, width, ...rest }) => {
+  const val = rest.value || '';
+  const hasError = maxLength > 0 && getStringByteLength(val) > maxLength;
+
+  return (
+    <StyledTextInputWrapper
+      style={{ display: typeof width === 'number' ? 'inline-flex' : 'flex', width }}
+    >
+      <TextField {...rest} theme={hasError ? Theme.ERROR : Theme.DEFAULT} />
+      {maxLength && (
+        <div className="count-info">
+          ({getStringByteLength(val)}/{maxLength})
+        </div>
+      )}
+    </StyledTextInputWrapper>
+  );
+};
+
 export default function App() {
   const [text, setText] = useState('');
   return (
     <div>
       <p>
         <MyTextInput maxLength={10} value={text} onChange={setText} width={300} />
+        <MyTextInput1 maxLength={10} value={text} onChange={setText} width={300} />
       </p>
       <p>
         <MyTextInput placeholder="no length limit" value={text} onChange={setText} width={300} />
