@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
 import Table from 'alcedo-ui/Table';
 import Popup from 'alcedo-ui/Popup';
-import { Icon, styled, Space, Input, Button, useUpdateEffect } from 'react-uni-comps';
+import { Icon, styled, Space, Input, Button } from 'react-uni-comps';
 
 const StyledPopWrap = styled.div`
   padding: 12px;
 `;
 
-const PopupEditableText = ({ rowData, setData, data, ...rest }) => {
+const PopupEditableText = ({ rowData, setData, data, children, ...rest }) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(rowData.msg);
   const ref = useRef();
@@ -20,7 +20,7 @@ const PopupEditableText = ({ rowData, setData, data, ...rest }) => {
           setVisible(true);
         }}
       >
-        {rowData.msg}
+        {children}
       </span>
       <Popup
         triggerEl={ref.current}
@@ -82,48 +82,55 @@ export default function App() {
     {
       name: 'hotel2',
       id: 1,
-      msg: 'hi'
+      msg: 'hello,world'
     },
     {
       name: 'hotel2',
       id: 2,
-      msg: 'hi2'
+      msg: 'Set the value property to show different position of Popup.'
     }
   ]);
 
   const columns = [
     {
       key: 'name',
+      value: 'name',
+      width: 260,
       align: Table.Align.LEFT,
       headRenderer: 'name',
       bodyRenderer: (rowData) => rowData.name
     },
     {
-      key: 'text',
+      key: 'id',
+      value: 'id',
+      width: 80,
       align: Table.Align.LEFT,
       headRenderer: 'Id',
       bodyRenderer: (rowData) => rowData.id
     },
     {
       key: 'msg',
+      value: 'msg',
       align: Table.Align.LEFT,
       headRenderer: 'Msg',
       bodyRenderer: (rowData) => (
         <Space size={8}>
-          <PopupEditableText rowData={rowData} setData={setData} data={data} />
-          {rowData.isEdit ? null : (
-            <Icon
-              type="uc-icon-bianji"
-              onClick={() => {
-                rowData.isEdit = true;
-                setData([...data]);
-              }}
-            />
-          )}
+          <Space>
+            {rowData.msg}
+            <PopupEditableText rowData={rowData} setData={setData} data={data}>
+              <Icon
+                type="uc-icon-bianji"
+                onClick={() => {
+                  rowData.isEdit = true;
+                  setData([...data]);
+                }}
+              />
+            </PopupEditableText>
+          </Space>
         </Space>
       )
     }
   ];
 
-  return <StyledTable isPaginated={false} columns={columns} data={data} />;
+  return <StyledTable isPaginated={false} columns={columns} data={data} isLayoutFixed />;
 }
