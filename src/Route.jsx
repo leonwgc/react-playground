@@ -62,7 +62,7 @@ const routes = [
     component: lazy(() => import('./demos/TextInput'))
   },
   {
-    path: '/TagSelect',
+    path: '/TagSelect1',
     component: lazy(() => import('./demos/TagSelect'))
   },
   {
@@ -72,6 +72,14 @@ const routes = [
   {
     path: '/Input',
     component: lazy(() => import('./demos/Input'))
+  },
+  {
+    path: '/TagSelect',
+    component: lazy(() => import('./demos/TagSelectDemo'))
+  },
+  {
+    path: '/AddableTagSelect',
+    component: lazy(() => import('./demos/AddableTagSelectDemo'))
   }
 ];
 
