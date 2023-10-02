@@ -4,29 +4,29 @@ import React, { useEffect, useRef, useState } from 'react';
 import TipProvider from 'alcedo-ui/TipProvider';
 import TextField from 'alcedo-ui/TextField';
 import Popover from 'alcedo-ui/Popover';
-import IconButton from 'alcedo-ui/IconButton';
+// import IconButton from 'alcedo-ui/IconButton';
 // import useUpdateEffect from 'src/hooks/useUpdateEffect';
 // import useEventListener from 'src/hooks/useEventListener';
 // import styled from 'styled-components';
 // import classNames from 'classnames';
 import { useUpdateEffect, useEventListener, styled, clsx, useMount } from 'react-uni-comps';
 // import { addableTagSelectData } from './data';
+import removeIcon from './icons/remove.png';
+
+const StyledRemoveIcon = styled.span`
+  width: 16px;
+  height: 16px;
+  margin-left: 12px;
+  display: inline-block;
+  background: url(${removeIcon}) center/100% no-repeat;
+`;
 
 const renderRemoveIcon = (readOnly, disabledValues = [], item, onClick) => {
   if (readOnly || disabledValues.find((d) => d.id === item.id)) {
     return null;
   }
 
-  return (
-    <IconButton
-      className="list-tag-item-remove-button"
-      iconCls="icon icon-ico-alert-error"
-      onClick={(e) => {
-        e.preventDefault();
-        onClick();
-      }}
-    />
-  );
+  return <StyledRemoveIcon onClick={onClick} />;
 };
 
 // #region styles
@@ -104,15 +104,16 @@ const StyledListTags = styled.div`
   .list-tag-item {
     float: left;
     user-select: none;
-    height: 28px;
-    line-height: 28px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
     width: auto;
     border: 1px solid #ddd;
-    border-radius: 15px;
+    border-radius: 17px;
     color: #06789d;
     cursor: pointer;
     box-sizing: border-box;
-    padding: 0 38px 0 8px;
+    padding: 6px 6px 6px 12px;
     position: relative;
     margin: 16px 8px 0 0;
 
@@ -125,40 +126,11 @@ const StyledListTags = styled.div`
       background-color: #f4f4f4;
       color: #ccc;
     }
-
-    .list-tag-item-remove-button {
-      height: 30px;
-      width: 30px;
-      font-size: 16px;
-      color: #ccc;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-
-    &.error {
-      color: #ff5959;
-      border-color: #ff5959;
-
-      .list-tag-item-remove-button {
-        color: #ff5959;
-      }
-
-      &:hover {
-        color: #fff;
-        background: #ff5959;
-
-        .list-tag-item-remove-button {
-          color: #fff;
-        }
-      }
-    }
   }
 
   .filter-input {
     float: left;
     margin: 16px 8px 0 0;
-    /* width: 60px; */
     width: 100%;
     height: 30px;
     border-radius: 15px;
@@ -181,16 +153,6 @@ const StyledListTags = styled.div`
       font-size: 14px;
       width: 28px;
     }
-  }
-
-  .add-button {
-    float: left;
-    margin: 16px 8px 0 0;
-    padding-left: 8px;
-    text-align: left;
-    width: 68px;
-    height: 30px;
-    color: #06789d;
   }
 `;
 
