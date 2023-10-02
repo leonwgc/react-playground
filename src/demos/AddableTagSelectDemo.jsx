@@ -14,6 +14,7 @@ function AddableTagSelectDemo() {
         onAddNew={(text) => {
           const newEntry = { id: null, name: text, type: 1 }; // 1 new added 2: dynamic with stars others: normal
           setValue(newEntry);
+          console.log('added');
         }}
       />
     </div>

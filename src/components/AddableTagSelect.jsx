@@ -190,8 +190,14 @@ const Tags = (props) => {
     // choose this
     onChange?.(item);
     setVisible(false);
-    setText('');
+    // setText('');
   };
+
+  useUpdateEffect(() => {
+    if (value) {
+      setText('');
+    }
+  }, [value]);
 
   useUpdateEffect(() => {
     if (
