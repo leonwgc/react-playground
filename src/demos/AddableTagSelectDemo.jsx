@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { addableTagSelectData, langs } from '../components/data';
-import { Divider } from 'react-uni-comps';
+import { addableTagSelectData } from '../components/data';
 import AddableTagSelect from '../components/AddableTagSelect';
 
 function AddableTagSelectDemo() {
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState();
   return (
     <div>
       <AddableTagSelect
@@ -12,6 +11,10 @@ function AddableTagSelectDemo() {
         data={addableTagSelectData}
         onChange={setValue}
         value={value}
+        onAddNew={(text) => {
+          const newEntry = { id: null, name: text, type: 1 }; // 1 new added 2: dynamic with stars others: normal
+          setValue(newEntry);
+        }}
       />
     </div>
   );

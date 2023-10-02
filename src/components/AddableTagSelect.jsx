@@ -21,14 +21,6 @@ const StyledRemoveIcon = styled.span`
   background: url(${removeIcon}) center/100% no-repeat;
 `;
 
-const renderRemoveIcon = (readOnly, disabledValues = [], item, onClick) => {
-  if (readOnly || disabledValues.find((d) => d.id === item.id)) {
-    return null;
-  }
-
-  return <StyledRemoveIcon onClick={onClick} />;
-};
-
 // #region styles
 
 const StyledPopover = styled(Popover)`
@@ -121,11 +113,6 @@ const StyledListTags = styled.div`
       padding-right: 8px;
       cursor: auto;
     }
-
-    &.is-editing {
-      background-color: #f4f4f4;
-      color: #ccc;
-    }
   }
 
   .filter-input {
@@ -175,7 +162,7 @@ const Tags = (props) => {
     pop = useRef(),
     filter = useRef();
 
-  const { data, value, parentEl, disabled, onAddNew, readOnly, disabledValues = [], style } = props,
+  const { data, value, onChange, parentEl, disabled, onAddNew, readOnly, style } = props,
     filterClassName = clsx('filter-input', {
       activated: visible
     });
@@ -193,32 +180,7 @@ const Tags = (props) => {
     }
   });
 
-  const changeValue = (items, type) => {
-    const { value, onChange } = props;
-    let newValue = [];
-    if (!Array.isArray(items)) {
-      items = [items].filter((item) => !!item);
-    }
-
-    switch (type) {
-      case 'add':
-        const result = value.filter((v) => items?.findIndex((item) => item?.id === v?.id) === -1);
-        newValue = [...new Set([...result, ...items])];
-        break;
-      case 'remove':
-        newValue = value.filter((v) => {
-          return !items.find((item) => item.name === v.name);
-        });
-
-        textField.current.focus();
-
-        break;
-    }
-
-    onChange?.(newValue);
-  };
-
-  const showInput = !readOnly && !value.length;
+  const showInput = !readOnly && !value;
 
   const filteredData = allItemsRef.current.filter(
     (item) => item.name.toLowerCase().indexOf(text.trim().toLowerCase()) > -1
@@ -226,9 +188,9 @@ const Tags = (props) => {
 
   const onTagItemClick = (item) => {
     // choose this
-    changeValue([item], 'add');
-    setText('');
+    onChange?.(item);
     setVisible(false);
+    setText('');
   };
 
   useUpdateEffect(() => {
@@ -251,26 +213,20 @@ const Tags = (props) => {
 
   return (
     <StyledListTags ref={filter} style={style} className={clsx('list-tags', { focused: visible })}>
-      {value?.map?.((item) => (
-        <TipProvider
-          key={item.name}
-          position={TipProvider.Position.BOTTOM_LEFT}
-          tipContent={item?.helpTip}
-        >
+      {value ? (
+        <TipProvider key={value.name} position={TipProvider.Position.BOTTOM_LEFT}>
           <div
             className={clsx('list-tag-item', {
-              'error': item?.disabled,
-              'readyOnly': readOnly,
-              'is-editing': disabledValues.find((d) => d.id === item.id)
+              readyOnly: readOnly
             })}
-            title={item.name}
+            title={value.name}
           >
-            {item.name}
+            {value.name}
 
-            {renderRemoveIcon(readOnly, disabledValues, item, () => changeValue(item, 'remove'))}
+            {readOnly ? null : <StyledRemoveIcon onClick={() => onChange?.(null)} />}
           </div>
         </TipProvider>
-      ))}
+      ) : null}
 
       <TextField
         ref={textField}
@@ -285,7 +241,7 @@ const Tags = (props) => {
           if (e.code === 'Enter' || e.which === 13) {
             const currentText = e.target.value.trim();
             if (currentText.length) {
-              onAddNew(currentText);
+              onAddNew?.(currentText);
             }
           }
         }}
@@ -306,71 +262,46 @@ const Tags = (props) => {
         }}
         style={{ width: width }}
       >
-        <div className="tag-values">
-          {!text.trim().length ? (
-            data.map((tagItem) => (
-              <div id={tagItem.id} className="tag-list">
-                <div className="tag-title">{tagItem.name}</div>
+        {!value && (
+          <div className="tag-values">
+            {!text.trim().length ? (
+              data.map((tagItem) => (
+                <div id={tagItem.id} key={tagItem.id} className="tag-list">
+                  <div className="tag-title">{tagItem.name}</div>
+                  <div className="tag-children">
+                    {tagItem.children.map((childItem) => (
+                      <div
+                        key={childItem.id}
+                        className="tag-item"
+                        onClick={() => onTagItemClick(childItem)}
+                      >
+                        {childItem.name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="tag-list">
                 <div className="tag-children">
-                  {tagItem.children.map((childItem) => (
-                    <div
-                      key={childItem.id}
-                      className="tag-item"
-                      onClick={() => onTagItemClick(childItem)}
-                    >
-                      {childItem.name}
+                  {filteredData.map((item) => (
+                    <div key={item.id} className="tag-item" onClick={() => onTagItemClick(item)}>
+                      {item.name}
                     </div>
                   ))}
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="tag-list">
-              <div className="tag-children">
-                {filteredData.map((item) => (
-                  <div key={item.id} className="tag-item" onClick={() => onTagItemClick(item)}>
-                    {item.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </StyledPopover>
     </StyledListTags>
   );
 };
 
 const AddableTagSelect = (props) => {
-  const {
-    data,
-    value,
-    onChange,
-    disabled,
-    showTotalSelected = true,
-    renderer,
-    readOnly,
-    disabledValues = [],
-    style
-  } = props;
-
-  return (
-    <Tags
-      data={data}
-      value={value}
-      disabled={disabled}
-      showTotalSelected={showTotalSelected}
-      onChange={onChange}
-      renderer={renderer}
-      readOnly={readOnly}
-      disabledValues={disabledValues}
-      style={style}
-      onAddNew={(text) => {
-        console.log(text, 'added');
-      }}
-    />
-  );
+  return <Tags {...props} />;
 };
 
 export default AddableTagSelect;
-//   <AddableTagSelect data={tagSelectData} onChange={setValue} value={value}  disabledValues/> <id,name> pair
+//   <AddableTagSelect data={tagSelectData} onChange={setValue} value={value}  onAddNew /> {id,name,type,children:[{id,name,type}]}
