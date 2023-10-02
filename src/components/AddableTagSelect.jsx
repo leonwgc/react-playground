@@ -12,6 +12,7 @@ import Popover from 'alcedo-ui/Popover';
 import { useUpdateEffect, useEventListener, styled, clsx, useMount } from 'react-uni-comps';
 // import { addableTagSelectData } from './data';
 import removeIcon from './icons/remove.png';
+import dynamicIcon from './icons/dynamic.png';
 
 const StyledRemoveIcon = styled.span`
   width: 16px;
@@ -19,6 +20,14 @@ const StyledRemoveIcon = styled.span`
   margin-left: 12px;
   display: inline-block;
   background: url(${removeIcon}) center/100% no-repeat;
+`;
+
+const StyledDynamicIcon = styled.span`
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+  display: inline-block;
+  background: url(${dynamicIcon}) center/100% no-repeat;
 `;
 
 // #region styles
@@ -61,7 +70,8 @@ const StyledPopover = styled(Popover)`
           padding: 6px 12px;
           font-size: 12px;
           font-weight: 400;
-          line-height: 18px;
+          display: inline-flex;
+          align-items: center;
 
           &:hover {
             background: #ebfaff;
@@ -226,6 +236,7 @@ const Tags = (props) => {
           })}
           title={value.name}
         >
+          {value.type === 2 && <StyledDynamicIcon />}
           {value.name}
           {readOnly ? null : <StyledRemoveIcon onClick={() => onChange?.(null)} />}
         </div>
@@ -278,6 +289,7 @@ const Tags = (props) => {
                         className="tag-item"
                         onClick={() => onTagItemClick(childItem)}
                       >
+                        {childItem.type === 2 && <StyledDynamicIcon />}
                         {childItem.name}
                       </div>
                     ))}
@@ -289,6 +301,7 @@ const Tags = (props) => {
                 <div className="tag-children">
                   {filteredData.map((item) => (
                     <div key={item.id} className="tag-item" onClick={() => onTagItemClick(item)}>
+                      {item.type === 2 && <StyledDynamicIcon />}
                       {item.name}
                     </div>
                   ))}

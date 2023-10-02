@@ -60,13 +60,13 @@ export const addableTagSelectData = [
     id: 1,
     name: 'Call to Action Phrases',
     children: [
-      { id: 1, name: 'Book Now1' },
-      { id: 2, name: 'Book Now2' },
-      { id: 3, name: 'Book Now3' },
-      { id: 4, name: 'Book Now4' },
-      { id: 5, name: 'Book Now5' },
-      { id: 6, name: 'Book Now6' },
-      { id: 7, name: 'Book Now7' }
+      { id: 1, name: 'Book Now1', type: 2 },
+      { id: 2, name: 'Book Now2', type: 2 },
+      { id: 3, name: 'Book Now3', type: 2 },
+      { id: 4, name: 'Book Now4', type: 2 },
+      { id: 5, name: 'Book Now5', type: 2 },
+      { id: 6, name: 'Book Now6', type: 2 },
+      { id: 7, name: 'Book Now7', type: 2 }
     ]
   },
   {
