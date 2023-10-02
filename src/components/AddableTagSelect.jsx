@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react';
-import TipProvider from 'alcedo-ui/TipProvider';
+// import TipProvider from 'alcedo-ui/TipProvider';
 import TextField from 'alcedo-ui/TextField';
 import Popover from 'alcedo-ui/Popover';
 // import IconButton from 'alcedo-ui/IconButton';
@@ -214,18 +214,15 @@ const Tags = (props) => {
   return (
     <StyledListTags ref={filter} style={style} className={clsx('list-tags', { focused: visible })}>
       {value ? (
-        <TipProvider key={value.name} position={TipProvider.Position.BOTTOM_LEFT}>
-          <div
-            className={clsx('list-tag-item', {
-              readyOnly: readOnly
-            })}
-            title={value.name}
-          >
-            {value.name}
-
-            {readOnly ? null : <StyledRemoveIcon onClick={() => onChange?.(null)} />}
-          </div>
-        </TipProvider>
+        <div
+          className={clsx('list-tag-item', {
+            readyOnly: readOnly
+          })}
+          title={value.name}
+        >
+          {value.name}
+          {readOnly ? null : <StyledRemoveIcon onClick={() => onChange?.(null)} />}
+        </div>
       ) : null}
 
       <TextField
