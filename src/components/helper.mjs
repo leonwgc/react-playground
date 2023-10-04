@@ -1,5 +1,5 @@
 /**
- * Get diff info {added:T[],removed:T[]}
+ * Get diff info {added:T[],removed:T[],kept:T[]}
  * @param {*} newArray
  * @param {*} oldArray
  * @param {*} eq
@@ -7,6 +7,7 @@
 export const getDiff = (newArray = [], oldArray = [], eq) => {
   const added = [];
   const removed = [];
+  const kept = []; // kept from old
 
   for (let item of newArray) {
     if (!oldArray.find((oi) => eq(item, oi))) {
@@ -17,10 +18,12 @@ export const getDiff = (newArray = [], oldArray = [], eq) => {
   for (let item of oldArray) {
     if (!newArray.find((ni) => eq(ni, item))) {
       removed.push(item);
+    } else {
+      kept.push(item);
     }
   }
 
-  return { added, removed };
+  return { added, removed, kept };
 };
 
 //------------------------ test case-----------------------
