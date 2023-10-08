@@ -80,6 +80,10 @@ const routes = [
   {
     path: '/AddableTagSelect',
     component: lazy(() => import('./demos/AddableTagSelectDemo'))
+  },
+  {
+    path: '/PinMode',
+    component: lazy(() => import('./demos/PinModeDemo'))
   }
 ];
 
