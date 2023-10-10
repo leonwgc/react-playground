@@ -163,15 +163,6 @@ const StyledListTags = styled.div`
 
 // #endregion
 
-const getAllItems = (data = []) => {
-  let items = [];
-  data.map((item) => {
-    items = items.concat(item.children || []);
-  });
-
-  return items;
-};
-
 const Tags = (props) => {
   const [visible, setVisible] = useState(false);
   const [width, setWidth] = useState('auto');
@@ -185,7 +176,7 @@ const Tags = (props) => {
       activated: visible
     });
 
-  const allItemsRef = useRef(getAllItems(data));
+  const allItemsRef = useRef(data);
 
   useMount(() => {
     setWidth(filter.current.offsetWidth);
@@ -287,36 +278,16 @@ const Tags = (props) => {
       >
         {!value && (
           <div className="tag-values">
-            {!text.trim().length ? (
-              data.map((tagItem) => (
-                <div id={tagItem.id} key={tagItem.id} className="tag-list">
-                  <div className="tag-title">{tagItem.name}</div>
-                  <div className="tag-children">
-                    {tagItem.children.map((childItem) => (
-                      <div
-                        key={childItem.id}
-                        className="tag-item"
-                        onClick={() => onTagItemClick(childItem)}
-                      >
-                        {childItem.type === 2 && <StyledDynamicIcon />}
-                        {childItem.name}
-                      </div>
-                    ))}
+            <div className="tag-list">
+              <div className="tag-children">
+                {filteredData.map((item) => (
+                  <div key={item.id} className="tag-item" onClick={() => onTagItemClick(item)}>
+                    <StyledDynamicIcon />
+                    {item.name}
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className="tag-list">
-                <div className="tag-children">
-                  {filteredData.map((item) => (
-                    <div key={item.id} className="tag-item" onClick={() => onTagItemClick(item)}>
-                      {item.type === 2 && <StyledDynamicIcon />}
-                      {item.name}
-                    </div>
-                  ))}
-                </div>
+                ))}
               </div>
-            )}
+            </div>
           </div>
         )}
       </StyledPopover>
@@ -324,9 +295,17 @@ const Tags = (props) => {
   );
 };
 
-const AddableTagSelect = (props) => {
+const DisplayPathSelect = (props) => {
   return <Tags {...props} />;
 };
 
-export default AddableTagSelect;
-//   <AddableTagSelect data={tagSelectData} onChange={setValue} value={value}  onAddNew /> {id,name,type,children:[{id,name,type}]}
+export default DisplayPathSelect;
+{
+  /* <DisplayPathSelect
+  style={{ width: 280 }}
+  data={displayPathSelectData}
+  onChange={setValue}
+  value={value}
+  prefix={'/'}
+/>; */
+}

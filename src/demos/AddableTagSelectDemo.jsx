@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addableTagSelectData } from '../components/data';
+import { addableTagSelectData } from '../components/data.mjs';
 import AddableTagSelect from '../components/AddableTagSelect';
 
 function AddableTagSelectDemo() {
@@ -16,6 +16,7 @@ function AddableTagSelectDemo() {
           setValue(newEntry);
           console.log('added');
         }}
+        prefix={'/'}
       />
     </div>
   );

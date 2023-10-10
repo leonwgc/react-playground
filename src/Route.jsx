@@ -84,6 +84,10 @@ const routes = [
   {
     path: '/PinMode',
     component: lazy(() => import('./demos/PinModeDemo'))
+  },
+  {
+    path: '/DisplayPathSelect',
+    component: lazy(() => import('./demos/DisplayPathSelectDemo'))
   }
 ];
 

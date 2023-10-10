@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TagSelect from '../components/TagSelect';
-import { langs } from '../components/data';
+import { langs } from '../components/data.mjs';
 import { Divider } from 'react-uni-comps';
 
 function TagSelectDemo() {
