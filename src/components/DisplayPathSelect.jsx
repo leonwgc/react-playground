@@ -99,9 +99,21 @@ const StyledListTags = styled.div`
   font-size: 12px;
   display: flex;
 
+  &.error {
+    border-color: #ff5959;
+  }
+
   &.focused,
   &:hover {
-    border-bottom: 1px solid #06789d;
+    border-bottom: 1px solid #004771;
+
+    &.error {
+      border-color: #ff5959;
+    }
+  }
+
+  &.focused {
+    border-width: 2px;
   }
 
   &::before,
@@ -236,7 +248,11 @@ const Tags = (props) => {
   const visible = focused && filteredDataRef.current.length > 0;
 
   return (
-    <StyledListTags ref={filter} style={style} className={clsx('list-tags', { focused: visible })}>
+    <StyledListTags
+      ref={filter}
+      style={style}
+      className={clsx('list-tags', { focused, error: hasError })}
+    >
       {prefix && <div className="prefix list-tag-item">{prefix}</div>}
       {value ? (
         <div
