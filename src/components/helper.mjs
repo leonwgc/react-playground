@@ -53,3 +53,25 @@ const oArr = [
 // }
 
 console.log(getDiff(nArr, oArr, (a, b) => a.id === b.id));
+
+/**
+ * Get string byte length
+ * https://ads-help.yahoo-net.jp/s/article/H000044627?language=en_US
+ * @param {*} str
+ * @returns
+ */
+export const getStringByteLength = (str) => {
+  if (!str || typeof str !== 'string') {
+    return 0;
+  }
+  let byteLength = 0;
+  for (let i = 0; i < str.length; i++) {
+    const charCode = str.charCodeAt(i);
+    if (charCode <= 0x7f) {
+      byteLength += 1;
+    } else {
+      byteLength += 2;
+    }
+  }
+  return byteLength;
+};

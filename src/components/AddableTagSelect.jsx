@@ -9,10 +9,42 @@ import Popover from 'alcedo-ui/Popover';
 // import useEventListener from 'src/hooks/useEventListener';
 // import styled from 'styled-components';
 // import classNames from 'classnames';
-import { useUpdateEffect, useEventListener, styled, clsx, useMount } from 'react-uni-comps';
+import {
+  useUpdateEffect,
+  useEventListener,
+  styled,
+  clsx,
+  useMount,
+  useForceUpdate,
+  useLatest,
+  Popup
+} from 'react-uni-comps';
 // import { addableTagSelectData } from './data';
 import removeIcon from './icons/remove.png';
 import dynamicIcon from './icons/dynamic.png';
+import { getStringByteLength } from './helper.mjs';
+
+const StyledWrapper = styled.div`
+  flex-direction: column;
+  position: relative;
+  .material-text-field {
+    width: unset;
+  }
+  .count-info {
+    font-size: 12px;
+    color: #999;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2px;
+    font-weight: 400;
+    position: absolute;
+    right: 0;
+
+    &.error {
+      color: red;
+    }
+  }
+`;
 
 const StyledRemoveIcon = styled.span`
   width: 16px;
@@ -92,9 +124,21 @@ const StyledListTags = styled.div`
   font-size: 12px;
   display: flex;
 
+  &.error {
+    border-color: #ff5959;
+  }
+
   &.focused,
   &:hover {
-    border-bottom: 1px solid #06789d;
+    border-bottom: 1px solid #004771;
+
+    &.error {
+      border-color: #ff5959;
+    }
+  }
+
+  &.focused {
+    border-width: 2px;
   }
 
   &::before,
@@ -118,14 +162,6 @@ const StyledListTags = styled.div`
     padding: 6px 6px 6px 12px;
     position: relative;
     margin: 16px 8px 0 0;
-
-    &.prefix {
-      border: none;
-      color: #ccc;
-      display: inline-flex;
-      align-items: center;
-      margin-right: 0;
-    }
 
     &.readyOnly {
       padding-right: 8px;
@@ -173,14 +209,30 @@ const getAllItems = (data = []) => {
 };
 
 const Tags = (props) => {
-  const [visible, setVisible] = useState(false);
+  // const [visible, setVisible] = useState(false);
   const [width, setWidth] = useState('auto');
   const [text, setText] = useState('');
   const textField = useRef(),
     pop = useRef(),
     filter = useRef();
 
-  const { data, value, onChange, parentEl, disabled, onAddNew, readOnly, style, prefix } = props,
+  const [focused, setFocused] = React.useState(false);
+
+  const visibleRef = useLatest(focused);
+  const forceUpdate = useForceUpdate();
+
+  const {
+      data,
+      value,
+      onChange,
+      parentEl,
+      disabled,
+      onAddNew,
+      readOnly,
+      style,
+      maxLength,
+      onBlur
+    } = props,
     filterClassName = clsx('filter-input', {
       activated: visible
     });
@@ -194,21 +246,26 @@ const Tags = (props) => {
 
   useEventListener(window, 'scroll', () => {
     if (visible) {
-      setVisible(false);
+      setFocused(false);
     }
   });
 
+  useUpdateEffect(() => {
+    if (visible) {
+      forceUpdate();
+    }
+  }, [visible]);
+
   const showInput = !readOnly && !value;
 
-  const filteredData = allItemsRef.current.filter(
-    (item) => item.name.toLowerCase().indexOf(text.trim().toLowerCase()) > -1
+  const filteredDataRef = React.useRef(
+    allItemsRef.current.filter(
+      (item) => item.name.toLowerCase().indexOf(text.trim().toLowerCase()) > -1
+    )
   );
 
   const onTagItemClick = (item) => {
-    // choose this
     onChange?.(item);
-    setVisible(false);
-    // setText('');
   };
 
   useUpdateEffect(() => {
@@ -218,109 +275,123 @@ const Tags = (props) => {
   }, [value]);
 
   useUpdateEffect(() => {
-    if (
-      text.trim().length &&
-      allItemsRef.current.some(
-        (item) => item.name.toLowerCase().indexOf(text.trim().toLowerCase()) > -1
-      ) &&
-      !visible
-    ) {
-      setVisible(true);
+    const txt = text.trim().toLowerCase();
+    if (txt) {
+      filteredDataRef.current = allItemsRef.current.filter(
+        (item) => item.name.toLowerCase().indexOf(txt) > -1
+      );
+    } else {
+      filteredDataRef.current = allItemsRef.current;
     }
-  }, [text, visible]);
+    forceUpdate();
+  }, [text]);
 
-  useUpdateEffect(() => {
-    if (filteredData.length === 0) {
-      setVisible(false);
-    }
-  }, [filteredData]);
+  const byteLength = getStringByteLength(text);
+  const hasError = maxLength > 0 && byteLength > maxLength;
+  const visible = focused && filteredDataRef.current.length > 0;
 
   return (
-    <StyledListTags ref={filter} style={style} className={clsx('list-tags', { focused: visible })}>
-      {prefix && <div className="prefix list-tag-item">{prefix}</div>}
-      {value ? (
-        <div
-          className={clsx('list-tag-item', {
-            readyOnly: readOnly
-          })}
-          title={value.name}
-        >
-          {value.type === 2 && <StyledDynamicIcon />}
-          {value.name}
-          {readOnly ? null : <StyledRemoveIcon onClick={() => onChange?.(null)} />}
-        </div>
-      ) : null}
-
-      <TextField
-        ref={textField}
-        className={filterClassName}
-        style={{ display: showInput ? '' : 'none' }}
-        value={text}
-        clearButtonVisible={false}
-        disabled={disabled}
-        rightIconCls={visible ? 'dsicon dsicon-search' : ''}
-        onChange={setText}
-        onKeyDown={(e) => {
-          if (e.code === 'Enter' || e.which === 13) {
-            const currentText = e.target.value.trim();
-            if (currentText.length) {
-              onAddNew?.(currentText);
-            }
-          }
-        }}
-        onClick={() => {
-          setVisible(true);
-        }}
-      />
-
-      <StyledPopover
-        visible={visible}
-        triggerEl={filter.current}
-        parentEl={parentEl || filter.current}
-        position={Popover.Position.BOTTOM_LEFT}
-        hasTriangle={false}
-        resetPositionWait={0}
-        onRequestClose={() => {
-          setVisible(false);
-        }}
-        style={{ width: width }}
+    <StyledWrapper style={style}>
+      <StyledListTags
+        ref={filter}
+        className={clsx('list-tags', { focused: focused, error: hasError })}
       >
-        {!value && (
-          <div className="tag-values">
-            {!text.trim().length ? (
-              data.map((tagItem) => (
-                <div id={tagItem.id} key={tagItem.id} className="tag-list">
-                  <div className="tag-title">{tagItem.name}</div>
+        {value ? (
+          <div
+            className={clsx('list-tag-item', {
+              readyOnly: readOnly
+            })}
+            title={value.name}
+          >
+            {value.type === 2 && <StyledDynamicIcon />}
+            {value.name}
+            {readOnly ? null : <StyledRemoveIcon onClick={() => onChange?.(null)} />}
+          </div>
+        ) : null}
+
+        <TextField
+          ref={textField}
+          className={filterClassName}
+          style={{ display: showInput ? '' : 'none' }}
+          value={text}
+          clearButtonVisible={false}
+          disabled={disabled}
+          rightIconCls={visible ? 'dsicon dsicon-search' : ''}
+          onChange={setText}
+          onKeyDown={(e) => {
+            if (e.code === 'Enter' || e.which === 13) {
+              const currentText = e.target.value.trim();
+              if (currentText.length) {
+                onAddNew?.(currentText);
+              }
+            }
+          }}
+          onFocus={() => {
+            setFocused(true);
+          }}
+          onBlur={() => {
+            setFocused(false);
+            onBlur?.();
+          }}
+        />
+
+        <StyledPopover
+          visible={visible}
+          triggerEl={filter.current}
+          // parentEl={filter.current}
+          position={Popover.Position.BOTTOM_LEFT}
+          hasTriangle={false}
+          resetPositionWait={0}
+          onRequestClose={() => {
+            setFocused(false);
+          }}
+          style={{ width: width }}
+        >
+          {!value && (
+            <div className="tag-values">
+              {!text.trim().length ? (
+                data.map((tagItem) => (
+                  <div id={tagItem.id} key={tagItem.id} className="tag-list">
+                    <div className="tag-title">{tagItem.name}</div>
+                    <div className="tag-children">
+                      {tagItem.children.map((childItem) => (
+                        <div
+                          key={childItem.id}
+                          className="tag-item"
+                          onClick={() => onTagItemClick(childItem)}
+                        >
+                          {childItem.type === 2 && <StyledDynamicIcon />}
+                          {childItem.name}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="tag-list">
                   <div className="tag-children">
-                    {tagItem.children.map((childItem) => (
-                      <div
-                        key={childItem.id}
-                        className="tag-item"
-                        onClick={() => onTagItemClick(childItem)}
-                      >
-                        {childItem.type === 2 && <StyledDynamicIcon />}
-                        {childItem.name}
+                    {filteredDataRef.current.map((item) => (
+                      <div key={item.id} className="tag-item" onClick={() => onTagItemClick(item)}>
+                        {item.type === 2 && <StyledDynamicIcon />}
+                        {item.name}
                       </div>
                     ))}
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="tag-list">
-                <div className="tag-children">
-                  {filteredData.map((item) => (
-                    <div key={item.id} className="tag-item" onClick={() => onTagItemClick(item)}>
-                      {item.type === 2 && <StyledDynamicIcon />}
-                      {item.name}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </StyledPopover>
-    </StyledListTags>
+              )}
+            </div>
+          )}
+        </StyledPopover>
+      </StyledListTags>
+      {focused && maxLength && (
+        <div className={clsx('count-info', { error: hasError })}>
+          {byteLength}/{maxLength}
+        </div>
+      )}
+      <div style={{ position: 'absolute', top: 500 }}>
+        visible: {visible ? 'yes' : 'no'},focus:{focused ? 'yes' : 'no'}{' '}
+      </div>
+    </StyledWrapper>
   );
 };
 
