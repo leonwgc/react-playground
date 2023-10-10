@@ -250,11 +250,11 @@ const Tags = (props) => {
     }
   });
 
-  useUpdateEffect(() => {
-    if (visible) {
-      forceUpdate();
-    }
-  }, [visible]);
+  // useUpdateEffect(() => {
+  //   if (visible) {
+  //     forceUpdate();
+  //   }
+  // }, [visible]);
 
   const showInput = !readOnly && !value;
 

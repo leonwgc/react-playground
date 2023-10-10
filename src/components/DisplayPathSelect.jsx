@@ -9,7 +9,14 @@ import Popover from 'alcedo-ui/Popover';
 // import useEventListener from 'src/hooks/useEventListener';
 // import styled from 'styled-components';
 // import classNames from 'classnames';
-import { useUpdateEffect, useEventListener, styled, clsx, useMount } from 'react-uni-comps';
+import {
+  useUpdateEffect,
+  useEventListener,
+  styled,
+  clsx,
+  useMount,
+  useForceUpdate
+} from 'react-uni-comps';
 // import { addableTagSelectData } from './data';
 import removeIcon from './icons/remove.png';
 import dynamicIcon from './icons/dynamic.png';
@@ -103,8 +110,12 @@ const StyledListTags = styled.div`
     content: '';
   }
 
+  .text-field-input {
+    padding-left: 2px;
+    padding-right: 0;
+  }
+
   .list-tag-item {
-    /* float: left; */
     user-select: none;
     height: 30px;
     display: inline-flex;
@@ -134,7 +145,6 @@ const StyledListTags = styled.div`
   }
 
   .filter-input {
-    /* float: left; */
     margin: 16px 8px 0 0;
     width: 100%;
     height: 30px;
@@ -164,14 +174,17 @@ const StyledListTags = styled.div`
 // #endregion
 
 const Tags = (props) => {
-  const [visible, setVisible] = useState(false);
+  // const [visible, setVisible] = useState(false);
   const [width, setWidth] = useState('auto');
   const [text, setText] = useState('');
   const textField = useRef(),
     pop = useRef(),
     filter = useRef();
 
-  const { data, value, onChange, parentEl, disabled, onAddNew, readOnly, style, prefix } = props,
+  const [focused, setFocused] = React.useState(false);
+  const forceUpdate = useForceUpdate();
+
+  const { data, value, onChange, disabled, onAddNew, readOnly, style, prefix, onBlur } = props,
     filterClassName = clsx('filter-input', {
       activated: visible
     });
@@ -185,21 +198,20 @@ const Tags = (props) => {
 
   useEventListener(window, 'scroll', () => {
     if (visible) {
-      setVisible(false);
+      setFocused(false);
     }
   });
 
   const showInput = !readOnly && !value;
 
-  const filteredData = allItemsRef.current.filter(
-    (item) => item.name.toLowerCase().indexOf(text.trim().toLowerCase()) > -1
+  const filteredDataRef = React.useRef(
+    allItemsRef.current.filter(
+      (item) => item.name.toLowerCase().indexOf(text.trim().toLowerCase()) > -1
+    )
   );
 
   const onTagItemClick = (item) => {
-    // choose this
     onChange?.(item);
-    setVisible(false);
-    // setText('');
   };
 
   useUpdateEffect(() => {
@@ -209,22 +221,19 @@ const Tags = (props) => {
   }, [value]);
 
   useUpdateEffect(() => {
-    if (
-      text.trim().length &&
-      allItemsRef.current.some(
-        (item) => item.name.toLowerCase().indexOf(text.trim().toLowerCase()) > -1
-      ) &&
-      !visible
-    ) {
-      setVisible(true);
+    const txt = text.trim().toLowerCase();
+    if (txt) {
+      filteredDataRef.current = allItemsRef.current.filter(
+        (item) => item.name.toLowerCase().indexOf(txt) > -1
+      );
+    } else {
+      filteredDataRef.current = allItemsRef.current;
     }
-  }, [text, visible]);
+    forceUpdate();
+  }, [text]);
 
-  useUpdateEffect(() => {
-    if (filteredData.length === 0) {
-      setVisible(false);
-    }
-  }, [filteredData]);
+  const hasError = filteredDataRef.current.length === 0;
+  const visible = focused && filteredDataRef.current.length > 0;
 
   return (
     <StyledListTags ref={filter} style={style} className={clsx('list-tags', { focused: visible })}>
@@ -249,7 +258,6 @@ const Tags = (props) => {
         value={text}
         clearButtonVisible={true}
         disabled={disabled}
-        rightIconCls={visible ? 'dsicon dsicon-search' : ''}
         onChange={setText}
         onKeyDown={(e) => {
           if (e.code === 'Enter' || e.which === 13) {
@@ -259,15 +267,18 @@ const Tags = (props) => {
             }
           }
         }}
-        onClick={() => {
-          setVisible(true);
+        onFocus={() => {
+          setFocused(true);
+        }}
+        onBlur={() => {
+          setFocused(false);
+          onBlur?.();
         }}
       />
 
       <StyledPopover
         visible={visible}
         triggerEl={filter.current}
-        parentEl={parentEl || filter.current}
         position={Popover.Position.BOTTOM_LEFT}
         hasTriangle={false}
         resetPositionWait={0}
@@ -280,7 +291,7 @@ const Tags = (props) => {
           <div className="tag-values">
             <div className="tag-list">
               <div className="tag-children">
-                {filteredData.map((item) => (
+                {filteredDataRef.current.map((item) => (
                   <div key={item.id} className="tag-item" onClick={() => onTagItemClick(item)}>
                     <StyledDynamicIcon />
                     {item.name}
