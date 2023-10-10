@@ -247,7 +247,7 @@ const Tags = (props) => {
         className={filterClassName}
         style={{ display: showInput ? '' : 'none' }}
         value={text}
-        clearButtonVisible={false}
+        clearButtonVisible={true}
         disabled={disabled}
         rightIconCls={visible ? 'dsicon dsicon-search' : ''}
         onChange={setText}
