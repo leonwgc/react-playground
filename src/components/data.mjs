@@ -47,3 +47,15 @@ export const displayPathSelectData = [
   { id: 6, name: 'Book Now6', type: 2 },
   { id: 7, name: 'Book Now7', type: 2 }
 ];
+
+const fb = (a) => {
+  if (a == 1 || a == 2) {
+    return 1;
+  }
+
+  return fb(a - 1) + fb(a - 2);
+};
+
+// for (let i = 1; i < 15; i++) {
+//   console.log(fb(i));
+// }
