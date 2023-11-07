@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { useMount, Divider, Button, Space, Icon } from 'react-uni-comps';
+import { useMount, useUnmount, Divider, Button, Space, Icon } from 'react-uni-comps';
 import Table from 'alcedo-ui/Table';
 import TextField from 'alcedo-ui/TextField';
 import { get } from '~/utils/req';
@@ -131,9 +131,27 @@ export default function App() {
     }
   ];
 
+  const [expandRows, setExpandRows] = useState(() => {
+    return [{ name: 'hotel1' }];
+  });
+  useUnmount(() => {
+    setExpandRows([]);
+  });
+
   return (
     <div>
-      <Table isHeadFixed={true} isPaginated={false} canBeExpanded columns={columns} data={data} />
+      <Table
+        idField="name"
+        isHeadFixed={true}
+        onExpandChange={(rows) => {
+          setExpandRows(rows);
+        }}
+        expandRows={expandRows}
+        isPaginated={false}
+        canBeExpanded
+        columns={columns}
+        data={data}
+      />
     </div>
   );
 }
