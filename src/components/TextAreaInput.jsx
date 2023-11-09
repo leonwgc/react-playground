@@ -33,6 +33,7 @@ const StyledTextInputWrapper = styled.div`
 
     &:focus {
       border-width: 2px;
+      border-color: #06789d;
     }
 
     &.error {
@@ -115,7 +116,9 @@ const TextAreaInput = React.forwardRef(
           rows={1}
           className={classNames({ error: error || hasError })}
           ref={inputRef}
-          onFocus={() => setFocused(true)}
+          onClick={() => {
+            setFocused(true);
+          }}
           onBlur={() => {
             onBlur?.();
             setTimeout(() => {
