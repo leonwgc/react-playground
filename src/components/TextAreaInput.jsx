@@ -6,13 +6,14 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { getStringByteLength } from './helper.mjs';
 import { styled, clsx } from 'react-uni-comps';
-import IconClose from './IconClose';
+import { IconClose } from './IconTextAreaInput';
 
 const StyledTextInputWrapper = styled.div`
   flex-direction: column;
   position: relative;
 
   textarea {
+    box-sizing: border-box;
     width: 100%;
     transition: all 0.3s ease;
     border: none;
@@ -21,7 +22,10 @@ const StyledTextInputWrapper = styled.div`
     resize: none;
     word-break: break-all;
     word-wrap: break-word;
-    padding-right: 14px;
+    padding-right: 1.15em;
+    padding-bottom: 8px;
+    font-size: 12px;
+    font-family: Open Sans;
 
     &:hover {
       border-color: #06789d;
@@ -39,8 +43,14 @@ const StyledTextInputWrapper = styled.div`
     font-size: 14px;
     position: absolute;
     top: 0;
-    right: -14px;
+    right: 0;
     cursor: pointer;
+  }
+  .icon-right {
+    font-size: 14px;
+    position: absolute;
+    bottom: 8px;
+    right: 0;
   }
   .count-info {
     font-size: 12px;
@@ -50,8 +60,8 @@ const StyledTextInputWrapper = styled.div`
     margin-top: 2px;
     font-weight: 400;
     position: absolute;
-    right: -14px;
-    bottom: -16px;
+    right: 0;
+    bottom: -1.2em;
 
     &.error {
       color: red;
@@ -61,7 +71,20 @@ const StyledTextInputWrapper = styled.div`
 
 const TextAreaInput = React.forwardRef(
   (
-    { autoHeight = true, maxLength, width, onBlur, error, value, onClear, onChange, ...rest },
+    {
+      autoHeight = true,
+      maxLength,
+      width,
+      onBlur,
+      error,
+      value,
+      onClear,
+      onChange,
+      rightIcon,
+      className,
+      style,
+      ...rest
+    },
     ref
   ) => {
     const val = value || '';
@@ -85,7 +108,8 @@ const TextAreaInput = React.forwardRef(
 
     return (
       <StyledTextInputWrapper
-        style={{ display: typeof width === 'number' ? 'inline-flex' : 'flex', width }}
+        className={className}
+        style={{ ...style, display: typeof width === 'number' ? 'inline-flex' : 'flex', width }}
       >
         <textarea
           rows={1}
@@ -107,6 +131,8 @@ const TextAreaInput = React.forwardRef(
         )}
 
         {showClear && <IconClose className="icon-clear" onClick={onClear} />}
+
+        {rightIcon && <span className="icon-right">{rightIcon}</span>}
       </StyledTextInputWrapper>
     );
   }
