@@ -117,8 +117,10 @@ const TextAreaInput = React.forwardRef(
           ref={inputRef}
           onFocus={() => setFocused(true)}
           onBlur={() => {
-            setFocused(false);
             onBlur?.();
+            setTimeout(() => {
+              setFocused(false);
+            }, 100);
           }}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -130,7 +132,9 @@ const TextAreaInput = React.forwardRef(
           </div>
         )}
 
-        {showClear && <IconClose className="icon-clear" onClick={onClear} />}
+        {showClear && value?.length > 0 && focused && (
+          <IconClose className="icon-clear" onClick={onClear} />
+        )}
 
         {rightIcon && <span className="icon-right">{rightIcon}</span>}
       </StyledTextInputWrapper>
