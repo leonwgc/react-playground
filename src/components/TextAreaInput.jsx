@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import classNames from 'classnames';
 import { getStringByteLength } from './helper.mjs';
-import { styled, clsx } from 'react-uni-comps';
+import { styled } from 'react-uni-comps';
 import { IconClose } from './IconTextAreaInput';
 
 const StyledTextInputWrapper = styled.div`
@@ -53,7 +53,6 @@ const StyledTextInputWrapper = styled.div`
     top: 0;
     right: 0;
     cursor: pointer;
-    /* visibility: hidden; */
     opacity: 0;
   }
   .icon-right {
