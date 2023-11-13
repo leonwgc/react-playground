@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 
-// import MaterialTextArea from 'alcedo-ui/MaterialTextArea';
-
 import classNames from 'classnames';
 import { getStringByteLength } from './helper.mjs';
 import { styled, clsx } from 'react-uni-comps';
@@ -88,7 +86,6 @@ const TextAreaInput = React.forwardRef(
       autoHeight = true,
       maxLength,
       width,
-      onBlur,
       error,
       value,
       onClear,
@@ -128,15 +125,6 @@ const TextAreaInput = React.forwardRef(
           rows={1}
           className={classNames({ error: error || hasError })}
           ref={inputRef}
-          // onClick={() => {
-          //   setFocused(true);
-          // }}
-          // onBlur={() => {
-          //   onBlur?.();
-          //   setTimeout(() => {
-          //     setFocused(false);
-          //   }, 100);
-          // }}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           {...rest}
@@ -152,9 +140,7 @@ const TextAreaInput = React.forwardRef(
             className="icon-clear"
             onClick={() => {
               onClear?.();
-              // inputRef.current.click();
               inputRef.current.focus();
-              // setFocused(true);
             }}
           />
         )}
