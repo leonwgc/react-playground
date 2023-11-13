@@ -12,6 +12,15 @@ const StyledTextInputWrapper = styled.div`
   flex-direction: column;
   position: relative;
 
+  &:focus-within {
+    .count-info {
+      visibility: visible;
+    }
+    .icon-clear {
+      opacity: 1;
+    }
+  }
+
   textarea {
     box-sizing: border-box;
     width: 100%;
@@ -46,6 +55,8 @@ const StyledTextInputWrapper = styled.div`
     top: 0;
     right: 0;
     cursor: pointer;
+    /* visibility: hidden; */
+    opacity: 0;
   }
   .icon-right {
     font-size: 14px;
@@ -54,9 +65,10 @@ const StyledTextInputWrapper = styled.div`
     right: 0;
   }
   .count-info {
+    visibility: hidden;
+    display: flex;
     font-size: 12px;
     color: #999;
-    display: flex;
     justify-content: flex-end;
     margin-top: 2px;
     font-weight: 400;
@@ -116,27 +128,35 @@ const TextAreaInput = React.forwardRef(
           rows={1}
           className={classNames({ error: error || hasError })}
           ref={inputRef}
-          onClick={() => {
-            setFocused(true);
-          }}
-          onBlur={() => {
-            onBlur?.();
-            setTimeout(() => {
-              setFocused(false);
-            }, 100);
-          }}
+          // onClick={() => {
+          //   setFocused(true);
+          // }}
+          // onBlur={() => {
+          //   onBlur?.();
+          //   setTimeout(() => {
+          //     setFocused(false);
+          //   }, 100);
+          // }}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           {...rest}
         />
-        {focused && maxLength && (
+        {maxLength && (
           <div className={classNames('count-info', { error: error })}>
             {getStringByteLength(val)}/{maxLength}
           </div>
         )}
 
-        {showClear && value?.length > 0 && focused && (
-          <IconClose className="icon-clear" onClick={onClear} />
+        {showClear && value?.length > 0 && (
+          <IconClose
+            className="icon-clear"
+            onClick={() => {
+              onClear?.();
+              // inputRef.current.click();
+              inputRef.current.focus();
+              // setFocused(true);
+            }}
+          />
         )}
 
         {rightIcon && <span className="icon-right">{rightIcon}</span>}
