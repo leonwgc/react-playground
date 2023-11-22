@@ -96,6 +96,10 @@ const routes = [
   {
     path: '/DragUpload',
     component: lazy(() => import('./demos/DragDropUploadFile'))
+  },
+  {
+    path: '/IdeaImage',
+    component: lazy(() => import('./demos/IdeaImage'))
   }
 ];
 
