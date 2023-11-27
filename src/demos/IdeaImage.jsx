@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { FileInputTrigger, Button, Space, styled } from 'react-uni-comps';
+import { FileInputTrigger, Button, Space, styled, IconArrow } from 'react-uni-comps';
+import { IconClose } from '../components/IconTextAreaInput';
 
 const StyledImageWrap = styled.div`
+  position: relative;
   display: inline-flex;
   box-sizing: border-box;
   align-items: center;
@@ -23,12 +25,28 @@ const StyledImageWrap = styled.div`
     background-color: #eee;
   }
   .text {
+    display: block;
     font-size: 12px;
     color: #333;
     margin-left: 8px;
 
     div:first-of-type {
+      max-width: 120px;
       margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .remove {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
     }
   }
 `;
@@ -44,9 +62,10 @@ export default function App() {
       <div className="b1" />
       <div className="b2" />
       <div className="text">
-        <div>Building</div>
+        <div>BuildingBuildingBuildingBuildingBuilding</div>
         <div>Landscape</div>
       </div>
+      <IconClose className="remove" />
     </StyledImageWrap>
   );
 }
