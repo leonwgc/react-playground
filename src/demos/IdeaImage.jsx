@@ -31,7 +31,6 @@ const StyledImageWrap = styled.div`
     margin-left: 8px;
 
     div:first-of-type {
-      max-width: 120px;
       margin-bottom: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -51,21 +50,55 @@ const StyledImageWrap = styled.div`
   }
 `;
 
-export default function App() {
+const MyImage = ({ type }) => {
+  let width = 62,
+    height = 62;
+  let textWidth = 120;
+  switch (type) {
+    case 'Landscape': {
+      width = 101;
+      height = 62;
+      break;
+    }
+    case 'Square': {
+      width = 62;
+      height = 62;
+      textWidth = 170;
+      break;
+    }
+    case 'Portrait': {
+      width = 46;
+      height = 62;
+      textWidth = 190;
+      break;
+    }
+    default:
+      break;
+  }
   return (
     <StyledImageWrap>
       <img
-        width={101}
-        height={62}
+        width={width}
+        height={height}
         src="https://cdn.i-scmp.com/sites/default/files/styles/1200x800/public/d8/images/canvas/2023/05/29/5d5a593d-d9b2-4cb6-86ba-349342a8364f_44459f1b.jpg"
       />
       <div className="b1" />
       <div className="b2" />
       <div className="text">
-        <div>BuildingBuildingBuildingBuildingBuilding</div>
-        <div>Landscape</div>
+        <div style={{ maxWidth: textWidth }}>BuildingBuildingBuildingBuildingBuilding</div>
+        <div>{type}</div>
       </div>
       <IconClose className="remove" />
     </StyledImageWrap>
+  );
+};
+
+export default function App() {
+  return (
+    <Space>
+      <MyImage type="Landscape" />
+      <MyImage type="Square" />
+      <MyImage type="Portrait" />
+    </Space>
   );
 }
