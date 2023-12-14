@@ -100,6 +100,10 @@ const routes = [
   {
     path: '/IdeaImage',
     component: lazy(() => import('./demos/IdeaImage'))
+  },
+  {
+    path: '/ImageUpload',
+    component: lazy(() => import('./demos/ImageUpload'))
   }
 ];
 
