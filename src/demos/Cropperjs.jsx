@@ -1,15 +1,49 @@
-import React, { useState, createRef } from 'react';
+// github docs: https://github.com/fengyuanchen/cropperjs/blob/main/README.md#options
+import React, { useState } from 'react';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
-import { styled, useEventListener } from 'react-uni-comps';
+import { styled, useEventListener, Space, Button } from 'react-uni-comps';
+
+const StyledOutput = styled.div`
+  background-color: #ccc;
+  height: 300px;
+  width: 300px;
+  overflow: hidden;
+  padding: 0.5em;
+  position: relative;
+
+  img {
+    height: 100%;
+    width: auto;
+  }
+
+  .a {
+    aspect-ratio: 1.91 / 1;
+    width: 100%;
+    height: auto;
+  }
+  .b {
+    aspect-ratio: 1 / 1;
+  }
+  .c {
+    aspect-ratio: 4 / 5;
+  }
+`;
 
 const StyledWrapper = styled.div`
   .cropper {
     width: 600px;
     height: 400px;
     overflow: hidden;
+    box-sizing: border-box;
+
+    .cropper-point.point-se {
+      width: 5px;
+      height: 5px;
+    }
 
     img {
+      display: block;
       max-width: 100%;
     }
   }
@@ -47,10 +81,10 @@ export const Demo = () => {
   };
 
   const getCropData = () => {
+    // You can send the data to the server-side to crop the image directly:
+    console.log(cropperRef.current.getData());
     setCropData(cropperRef.current?.getCroppedCanvas().toDataURL());
   };
-
-  //   React.useEffect(() => {}, []);
 
   useEventListener(imageRef, 'load', () => {
     cropperRef.current = new Cropper(imageRef.current, {
@@ -63,7 +97,8 @@ export const Demo = () => {
       autoCropArea: 0,
       checkOrientation: false,
       guides: true,
-      preview: '.img-preview'
+      preview: '.img-preview',
+      rotatable: false
     });
   });
 
@@ -73,43 +108,38 @@ export const Demo = () => {
         <input type="file" onChange={onChange} />
         <button>Use default img</button>
         <br />
-        <br />
-        {/* <Cropper
-          ref={cropperRef}
-          style={{ height: 400, width: 600 }}
-          zoomTo={0.5}
-          initialAspectRatio={1}
-          preview=".img-preview"
-          src={image}
-          viewMode={1}
-          minCropBoxHeight={100}
-          minCropBoxWidth={100}
-          background={false}
-          responsive={true}
-          autoCropArea={0.8}
-          checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-          guides={false}
-        /> */}
-        <div className="cropper" ref={cropperRef}>
-          <img src={defaultSrc} ref={imageRef} />
+
+        <Space>
+          <div className="cropper" ref={cropperRef}>
+            <img src={defaultSrc} ref={imageRef} />
+          </div>
+          <div>
+            <Button onClick={getCropData}>Crop</Button>
+          </div>
+        </Space>
+
+        <div className="box">
+          <h6>Preview</h6>
+          <div
+            className="img-preview"
+            style={{ width: '100%', float: 'left', height: '300px', overflow: 'hidden' }}
+          />
         </div>
       </div>
+
       <div>
-        <div className="box" style={{ width: '50%', float: 'right' }}>
-          <h1>Preview</h1>
-          <div className="img-preview" style={{ width: '100%', float: 'left', height: '300px' }} />
-        </div>
-        <div className="box" style={{ width: '50%', float: 'right', height: '300px' }}>
-          <h1>
-            <span>Crop</span>
-            <button style={{ float: 'right' }} onClick={getCropData}>
-              Crop Image
-            </button>
-          </h1>
-          <img style={{ width: '100%' }} src={cropData} alt="cropped" />
-        </div>
+        <Space>
+          <StyledOutput>
+            <img src={cropData} alt="cropped" className="a" />
+          </StyledOutput>
+          <StyledOutput>
+            <img src={cropData} alt="cropped" className="b" />
+          </StyledOutput>
+          <StyledOutput>
+            <img src={cropData} alt="cropped" className="c" />
+          </StyledOutput>
+        </Space>
       </div>
-      <br style={{ clear: 'both' }} />
     </StyledWrapper>
   );
 };
