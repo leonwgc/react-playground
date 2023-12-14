@@ -104,6 +104,14 @@ const routes = [
   {
     path: '/ImageUpload',
     component: lazy(() => import('./demos/ImageUpload'))
+  },
+  {
+    path: '/Cropper',
+    component: lazy(() => import('./demos/Cropper'))
+  },
+  {
+    path: '/Cropperjs',
+    component: lazy(() => import('./demos/Cropperjs'))
   }
 ];
 

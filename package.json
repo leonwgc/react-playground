@@ -13,6 +13,7 @@
         "alcedo-ui": "^2.72.2",
         "cropperjs": "^1.6.1",
         "immer": "^9.0.21",
+        "react-cropper": "^2.3.3",
         "react-hook-form": "^7.43.9",
         "sortablejs": "^1.15.0"
     },
