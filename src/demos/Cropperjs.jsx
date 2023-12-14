@@ -5,7 +5,9 @@ import 'cropperjs/dist/cropper.css';
 import { styled, useEventListener, Space, Button } from 'react-uni-comps';
 
 const StyledOutput = styled.div`
-  background-color: #ccc;
+  display: inline-flex;
+  align-items: center;
+  background-color: #eee;
   height: 300px;
   width: 300px;
   overflow: hidden;
@@ -97,7 +99,7 @@ export const Demo = () => {
       autoCropArea: 0,
       checkOrientation: false,
       guides: true,
-      preview: '.img-preview',
+      //   preview: '.img-preview',
       rotatable: false
     });
   });
@@ -114,17 +116,16 @@ export const Demo = () => {
             <img src={defaultSrc} ref={imageRef} />
           </div>
           <div>
-            <Button onClick={getCropData}>Crop</Button>
+            <Button type="primary" onClick={getCropData}>
+              Crop
+            </Button>
           </div>
         </Space>
 
-        <div className="box">
+        {/* <div className="box">
           <h6>Preview</h6>
-          <div
-            className="img-preview"
-            style={{ width: '100%', float: 'left', height: '300px', overflow: 'hidden' }}
-          />
-        </div>
+          <div className="img-preview" style={{ width: '100%', height: '300px' }} />
+        </div> */}
       </div>
 
       <div>
