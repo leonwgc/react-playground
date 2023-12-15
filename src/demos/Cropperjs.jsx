@@ -81,8 +81,17 @@ export const Demo = () => {
       scalable: false,
       zoomable: false,
       autoCropArea: 1,
-      autoCrop: true,
-      aspectRatio: 1.91
+      // autoCrop: true,
+      aspectRatio: 1.91,
+      preview: '.preview',
+      minCropBoxWidth: 50,
+      ready() {
+        this.cropper.moveTo(0, 0);
+        this.cropper.crop();
+      },
+      crop(event) {
+        console.log(event.detail);
+      }
     });
   });
 
@@ -107,7 +116,7 @@ export const Demo = () => {
 
       <div>
         <Space>
-          <StyledImageWrapper>
+          <StyledImageWrapper className="preview">
             <img src={cropData} alt="cropped" />
           </StyledImageWrapper>
         </Space>
