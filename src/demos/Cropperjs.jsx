@@ -86,7 +86,8 @@ export const Demo = () => {
       preview: '.preview',
       minCropBoxWidth: 50,
       ready() {
-        this.cropper.moveTo(0, 0);
+        const cropBoxData = this.cropper.getCropBoxData();
+        this.cropper.setCropBoxData({ ...cropBoxData, top: 0, left: 0 });
         this.cropper.crop();
       },
       crop(event) {
@@ -116,7 +117,24 @@ export const Demo = () => {
 
       <div>
         <Space>
-          <StyledImageWrapper className="preview">
+          <StyledImageWrapper
+            className="preview"
+            onClick={() => cropperRef.current.setAspectRatio(1.91)}
+          >
+            <img src={cropData} alt="cropped" />
+          </StyledImageWrapper>
+
+          <StyledImageWrapper
+            className="preview"
+            onClick={() => cropperRef.current.setAspectRatio(1)}
+          >
+            <img src={cropData} alt="cropped" />
+          </StyledImageWrapper>
+
+          <StyledImageWrapper
+            className="preview"
+            onClick={() => cropperRef.current.setAspectRatio(4 / 5)}
+          >
             <img src={cropData} alt="cropped" />
           </StyledImageWrapper>
         </Space>
