@@ -4,32 +4,13 @@ import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import { styled, useEventListener, Space, Button } from 'react-uni-comps';
 
-const StyledOutput = styled.div`
-  display: inline-flex;
-  align-items: center;
-  background-color: #eee;
-  height: 300px;
-  width: 300px;
+const StyledImageWrapper = styled.div`
+  background-color: #f1f3f4;
+  border: 1px solid;
   overflow: hidden;
-  padding: 0.5em;
   position: relative;
-
-  img {
-    height: 100%;
-    width: auto;
-  }
-
-  .a {
-    aspect-ratio: 1.91 / 1;
-    width: 100%;
-    height: auto;
-  }
-  .b {
-    aspect-ratio: 1 / 1;
-  }
-  .c {
-    aspect-ratio: 4 / 5;
-  }
+  height: 56px;
+  width: 106px;
 `;
 
 const StyledWrapper = styled.div`
@@ -91,16 +72,17 @@ export const Demo = () => {
   useEventListener(imageRef, 'load', () => {
     cropperRef.current = new Cropper(imageRef.current, {
       viewMode: 1,
-      minCropBoxHeight: 10,
-      minCropBoxWidth: 10,
       background: false,
       responsive: true,
-      autoCrop: false,
-      autoCropArea: 0,
       checkOrientation: false,
-      guides: true,
-      //   preview: '.img-preview',
-      rotatable: false
+      guides: false,
+      center: false,
+      rotatable: false,
+      scalable: false,
+      zoomable: false,
+      autoCropArea: 1,
+      autoCrop: true,
+      aspectRatio: 1.91
     });
   });
 
@@ -121,24 +103,13 @@ export const Demo = () => {
             </Button>
           </div>
         </Space>
-
-        {/* <div className="box">
-          <h6>Preview</h6>
-          <div className="img-preview" style={{ width: '100%', height: '300px' }} />
-        </div> */}
       </div>
 
       <div>
         <Space>
-          <StyledOutput>
-            <img src={cropData} alt="cropped" className="a" />
-          </StyledOutput>
-          <StyledOutput>
-            <img src={cropData} alt="cropped" className="b" />
-          </StyledOutput>
-          <StyledOutput>
-            <img src={cropData} alt="cropped" className="c" />
-          </StyledOutput>
+          <StyledImageWrapper>
+            <img src={cropData} alt="cropped" />
+          </StyledImageWrapper>
         </Space>
       </div>
     </StyledWrapper>
