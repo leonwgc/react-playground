@@ -112,6 +112,14 @@ const routes = [
   {
     path: '/Cropperjs',
     component: lazy(() => import('./demos/Cropperjs'))
+  },
+  {
+    path: '/test',
+    component: lazy(() => import('./demos/Test'))
+  },
+  {
+    path: '/vl',
+    component: lazy(() => import('./demos/VirtualList'))
   }
 ];
 
