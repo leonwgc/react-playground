@@ -11,6 +11,13 @@ const VirtualListWrapper = styled.div`
   overflow: auto;
   box-sizing: border-box;
 
+  // hide scroll bar
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
   .list-phantom {
     position: absolute;
     left: 0;
