@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useMemo, useRef } from 'react';
 import { styled, useEventListener, useLatest, useForceUpdate, useThrottle } from 'react-uni-comps';
 
-const data = new Array(50).fill().map((e, i) => i + 1);
+const data = new Array(1000).fill().map((e, i) => i + 1);
 
 const VirtualListWrapper = styled.div`
   border: 1px solid #ccc;
@@ -16,17 +16,6 @@ const VirtualListWrapper = styled.div`
   scrollbar-width: none; /* Firefox */
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
-  }
-
-  .list-phantom {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: -1;
-  }
-
-  .list-view {
   }
 
   & * {
@@ -80,11 +69,21 @@ export default function VirtualListDemo({ itemHeight = 40, buffer = 4 }) {
 
   return (
     <div>
-      <h3>virtual list from Ali</h3>
+      <h3>virtual list from self</h3>
 
       <VirtualListWrapper ref={ref}>
-        <div className="list-phantom" style={{ height: scrollHeight }}></div>
-        <div className="list-view" ref={listViewRef}>
+        <div
+          className="list-phantom"
+          style={{
+            height: scrollHeight,
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            right: 0,
+            zIndex: -1
+          }}
+        ></div>
+        <div ref={listViewRef}>
           {data.slice(start, end).map((item) => (
             <div className="item" key={item}>
               {item}
