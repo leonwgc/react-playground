@@ -31,7 +31,6 @@ export default function VirtualListDemo() {
         height={400}
         style={{ width: 200, border: '1px dashed #eee' }}
         itemHeight={40}
-        buffer={4}
         itemRender={(item) => (
           <Item className="item" key={item}>
             {item}
