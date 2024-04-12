@@ -25,9 +25,25 @@ const MyVirtualList = React.forwardRef(
     const forceUpdate = useForceUpdate();
 
     const dataLRef = useLatest(data);
+    const itemHeightLRef = useLatest(itemHeight);
     const offsetRef = React.useRef({ start: 0, end: 0 });
 
-    useImperativeHandle(ref, () => outerRef.current);
+    useImperativeHandle(
+      ref,
+      () => ({
+        el: outerRef.current,
+        scrollTo: (index, scrollBehavior = 'smooth') => {
+          if (index > -1 && index < dataLRef.current.length) {
+            outerRef.current.scroll({
+              top: itemHeightLRef.current * index,
+              left: 0,
+              behavior: scrollBehavior
+            });
+          }
+        }
+      }),
+      []
+    );
 
     const updateView = useThrottle((e) => {
       const { scrollTop, clientHeight } = e.target;

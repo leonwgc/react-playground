@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import MyVirtualList from '../components/MyVirtualList';
-import { styled } from 'react-uni-comps';
+import { styled, InputNumber } from 'react-uni-comps';
 
 const StyledVList = styled(MyVirtualList)`
   -ms-overflow-style: none; /* IE and Edge */
@@ -22,11 +22,24 @@ const Item = styled.div`
 const data = new Array(60).fill().map((e, i) => i + 1);
 
 export default function VirtualListDemo() {
+  const ref = useRef();
+  const [n, setN] = useState(0);
   return (
     <div>
-      <h3>virtual list from self</h3>
+      <h3>
+        virtual list from self{' '}
+        <InputNumber
+          placeholder="scroll to Item {index}"
+          value={n}
+          onChange={setN}
+          onPressEnter={(v) => {
+            ref.current.scrollTo(Number(v));
+          }}
+        />
+      </h3>
 
       <StyledVList
+        ref={ref}
         data={data}
         height={400}
         style={{ width: 200, border: '1px dashed #eee' }}
