@@ -47,7 +47,7 @@ export default function MyVirtualList({
     const end = Math.min(
       start + Math.ceil(clientHeight / itemHeight) + buffer * (start === 0 ? 1 : 2),
       dataLRef.current.length
-    );
+    ); // first & last visual count + buffer, others + top buffer + bottom buffer
 
     offsetRef.current.start = start;
     offsetRef.current.end = end;

@@ -11,7 +11,7 @@ const Item = styled.div`
   align-items: center;
 `;
 
-const data = new Array(1000).fill().map((e, i) => i + 1);
+const data = new Array(60).fill().map((e, i) => i + 1);
 
 export default function VirtualListDemo() {
   return (
