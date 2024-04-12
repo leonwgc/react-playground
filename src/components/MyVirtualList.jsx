@@ -1,5 +1,5 @@
-import React, { useLayoutEffect, useMemo } from 'react';
-import { useEventListener, useLatest, useForceUpdate, useThrottle } from 'react-uni-comps';
+import React, { useCallback, useLayoutEffect, useMemo } from 'react';
+import { useLatest, useForceUpdate, useThrottle } from 'react-uni-comps';
 
 /**
  * A simple virtual list for vertically scrolling.
@@ -46,7 +46,7 @@ export default function MyVirtualList({
     updateView({ target: ref.current });
   }, []);
 
-  useEventListener(ref, 'scroll', updateView);
+  const onScroll = useCallback(updateView, []);
 
   const { start, end } = offsetRef.current;
 
@@ -54,6 +54,7 @@ export default function MyVirtualList({
     component,
     {
       ref,
+      onScroll,
       style: { height, position: 'relative', overflow: 'auto', ...style },
       ...rest
     },
