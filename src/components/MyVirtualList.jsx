@@ -1,22 +1,5 @@
 import React, { useLayoutEffect, useMemo } from 'react';
-import { styled, useEventListener, useLatest, useForceUpdate, useThrottle } from 'react-uni-comps';
-
-const VirtualListWrapper = styled.div`
-  position: relative;
-  overflow: auto;
-  box-sizing: border-box;
-
-  // hide scroll bar
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  ::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-
-  & * {
-    box-sizing: border-box;
-  }
-`;
+import { useEventListener, useLatest, useForceUpdate, useThrottle } from 'react-uni-comps';
 
 /**
  * A simple virtual list for vertically scrolling.
@@ -30,7 +13,7 @@ export default function MyVirtualList({
   itemRender,
   height,
   style,
-  className,
+  component = 'div',
   ...rest
 }) {
   const ref = React.useRef();
@@ -67,8 +50,14 @@ export default function MyVirtualList({
 
   const { start, end } = offsetRef.current;
 
-  return (
-    <VirtualListWrapper ref={ref} className={className} style={{ height, ...style }} {...rest}>
+  return React.createElement(
+    component,
+    {
+      ref,
+      style: { height, position: 'relative', overflow: 'auto', ...style },
+      ...rest
+    },
+    [
       <div
         style={{
           height: scrollHeight,
@@ -78,10 +67,10 @@ export default function MyVirtualList({
           right: 0,
           zIndex: -1
         }}
-      />
+      />,
       <div ref={listViewRef} style={{ WebkitOverflowScrolling: 'touch', willChange: 'transform' }}>
         {data.slice(start, end).map(itemRender)}
       </div>
-    </VirtualListWrapper>
+    ]
   );
 }

@@ -2,6 +2,14 @@ import React from 'react';
 import MyVirtualList from '../components/MyVirtualList';
 import { styled } from 'react-uni-comps';
 
+const StyledVList = styled(MyVirtualList)`
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+`;
+
 const Item = styled.div`
   box-sizing: border-box;
   height: 40px;
@@ -18,7 +26,7 @@ export default function VirtualListDemo() {
     <div>
       <h3>virtual list from self</h3>
 
-      <MyVirtualList
+      <StyledVList
         data={data}
         height={400}
         style={{ width: 200, border: '1px dashed #eee' }}
