@@ -79,7 +79,9 @@ export default function MyVirtualList({
           zIndex: -1
         }}
       />
-      <div ref={listViewRef}>{data.slice(start, end).map(itemRender)}</div>
+      <div ref={listViewRef} style={{ WebkitOverflowScrolling: 'touch', willChange: 'transform' }}>
+        {data.slice(start, end).map(itemRender)}
+      </div>
     </VirtualListWrapper>
   );
 }
