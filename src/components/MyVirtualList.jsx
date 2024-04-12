@@ -45,7 +45,7 @@ export default function MyVirtualList({
 
     const start = Math.max(Math.floor(scrollTop / itemHeight) - buffer, 0);
     const end = Math.min(
-      start + Math.ceil(clientHeight / itemHeight) + buffer * 2,
+      start + Math.ceil(clientHeight / itemHeight) + buffer * (start === 0 ? 1 : 2),
       dataLRef.current.length
     );
 
