@@ -12607,6 +12607,11 @@ w-popover@1.1.8:
   resolved "https://registry.yarnpkg.com/w-popover/-/w-popover-1.1.8.tgz#e0e0532ee65d9fbe9a3a036002b22b3468146dc2"
   integrity sha512-38ukt3RcY32Bj/wMd00XB3zdGA07Dkx/dSiYgQ4QUe22EW3RtnKB742ro7/q574Wqi/d8KKppDvDuVS0kjMiJw==
 
+w-popover@~2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/w-popover/-/w-popover-2.0.2.tgz#610b5d574f6dd8b24798d01db14210218104394a"
+  integrity sha512-P/XC3VI9ofTbZ44RME98cCPvUwW9iQwSj94x3U3unbiRRkQVw/pfuuWz417pnXLoH5pIYzWVpVpd8h//JnXUKw==
+
 w-qrcode@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/w-qrcode/-/w-qrcode-1.1.0.tgz#1bf28f0187cca7d757428737bd60191c2c2ab812"
