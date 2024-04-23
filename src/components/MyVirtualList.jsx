@@ -1,5 +1,6 @@
 import React, { useCallback, useImperativeHandle, useLayoutEffect, useMemo } from 'react';
-import { useLatest, useForceUpdate, useThrottle } from 'react-uni-comps';
+import { useLatest, useForceUpdate, useThrottle, useEventListener } from 'react-uni-comps';
+import { passiveIfSupported } from './dom';
 
 /**
  * A simple virtual list for vertically scrolling.
@@ -69,6 +70,7 @@ const MyVirtualList = React.forwardRef(
     }, []);
 
     const onScroll = useCallback(updateView, []);
+    useEventListener(outerRef, 'scroll', onScroll, passiveIfSupported);
 
     const { start, end } = offsetRef.current;
 
@@ -76,7 +78,6 @@ const MyVirtualList = React.forwardRef(
       component,
       {
         ref: outerRef,
-        onScroll,
         style: { height, position: 'relative', overflow: 'auto', ...style },
         ...rest
       },
