@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import { styled } from 'react-uni-comps';
@@ -36,12 +36,24 @@ export default function VirtualListDemo() {
     );
   };
 
-  let isItemLoaded = (index: number) => {
-    return index < items.length;
-  };
-
   const { hasNextPage, items = [] } = data;
   const itemCount = hasNextPage ? items.length + 1 : items.length;
+
+  const isItemLoaded = useCallback(
+    (index: number) => {
+      return index < items.length;
+    },
+    [items]
+  );
+
+  const Row = useCallback(
+    ({ index, style }) => (
+      <Item className="item" style={style} key={items[index]}>
+        {!isItemLoaded(index) ? 'Loading....' : items[index]}
+      </Item>
+    ),
+    [items, isItemLoaded]
+  );
 
   return (
     <div>
@@ -63,11 +75,7 @@ export default function VirtualListDemo() {
             itemSize={40}
             onItemsRendered={onItemsRendered}
           >
-            {({ index, style }) => (
-              <Item className="item" style={style} key={items[index]}>
-                {!isItemLoaded(index) ? 'Loading' : items[index]}
-              </Item>
-            )}
+            {Row}
           </FixedSizeList>
         )}
       </InfiniteLoader>
