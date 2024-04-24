@@ -1,10 +1,8 @@
 import React, { Suspense } from 'react';
 import { ThemeProvider, styled, StyleSheetManager } from 'react-uni-comps';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import routes from './Route';
-
 import './assets/fa/fa.css';
-
 import './App.scss';
 
 const StyledWrapper = styled.div`
@@ -15,10 +13,9 @@ const StyledWrapper = styled.div`
 
 export default function App() {
   return (
-    /** show css rules */
     <StyleSheetManager disableCSSOMInjection>
       <ThemeProvider color={'#005cff'}>
-        <HashRouter>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <StyledWrapper>
               <Switch>
@@ -34,7 +31,7 @@ export default function App() {
               </Switch>
             </StyledWrapper>
           </Suspense>
-        </HashRouter>
+        </BrowserRouter>
       </ThemeProvider>
     </StyleSheetManager>
   );

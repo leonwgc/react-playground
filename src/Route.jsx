@@ -2,7 +2,13 @@ import { lazy } from 'react';
 
 const routes = [
   {
+    path: '/',
+    exact: true,
+    component: lazy(() => import('./demos/ReactWindowInfiniteListWithWaypoint'))
+  },
+  {
     path: '/Popover',
+    exact: true,
     component: lazy(() => import('./demos/Popover'))
   },
   {
@@ -122,19 +128,19 @@ const routes = [
     component: lazy(() => import('./demos/VirtualList'))
   },
   {
-    path: '/vls',
+    path: '/vlist-self',
     component: lazy(() => import('./demos/VirtualListBySelf'))
   },
   {
-    path: '/wvl',
+    path: '/react-window',
     component: lazy(() => import('./demos/ReactWindow'))
   },
   {
-    path: '/rcw',
+    path: '/react-window-infinite',
     component: lazy(() => import('./demos/ReactWindowInfiniteList'))
   },
   {
-    path: '/rcww',
+    path: '/react-window-infinite-waypoint',
     component: lazy(() => import('./demos/ReactWindowInfiniteListWithWaypoint'))
   }
 ];
