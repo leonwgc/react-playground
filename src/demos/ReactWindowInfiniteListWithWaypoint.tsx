@@ -31,7 +31,7 @@ export default function VirtualListDemo() {
           ),
           loadingMore: false
         });
-      }, 1000)
+      }, 300)
     );
   };
 
