@@ -124,6 +124,10 @@ const routes = [
   {
     path: '/vls',
     component: lazy(() => import('./demos/VirtualListBySelf'))
+  },
+  {
+    path: '/wvl',
+    component: lazy(() => import('./demos/ReactWindow'))
   }
 ];
 

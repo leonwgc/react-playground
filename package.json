@@ -17,6 +17,8 @@
         "rc-virtual-list": "^3.11.4",
         "react-cropper": "^2.3.3",
         "react-hook-form": "^7.43.9",
+        "react-virtualized-auto-sizer": "^1.0.24",
+        "react-window": "^1.8.10",
         "sortablejs": "^1.15.0"
     },
     "devDependencies": {
