@@ -44,7 +44,7 @@ export default function VirtualListDemo() {
         {index < items.length ? (
           items[index]
         ) : (
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', color: '#999' }}>
             <Waypoint onVisible={() => !loadingMore && loadMoreItems(items.length)} />
             <div>Loading....</div>
           </div>
