@@ -128,6 +128,10 @@ const routes = [
   {
     path: '/wvl',
     component: lazy(() => import('./demos/ReactWindow'))
+  },
+  {
+    path: '/wvll',
+    component: lazy(() => import('./demos/ReactWindowInfiniteList'))
   }
 ];
 

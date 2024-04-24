@@ -19,6 +19,7 @@
         "react-hook-form": "^7.43.9",
         "react-virtualized-auto-sizer": "^1.0.24",
         "react-window": "^1.8.10",
+        "react-window-infinite-loader": "^1.0.9",
         "sortablejs": "^1.15.0"
     },
     "devDependencies": {
