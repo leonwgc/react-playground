@@ -120,10 +120,6 @@ const routes = [
     component: lazy(() => import('./demos/Cropperjs'))
   },
   {
-    path: '/test',
-    component: lazy(() => import('./demos/Test'))
-  },
-  {
     path: '/vl',
     component: lazy(() => import('./demos/VirtualList'))
   },
@@ -142,6 +138,14 @@ const routes = [
   {
     path: '/react-window-infinite-waypoint',
     component: lazy(() => import('./demos/ReactWindowInfiniteListWithWaypoint'))
+  },
+  {
+    path: '/card-flip',
+    component: lazy(() => import('./demos/CardFlip'))
+  },
+  {
+    path: '/test',
+    component: lazy(() => import('./demos/Test'))
   }
 ];
 

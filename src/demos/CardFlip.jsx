@@ -14,6 +14,10 @@ const StyledContainer = styled.div`
     border: 1px solid #eee;
     transform: rotateY(0deg);
     transition: all ease-out 0.6s;
+
+    &.clicked {
+      transform: rotateY(180deg);
+    }
   }
 
   .cube__face {
@@ -26,21 +30,31 @@ const StyledContainer = styled.div`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
 
-    &:hover {
-      transform: rotateY(5deg) skewY(2deg) translateZ(20px);
+    &.front {
+      background-color: red;
+    }
+    &.back {
+      background-color: blue;
+      transform: rotateY(180deg);
+    }
+    backface-visibility: hidden;
+
+    &.clicked {
+      /* transform: rotateY(5deg) skewY(2deg) translateZ(20px);
       font-size: 60px;
-      filter: brightness(1.1);
+      filter: brightness(1.1); */
     }
   }
 `;
 
 export default function Test() {
+  const [clicked, setCilcked] = useState(false);
   return (
-    <StyledContainer>
-      <div className={clsx('cube')}>
-        <div className={clsx('cube__face')}>Done</div>
+    <StyledContainer onClick={() => setCilcked((c) => !c)}>
+      <div className={clsx('cube', { clicked: clicked })}>
+        <div className={clsx('cube__face front')}>front</div>
+        <div className={clsx('cube__face back')}>back</div>
       </div>
     </StyledContainer>
   );
