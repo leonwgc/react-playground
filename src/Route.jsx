@@ -144,8 +144,8 @@ const routes = [
     component: lazy(() => import('./demos/CardFlip'))
   },
   {
-    path: '/test',
-    component: lazy(() => import('./demos/Test'))
+    path: '/3dslide',
+    component: lazy(() => import('./demos/TreeDcarousel'))
   }
 ];
 
