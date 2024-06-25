@@ -146,6 +146,10 @@ const routes = [
   {
     path: '/3dslide',
     component: lazy(() => import('./demos/TreeDcarousel'))
+  },
+  {
+    path: '/cube',
+    component: lazy(() => import('./demos/Cube'))
   }
 ];
 
