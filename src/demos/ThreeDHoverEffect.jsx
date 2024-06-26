@@ -34,7 +34,9 @@ export default function Test() {
     <>
       <GlobalStyle />
       <ArcHoverEffect>
-        <Item />
+        <div style={{ border: '1px solid red', width: 600, height: 300 }}>
+          <Item />
+        </div>
       </ArcHoverEffect>
     </>
   );
