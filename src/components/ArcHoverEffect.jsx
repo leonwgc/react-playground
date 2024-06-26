@@ -45,7 +45,7 @@ export default function ArcHoverEffect({ children }) {
     <StyledContainer>
       <div className="ef-scene">
         <div className="ef-object" ref={ref}>
-          <div className="ef-face">{children}</div>
+          {children}
         </div>
       </div>
     </StyledContainer>

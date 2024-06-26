@@ -4,7 +4,17 @@ import ArcHoverEffect from '../components/ArcHoverEffect';
 
 // ref: https://codepen.io/technokami/pen/abojmZa
 
-const StyledItem = styled.div`
+const GlobalStyle = createGlobalStyle`
+   body{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+`;
+
+const Item = styled.div`
   display: inline-block;
   height: 200px;
   width: 300px;
@@ -19,22 +29,13 @@ const StyledItem = styled.div`
   }
 `;
 
-const GlobalStyle = createGlobalStyle`
-   body{
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-   }
-`;
-
 export default function Test() {
   return (
-    <StyledItem>
+    <>
       <GlobalStyle />
       <ArcHoverEffect>
-        <StyledItem />
+        <Item />
       </ArcHoverEffect>
-    </StyledItem>
+    </>
   );
 }
