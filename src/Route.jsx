@@ -150,6 +150,10 @@ const routes = [
   {
     path: '/cube',
     component: lazy(() => import('./demos/Cube'))
+  },
+  {
+    path: '/3dhover',
+    component: lazy(() => import('./demos/ThreeDHoverEffect'))
   }
 ];
 
