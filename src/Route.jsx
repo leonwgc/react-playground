@@ -154,6 +154,10 @@ const routes = [
   {
     path: '/3dhover',
     component: lazy(() => import('./demos/ThreeDHoverEffect'))
+  },
+  {
+    path: '/mount-animation',
+    component: lazy(() => import('./demos/MountAnimation'))
   }
 ];
 
