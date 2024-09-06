@@ -158,6 +158,10 @@ const routes = [
   {
     path: '/mount-animation',
     component: lazy(() => import('./demos/MountAnimation'))
+  },
+  {
+    path: '/scroll-indicator',
+    component: lazy(() => import('./demos/ScrollIndicator'))
   }
 ];
 
