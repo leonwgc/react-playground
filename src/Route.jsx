@@ -162,6 +162,10 @@ const routes = [
   {
     path: '/scroll-indicator',
     component: lazy(() => import('./demos/ScrollIndicator'))
+  },
+  {
+    path: '/scroll-driven-animation',
+    component: lazy(() => import('./demos/ScrollDrivenAnimation'))
   }
 ];
 
