@@ -94,18 +94,14 @@ const MyVirtualList = React.forwardRef(
           height: scrollHeight
         }}
       >
-        {data.slice(start, end).map((item, index) => (
-          <div
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: itemHeight,
-              top: (start + index) * itemHeight
-            }}
-          >
-            {itemRender(item)}
-          </div>
-        ))}
+        {data.slice(start, end).map((item, index) =>
+          itemRender(item, {
+            position: 'absolute',
+            width: '100%',
+            height: itemHeight,
+            top: (start + index) * itemHeight
+          })
+        )}
       </div>
     );
   }
