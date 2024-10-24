@@ -57,7 +57,6 @@ const MyVirtualList = React.forwardRef(
 
       offsetRef.current.start = start;
       offsetRef.current.end = end;
-      listViewRef.current.style.transform = `translate3d(0,${start * itemHeight}px,0)`;
       forceUpdate();
     }, 16);
 
@@ -77,28 +76,37 @@ const MyVirtualList = React.forwardRef(
     return React.createElement(
       component,
       {
+        className: 'outer-wrapper',
         ref: outerRef,
-        style: { height, position: 'relative', overflow: 'auto', ...style },
+        style: {
+          height,
+          position: 'relative',
+          overflow: 'auto',
+          willChange: 'transform',
+          ...style
+        },
         ...rest
       },
-      <>
-        <div
-          style={{
-            height: scrollHeight,
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            right: 0,
-            zIndex: -1
-          }}
-        />
-        <div
-          ref={listViewRef}
-          style={{ WebkitOverflowScrolling: 'touch', willChange: 'transform' }}
-        >
-          {data.slice(start, end).map(itemRender)}
-        </div>
-      </>
+
+      <div
+        className="list-view-wrapper"
+        style={{
+          height: scrollHeight
+        }}
+      >
+        {data.slice(start, end).map((item, index) => (
+          <div
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: itemHeight,
+              top: (start + index) * itemHeight
+            }}
+          >
+            {itemRender(item)}
+          </div>
+        ))}
+      </div>
     );
   }
 );
