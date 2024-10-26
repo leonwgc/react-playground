@@ -22,9 +22,7 @@ const MyVirtualList = React.forwardRef(
     ref
   ) => {
     const outerRef = React.useRef();
-    const listViewRef = React.useRef();
     const forceUpdate = useForceUpdate();
-
     const dataLRef = useLatest(data);
     const itemHeightLRef = useLatest(itemHeight);
     const offsetRef = React.useRef({ start: 0, end: 0 });
@@ -82,14 +80,12 @@ const MyVirtualList = React.forwardRef(
           height,
           position: 'relative',
           overflow: 'auto',
-          willChange: 'transform',
           ...style
         },
         ...rest
       },
 
       <div
-        className="list-view-wrapper"
         style={{
           height: scrollHeight
         }}
