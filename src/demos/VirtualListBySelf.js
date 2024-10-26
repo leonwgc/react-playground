@@ -42,9 +42,9 @@ export default function VirtualListDemo() {
         ref={ref}
         data={data}
         height={400}
-        style={{ width: 200, border: '1px dashed #eee' }}
+        style={{ width: 400, border: '1px dashed #eee' }}
         itemHeight={40}
-        itemRender={(item, style) => <Item style={style}>{item}</Item>}
+        itemRender={({ data, index, style }) => <Item style={style}>{data}</Item>}
       />
     </div>
   );

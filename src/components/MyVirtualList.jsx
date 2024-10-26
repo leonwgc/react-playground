@@ -91,11 +91,15 @@ const MyVirtualList = React.forwardRef(
         }}
       >
         {data.slice(start, end).map((item, index) =>
-          itemRender(item, {
-            position: 'absolute',
-            width: '100%',
-            height: itemHeight,
-            top: (start + index) * itemHeight
+          itemRender({
+            style: {
+              position: 'absolute',
+              width: '100%',
+              height: itemHeight,
+              top: (start + index) * itemHeight
+            },
+            data: item,
+            index
           })
         )}
       </div>
