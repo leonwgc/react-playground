@@ -2,7 +2,13 @@ import { lazy } from 'react';
 
 const routes = [
   {
+    path: '/',
+    exact: true,
+    component: lazy(() => import('./demos/ReactWindowInfiniteListWithWaypoint'))
+  },
+  {
     path: '/Popover',
+    exact: true,
     component: lazy(() => import('./demos/Popover'))
   },
   {
@@ -114,16 +120,52 @@ const routes = [
     component: lazy(() => import('./demos/Cropperjs'))
   },
   {
-    path: '/test',
-    component: lazy(() => import('./demos/Test'))
-  },
-  {
     path: '/vl',
     component: lazy(() => import('./demos/VirtualList'))
   },
   {
-    path: '/vls',
+    path: '/vlist-self',
     component: lazy(() => import('./demos/VirtualListBySelf'))
+  },
+  {
+    path: '/react-window',
+    component: lazy(() => import('./demos/ReactWindow'))
+  },
+  {
+    path: '/react-window-infinite',
+    component: lazy(() => import('./demos/ReactWindowInfiniteList'))
+  },
+  {
+    path: '/react-window-infinite-waypoint',
+    component: lazy(() => import('./demos/ReactWindowInfiniteListWithWaypoint'))
+  },
+  {
+    path: '/card-flip',
+    component: lazy(() => import('./demos/CardFlip'))
+  },
+  {
+    path: '/3dslide',
+    component: lazy(() => import('./demos/TreeDcarousel'))
+  },
+  {
+    path: '/cube',
+    component: lazy(() => import('./demos/Cube'))
+  },
+  {
+    path: '/3dhover',
+    component: lazy(() => import('./demos/ThreeDHoverEffect'))
+  },
+  {
+    path: '/mount-animation',
+    component: lazy(() => import('./demos/MountAnimation'))
+  },
+  {
+    path: '/scroll-indicator',
+    component: lazy(() => import('./demos/ScrollIndicator'))
+  },
+  {
+    path: '/scroll-driven-animation',
+    component: lazy(() => import('./demos/ScrollDrivenAnimation'))
   }
 ];
 

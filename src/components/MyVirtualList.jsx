@@ -1,5 +1,6 @@
 import React, { useCallback, useImperativeHandle, useLayoutEffect, useMemo } from 'react';
-import { useLatest, useForceUpdate, useThrottle } from 'react-uni-comps';
+import { useLatest, useForceUpdate, useThrottle, useEventListener } from 'react-uni-comps';
+import { passiveIfSupported } from './dom';
 
 /**
  * A simple virtual list for vertically scrolling.
@@ -56,7 +57,6 @@ const MyVirtualList = React.forwardRef(
 
       offsetRef.current.start = start;
       offsetRef.current.end = end;
-      listViewRef.current.style.transform = `translate3d(0,${start * itemHeight}px,0)`;
       forceUpdate();
     }, 16);
 
@@ -69,35 +69,40 @@ const MyVirtualList = React.forwardRef(
     }, []);
 
     const onScroll = useCallback(updateView, []);
+    useEventListener(outerRef, 'scroll', onScroll, passiveIfSupported);
 
     const { start, end } = offsetRef.current;
 
     return React.createElement(
       component,
       {
+        className: 'outer-wrapper',
         ref: outerRef,
-        onScroll,
-        style: { height, position: 'relative', overflow: 'auto', ...style },
+        style: {
+          height,
+          position: 'relative',
+          overflow: 'auto',
+          willChange: 'transform',
+          ...style
+        },
         ...rest
       },
-      <>
-        <div
-          style={{
-            height: scrollHeight,
+
+      <div
+        className="list-view-wrapper"
+        style={{
+          height: scrollHeight
+        }}
+      >
+        {data.slice(start, end).map((item, index) =>
+          itemRender(item, {
             position: 'absolute',
-            left: 0,
-            top: 0,
-            right: 0,
-            zIndex: -1
-          }}
-        />
-        <div
-          ref={listViewRef}
-          style={{ WebkitOverflowScrolling: 'touch', willChange: 'transform' }}
-        >
-          {data.slice(start, end).map(itemRender)}
-        </div>
-      </>
+            width: '100%',
+            height: itemHeight,
+            top: (start + index) * itemHeight
+          })
+        )}
+      </div>
     );
   }
 );
