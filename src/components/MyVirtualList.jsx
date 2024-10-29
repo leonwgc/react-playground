@@ -98,8 +98,8 @@ const MyVirtualList = React.forwardRef(
               height: itemHeight,
               top: (start + index) * itemHeight
             },
-            data: item,
-            index
+            item,
+            index: start + index
           })
         )}
       </div>
