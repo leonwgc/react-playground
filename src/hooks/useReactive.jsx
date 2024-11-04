@@ -3,6 +3,12 @@ import { useForceUpdate } from 'react-uni-comps';
 
 const map = new WeakMap();
 
+/**
+ * @description Get proxy object
+ * @param {object} obj object to get proxy
+ * @param {function} forceUpdate force update function
+ * @returns {object} proxy object
+ */
 const getProxyObject = (obj, forceUpdate) => {
   if (map.has(obj)) {
     return map.get(obj);
@@ -36,10 +42,25 @@ const getProxyObject = (obj, forceUpdate) => {
   }
 };
 
-export const useReactive = (initialValue) => {
+/**
+ * @description useReactive hook
+ * @param {object} initialValue initial value
+ * @returns {object} proxy object
+ *
+ * @example
+ * const state = useReactive({
+ *   count: 0,
+ *   inputVal: '',
+ *   obj: {
+ *     value: ''
+ *   }
+ * });
+ *
+ */
+const useReactive = (initialValue) => {
   const forceUpdate = useForceUpdate();
   const initValueRef = useRef(initialValue);
-  const valueProxy = useMemo(() => {
+  const reactiveValue = useMemo(() => {
     if (typeof initValueRef.current === 'object' && initValueRef.current) {
       return getProxyObject(initValueRef.current, forceUpdate);
     } else {
@@ -47,5 +68,7 @@ export const useReactive = (initialValue) => {
     }
   }, []);
 
-  return valueProxy;
+  return reactiveValue;
 };
+
+export default useReactive;

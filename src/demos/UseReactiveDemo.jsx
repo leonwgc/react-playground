@@ -1,5 +1,5 @@
 import React from 'react';
-import { useReactive } from '../hooks/useReactive';
+import useReactive from '../hooks/useReactive';
 
 export default () => {
   const state = useReactive({
