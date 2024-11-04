@@ -166,6 +166,10 @@ const routes = [
   {
     path: '/scroll-driven-animation',
     component: lazy(() => import('./demos/ScrollDrivenAnimation'))
+  },
+  {
+    path: '/use-reactive',
+    component: lazy(() => import('./demos/UseReactiveDemo'))
   }
 ];
 
