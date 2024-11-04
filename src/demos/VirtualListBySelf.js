@@ -45,7 +45,7 @@ export default function VirtualListDemo() {
         style={{ width: 400, border: '1px dashed #eee' }}
         itemHeight={40}
         itemRender={({ item, index, style }) => (
-          <Item style={style} item={index} data-key={index}>
+          <Item style={style} item={index} data-key={index} key={index}>
             {item}
           </Item>
         )}
