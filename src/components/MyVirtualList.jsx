@@ -7,7 +7,7 @@ import { passiveIfSupported } from './dom';
  * @param {*} param0
  * @returns
  */
-const MyVirtualList = React.forwardRef(
+const SimpleVirtualList = React.forwardRef(
   (
     {
       itemHeight = 40,
@@ -107,4 +107,4 @@ const MyVirtualList = React.forwardRef(
   }
 );
 
-export default MyVirtualList;
+export default SimpleVirtualList;

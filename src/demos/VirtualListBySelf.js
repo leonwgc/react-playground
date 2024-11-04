@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
-import MyVirtualList from '../components/MyVirtualList';
+import SimpleVirtualList from '../components/MyVirtualList';
 import { styled, InputNumber } from 'react-uni-comps';
 
-const StyledVList = styled(MyVirtualList)`
+const StyledVList = styled(SimpleVirtualList)`
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   ::-webkit-scrollbar {
