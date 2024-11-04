@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { useForceUpdate } from 'react-uni-comps';
 
+const isObject = (value) => typeof value === 'object' && value;
 const map = new WeakMap();
 
 /**
@@ -16,14 +17,14 @@ const getProxyObject = (obj, forceUpdate) => {
     const proxy = new Proxy(obj, {
       get: (target, prop, receiver) => {
         const rt = Reflect.get(target, prop, receiver);
-        if (typeof rt === 'object' && rt) {
+        if (isObject(rt)) {
           return getProxyObject(rt, forceUpdate);
         }
         return rt;
       },
       set: (target, prop, value, receiver) => {
         let rt;
-        if (typeof value === 'object' && value) {
+        if (isObject(value)) {
           rt = Reflect.set(target, prop, getProxyObject(value, forceUpdate), receiver);
         } else {
           rt = Reflect.set(target, prop, value, receiver);
@@ -51,7 +52,7 @@ const useReactive = (initialValue) => {
   const forceUpdate = useForceUpdate();
   const initValueRef = useRef(initialValue);
   const reactiveValue = useMemo(() => {
-    if (typeof initValueRef.current === 'object' && initValueRef.current) {
+    if (isObject(initValueRef.current)) {
       return getProxyObject(initValueRef.current, forceUpdate);
     } else {
       throw new Error('useReactive only support object');
