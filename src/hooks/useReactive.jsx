@@ -43,19 +43,9 @@ const getProxyObject = (obj, forceUpdate) => {
 };
 
 /**
- * @description useReactive hook
+ * @description useReactive hook, make an object reactive.
  * @param {object} initialValue initial value
  * @returns {object} proxy object
- *
- * @example
- * const state = useReactive({
- *   count: 0,
- *   inputVal: '',
- *   obj: {
- *     value: ''
- *   }
- * });
- *
  */
 const useReactive = (initialValue) => {
   const forceUpdate = useForceUpdate();
