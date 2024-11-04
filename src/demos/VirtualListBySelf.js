@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import SimpleVirtualList from '../components/MyVirtualList';
+import SimpleVirtualList from '../components/SimpleVirtualList';
 import { styled, InputNumber } from 'react-uni-comps';
 
 const StyledVList = styled(SimpleVirtualList)`
