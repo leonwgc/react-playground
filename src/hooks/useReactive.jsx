@@ -1,7 +1,10 @@
+import isPlainObject from 'lodash/isPlainObject';
 import { useMemo, useRef } from 'react';
 import { useForceUpdate } from 'react-uni-comps';
 
-const isObject = (value) => typeof value === 'object' && value;
+const isProxyObject = (obj) => {
+  return isPlainObject(obj) || Array.isArray(obj);
+};
 const map = new WeakMap();
 
 /**
@@ -15,25 +18,20 @@ const getProxyObject = (obj, forceUpdate) => {
     return map.get(obj);
   } else {
     const proxy = new Proxy(obj, {
-      get: (target, prop, receiver) => {
-        const rt = Reflect.get(target, prop, receiver);
-        if (isObject(rt)) {
-          return getProxyObject(rt, forceUpdate);
+      get: (...args) => {
+        const value = Reflect.get(...args);
+        if (isProxyObject(value)) {
+          return getProxyObject(value, forceUpdate);
         }
-        return rt;
+        return value;
       },
-      set: (target, prop, value, receiver) => {
-        let rt;
-        if (isObject(value)) {
-          rt = Reflect.set(target, prop, getProxyObject(value, forceUpdate), receiver);
-        } else {
-          rt = Reflect.set(target, prop, value, receiver);
-        }
+      set: (...args) => {
+        let rt = Reflect.set(...args);
         forceUpdate();
         return rt;
       },
-      deleteProperty: (target, prop) => {
-        const rt = Reflect.deleteProperty(target, prop);
+      deleteProperty: (...args) => {
+        const rt = Reflect.deleteProperty(...args);
         forceUpdate();
         return rt;
       }
@@ -52,7 +50,7 @@ const useReactive = (initialValue) => {
   const forceUpdate = useForceUpdate();
   const initValueRef = useRef(initialValue);
   const reactiveValue = useMemo(() => {
-    if (isObject(initValueRef.current)) {
+    if (isProxyObject(initValueRef.current)) {
       return getProxyObject(initValueRef.current, forceUpdate);
     } else {
       throw new Error('useReactive only support object');
