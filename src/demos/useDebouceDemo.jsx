@@ -13,7 +13,9 @@ export default () => {
         placeholder="Typed value"
         style={{ width: 280 }}
       />
-      <p style={{ marginTop: 16 }}>DebouncedValue: {debouncedValue}</p>
+      <p style={{ marginTop: 16, fontSize: 20, color: debouncedValue === value ? '#333' : '#999' }}>
+        DebouncedValue: {debouncedValue}
+      </p>
     </div>
   );
 };
