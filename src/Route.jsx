@@ -170,6 +170,10 @@ const routes = [
   {
     path: '/use-reactive',
     component: lazy(() => import('./demos/UseReactiveDemo'))
+  },
+  {
+    path: '/use-debounce',
+    component: lazy(() => import('./demos/useDebouceDemo'))
   }
 ];
 
