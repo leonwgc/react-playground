@@ -1,3 +1,9 @@
+// DOM content rect is a rect whose:
+// width is content width
+// height is content height
+// top is padding top
+// left is padding left
+
 import { useLayoutEffect, useMemo, useState } from 'react';
 
 export type UseMeasureRect = Pick<
