@@ -174,6 +174,10 @@ const routes = [
   {
     path: '/use-debounce',
     component: lazy(() => import('./demos/useDebouceDemo'))
+  },
+  {
+    path: '/use-resize-observer',
+    component: lazy(() => import('./demos/UseResizeObserverDemo'))
   }
 ];
 
