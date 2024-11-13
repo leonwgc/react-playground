@@ -178,6 +178,10 @@ const routes = [
   {
     path: '/use-resize-observer',
     component: lazy(() => import('./demos/UseResizeObserverDemo'))
+  },
+  {
+    path: '/use-tween',
+    component: lazy(() => import('./demos/UseTweenDemo'))
   }
 ];
 
