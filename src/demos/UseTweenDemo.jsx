@@ -9,6 +9,8 @@ export default () => {
 
   const blueBallOpacity = useTween('inOutCubic', 1000, 1000);
 
+  const grayBallOpacity = useTween('elastic', 400, 800);
+
   return (
     <div>
       <div
@@ -22,7 +24,6 @@ export default () => {
           left: 200
         }}
       />
-
       <div
         style={{
           width: 50,
@@ -32,6 +33,19 @@ export default () => {
           opacity: blueBallOpacity,
           marginLeft: 300,
           transform: `translate(${blueBallOpacity * 100 - 100}px,200px)`
+        }}
+      />
+      // bounce in
+      <div
+        style={{
+          width: 50,
+          height: 50,
+          borderRadius: '50%',
+          background: '#ccc',
+          top: 300,
+          opacity: grayBallOpacity,
+          marginLeft: 300,
+          transform: `translate3d(0,${grayBallOpacity * 40 - 40}px,0)`
         }}
       />
       <div>
