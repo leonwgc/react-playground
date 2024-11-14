@@ -25,14 +25,16 @@ const useRequestAnimationFrame = (ms = 10000, delay) => {
       raf = requestAnimationFrame(onFrame);
     };
 
-    timerStart = setTimeout(() => {
+    const onStart = () => {
       timerStop = setTimeout(() => {
         cancelAnimationFrame(raf);
         setElapsed(1);
       }, ms);
       startTime = Date.now();
       loop();
-    }, delay);
+    };
+
+    timerStart = setTimeout(onStart, delay);
 
     return () => {
       clearTimeout(timerStart);
