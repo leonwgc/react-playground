@@ -182,6 +182,10 @@ const routes = [
   {
     path: '/use-tween',
     component: lazy(() => import('./demos/UseTweenDemo'))
+  },
+  {
+    path: '/use-mount-animation',
+    component: lazy(() => import('./demos/UseMountAnimationDemo'))
   }
 ];
 
