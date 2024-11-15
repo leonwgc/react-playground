@@ -27,16 +27,16 @@ const animateCSS = (node, animation, prefix = 'animate__') =>
 /**
  * Apply animate.css effect when the component mounts.
  * @param {*} animation
- * @param {*} finishedCallback
+ * @param {*} animationEndCallback
  * @returns
  */
-const useMountAnimationCSS = (animation = 'bounce', finishedCallback) => {
+const useMountAnimationCSS = (animation = 'bounce', animationEndCallback) => {
   const [node, ref] = useState(null);
 
   useIsomorphicLayoutEffect(() => {
     if (node instanceof Element) {
       node.classList.add('animate__animated');
-      animateCSS(node, animation).then(finishedCallback);
+      animateCSS(node, animation).then(animationEndCallback);
     }
   }, [node, animation]);
 
