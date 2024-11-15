@@ -30,12 +30,22 @@ const animateCSS = (node, animation, prefix = 'animate__') =>
  * @param {*} animationEndCallback
  * @returns
  */
-const useMountAnimationCSS = (animation = 'bounce', animationEndCallback) => {
+const useMountAnimationCSS = (
+  animation = 'fadeIn',
+  animationEndCallback,
+  customProperties = {}
+) => {
   const [node, ref] = useState(null);
 
   useIsomorphicLayoutEffect(() => {
     if (node instanceof Element) {
       node.classList.add('animate__animated');
+      if (customProperties) {
+        Object.entries(customProperties).forEach(([key, value]) => {
+          node.style.setProperty(`--animate-${key}`, value);
+        });
+      }
+
       animateCSS(node, animation).then(animationEndCallback);
     }
   }, [node, animation]);
