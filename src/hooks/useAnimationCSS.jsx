@@ -30,7 +30,7 @@ const animateCSS = (node, animation, prefix = 'animate__') =>
  * @param {*} animationEndCallback
  * @returns
  */
-const useMountAnimationCSS = (
+const useAnimationCSS = (
   animation = 'fadeIn',
   animationEndCallback,
   customProperties = {}
@@ -53,4 +53,4 @@ const useMountAnimationCSS = (
   return ref;
 };
 
-export default useMountAnimationCSS;
+export default useAnimationCSS;

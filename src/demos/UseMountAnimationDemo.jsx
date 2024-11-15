@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'animate.css';
-import useMountAnimationCSS from '../hooks/useMountAnimation';
+import useAnimationCSS from '../hooks/useAnimationCSS';
 
 const effects = [
   'bounce',
@@ -40,7 +40,7 @@ let i = 0;
 export default () => {
   const [animation, setAnimation] = useState(effects[0]);
 
-  const ref = useMountAnimationCSS(
+  const ref = useAnimationCSS(
     animation,
     () => {
       setAnimation(effects[++i % effects.length]);
