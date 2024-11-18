@@ -1,19 +1,23 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import insert from './insert';
 
 /**
- * useUndo
- * @param initialState initial state
- * @returns [value, setValue, undo, redo]
- * @description
- * - `value` is the current state.
- * - `setValue` is a function to set the state.
- * - `undo` is a function to undo the last action.
- * - `redo` is a function to redo the last action.
+ * Custom hook to manage undo and redo functionality for a given state.
+ *
+ * @param initialState - The initial state value.
+ *
+ * @returns A tuple containing:
+ *   - value: The current state value.
+ *   - setValue: A function to update the state, automatically handling the undo stack.
+ *   - controls: An object with undo, redo functions and canUndo, canRedo flags.
+ *
+ * Usage:
+ * const [value, setValue, { undo, redo, canUndo, canRedo }] = useUndo(initialValue);
  */
 const useUndo = <T,>(initialState: T) => {
   const [state, setState] = React.useState([initialState]);
   const [cursor, setCursor] = React.useState(0);
+  const initialStateRef = useRef(initialState);
 
   const size = state.length;
 
@@ -33,7 +37,12 @@ const useUndo = <T,>(initialState: T) => {
 
   const value = useMemo(() => state[cursor], [state, cursor]);
 
-  return [value, setValue, { undo, redo, cursor, size }];
+  const reset = useCallback(() => {
+    setCursor(0);
+    setState([initialStateRef.current]);
+  }, []);
+
+  return [value, setValue, { undo, redo, reset, canUndo: cursor > 0, canRedo: cursor < size - 1 }];
 };
 
 export default useUndo;
