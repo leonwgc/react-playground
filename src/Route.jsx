@@ -190,6 +190,10 @@ const routes = [
   {
     path: '/use-undo',
     component: lazy(() => import('./demos/UseUndoDemo'))
+  },
+  {
+    path: '/use-localstorage',
+    component: lazy(() => import('./demos/UseLocalStorage'))
   }
 ];
 
