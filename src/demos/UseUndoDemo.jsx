@@ -2,9 +2,7 @@ import React from 'react';
 import useUndo from '../hooks/useUndo';
 
 const Counter = () => {
-  const [state, cursor, setValue, { undo, redo }] = useUndo(0);
-
-  const value = state[cursor];
+  const [value, setValue, undo, redo] = useUndo(0);
 
   const increment = () => setValue(value + 1);
   const decrement = () => setValue(value - 1);

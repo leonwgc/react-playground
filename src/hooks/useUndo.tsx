@@ -1,24 +1,23 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import insert from './insert';
 
 /**
- * useUndo hook
- *
+ * useUndo
  * @param initialState initial state
- * @returns [state, cursor, setValue, { undo, redo }]
- *   - state: current state
- *   - cursor: current cursor
- *   - setValue: set new state
- *   - { undo, redo }: undo and redo functions
+ * @returns [value, setValue, undo, redo]
+ * @description
+ * - `value` is the current state.
+ * - `setValue` is a function to set the state.
+ * - `undo` is a function to undo the last action.
+ * - `redo` is a function to redo the last action.
  */
-const useUndo = <T,>(
-  initialState: T
-): [T[], number, (value: T) => void, { undo: () => void; redo: () => void }] => {
+const useUndo = <T,>(initialState: T) => {
   const [state, setState] = React.useState([initialState]);
   const [cursor, setCursor] = React.useState(0);
 
-  const undo = () => setCursor(cursor - 1);
-  const redo = () => setCursor(cursor + 1);
+  const undo = useCallback(() => setCursor(cursor - 1), [cursor]);
+  const redo = useCallback(() => setCursor(cursor + 1), [cursor]);
+
   const setValue = (value: T) => {
     const nextCursor = cursor + 1;
     const nextState = insert(state, nextCursor, value);
@@ -27,7 +26,9 @@ const useUndo = <T,>(
     setCursor(nextCursor);
   };
 
-  return [state, cursor, setValue, { undo, redo }];
+  const value = useMemo(() => state[cursor], [state, cursor]);
+
+  return [value, setValue, undo, redo];
 };
 
 export default useUndo;
