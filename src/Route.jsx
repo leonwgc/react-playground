@@ -186,6 +186,10 @@ const routes = [
   {
     path: '/use-mount-animation',
     component: lazy(() => import('./demos/UseMountAnimationDemo'))
+  },
+  {
+    path: '/use-undo',
+    component: lazy(() => import('./demos/UseUndoDemo'))
   }
 ];
 
