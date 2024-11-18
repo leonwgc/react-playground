@@ -1,55 +1,38 @@
-// DOM content rect is a rect whose:
-// width is content width
-// height is content height
-// top is padding top
-// left is padding left
+import React from 'react';
 
-import { useLayoutEffect, useMemo, useState } from 'react';
+/**
+ * Measure a DOM element's size,aka width & height.
+ * @returns {Object} { ref, {width, height }}
+ */
+function useMeasure() {
+  const [size, setSize] = React.useState({
+    width: null,
+    height: null
+  });
 
-export type UseMeasureRect = Pick<
-  DOMRectReadOnly,
-  'x' | 'y' | 'top' | 'left' | 'right' | 'bottom' | 'height' | 'width'
->;
-export type UseMeasureRef<E extends Element = Element> = (element: E) => void;
-export type UseMeasureResult<E extends Element = Element> = [UseMeasureRef<E>, UseMeasureRect];
+  const previousObserver = React.useRef(null);
 
-const defaultState: UseMeasureRect = {
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0,
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0
-};
+  const customRef = React.useCallback((node) => {
+    if (previousObserver.current) {
+      previousObserver.current.disconnect();
+      previousObserver.current = null;
+    }
 
-function useMeasure<E extends Element = Element>(): UseMeasureResult<E> {
-  const [element, ref] = useState<E | null>(null);
-  const [rect, setRect] = useState<UseMeasureRect>(defaultState);
+    if (node?.nodeType === Node.ELEMENT_NODE) {
+      const observer = new ResizeObserver(([entry]) => {
+        if (entry && entry.borderBoxSize) {
+          const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0];
 
-  const observer = useMemo(
-    () =>
-      new ResizeObserver((entries) => {
-        if (entries[0]) {
-          // context-box sizing
-          // to get border-size entries[0].borderBoxSize[0].inlineSize
-          const { x, y, width, height, top, left, bottom, right } = entries[0].contentRect;
-          setRect({ x, y, width, height, top, left, bottom, right });
+          setSize({ width, height });
         }
-      }),
-    []
-  );
+      });
 
-  useLayoutEffect(() => {
-    if (!element) return;
-    observer.observe(element);
-    return () => {
-      observer.disconnect();
-    };
-  }, [element]);
+      observer.observe(node);
+      previousObserver.current = observer;
+    }
+  }, []);
 
-  return [ref, rect];
+  return [customRef, size];
 }
 
 export default useMeasure;
