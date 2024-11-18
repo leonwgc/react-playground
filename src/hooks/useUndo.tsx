@@ -15,8 +15,10 @@ const useUndo = <T,>(initialState: T) => {
   const [state, setState] = React.useState([initialState]);
   const [cursor, setCursor] = React.useState(0);
 
-  const undo = useCallback(() => setCursor(cursor - 1), [cursor]);
-  const redo = useCallback(() => setCursor(cursor + 1), [cursor]);
+  const size = state.length;
+
+  const undo = useCallback(() => setCursor(Math.max(cursor - 1, 0)), [cursor]);
+  const redo = useCallback(() => setCursor(Math.min(cursor + 1, size - 1)), [cursor, size]);
 
   const setValue = (value: T) => {
     const nextCursor = cursor + 1;
@@ -28,7 +30,7 @@ const useUndo = <T,>(initialState: T) => {
 
   const value = useMemo(() => state[cursor], [state, cursor]);
 
-  return [value, setValue, undo, redo];
+  return [value, setValue, { undo, redo, cursor, size }];
 };
 
 export default useUndo;

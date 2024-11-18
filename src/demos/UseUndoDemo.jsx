@@ -1,8 +1,9 @@
 import React from 'react';
 import useUndo from '../hooks/useUndo';
+import { Button } from 'react-uni-comps';
 
 const Counter = () => {
-  const [value, setValue, undo, redo] = useUndo(0);
+  const [value, setValue, { undo, redo, cursor, size }] = useUndo(0);
 
   const increment = () => setValue(value + 1);
   const decrement = () => setValue(value - 1);
@@ -10,10 +11,17 @@ const Counter = () => {
   return (
     <>
       <div>{value}</div>
-      <button onClick={increment}>increment</button>
-      <button onClick={decrement}>decrement</button>
-      <button onClick={undo}>undo</button>
-      <button onClick={redo}>redo</button>
+
+      <div style={{ display: 'flex', gap: 8 }}>
+        <Button onClick={increment}>increment</Button>
+        <Button onClick={decrement}>decrement</Button>
+        <Button onClick={undo} disabled={cursor === 0}>
+          undo
+        </Button>
+        <Button onClick={redo} disabled={cursor === size - 1}>
+          redo
+        </Button>
+      </div>
     </>
   );
 };
