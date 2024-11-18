@@ -20,13 +20,16 @@ const useUndo = <T,>(initialState: T) => {
   const undo = useCallback(() => setCursor(Math.max(cursor - 1, 0)), [cursor]);
   const redo = useCallback(() => setCursor(Math.min(cursor + 1, size - 1)), [cursor, size]);
 
-  const setValue = (value: T) => {
-    const nextCursor = cursor + 1;
-    const nextState = insert(state, nextCursor, value);
+  const setValue = useCallback(
+    (value: T) => {
+      const nextCursor = cursor + 1;
+      const nextState = insert(state, nextCursor, value);
 
-    setState(nextState);
-    setCursor(nextCursor);
-  };
+      setState(nextState);
+      setCursor(nextCursor);
+    },
+    [cursor, state]
+  );
 
   const value = useMemo(() => state[cursor], [state, cursor]);
 

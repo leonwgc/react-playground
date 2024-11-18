@@ -12,7 +12,7 @@ const Counter = () => {
     <>
       <div>{value}</div>
 
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
         <Button onClick={increment}>increment</Button>
         <Button onClick={decrement}>decrement</Button>
         <Button onClick={undo} disabled={cursor === 0}>
