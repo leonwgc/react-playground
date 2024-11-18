@@ -194,6 +194,10 @@ const routes = [
   {
     path: '/use-localstorage',
     component: lazy(() => import('./demos/UseLocalStorage'))
+  },
+  {
+    path: '/use-inviewport',
+    component: lazy(() => import('./demos/UseInViewportDemo'))
   }
 ];
 
