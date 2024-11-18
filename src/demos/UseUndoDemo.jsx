@@ -10,7 +10,7 @@ const Counter = () => {
 
   return (
     <>
-      <div>{value}</div>
+      <div style={{ fontSize: 20, color: 'green', margin: '20px' }}>{value}</div>
 
       <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
         <Button onClick={increment}>increment</Button>
