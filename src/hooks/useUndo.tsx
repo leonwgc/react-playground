@@ -1,6 +1,16 @@
 import React from 'react';
 import insert from './insert';
 
+/**
+ * useUndo hook
+ *
+ * @param initialState initial state
+ * @returns [state, cursor, setValue, { undo, redo }]
+ *   - state: current state
+ *   - cursor: current cursor
+ *   - setValue: set new state
+ *   - { undo, redo }: undo and redo functions
+ */
 const useUndo = <T,>(
   initialState: T
 ): [T[], number, (value: T) => void, { undo: () => void; redo: () => void }] => {
