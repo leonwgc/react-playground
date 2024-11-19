@@ -218,6 +218,10 @@ const routes = [
   {
     path: '/use-debounce-func',
     component: lazy(() => import('./demos/UseDebounceFuncDemo'))
+  },
+  {
+    path: '/use-throttle-func',
+    component: lazy(() => import('./demos/UseThrottleFuncDemo'))
   }
 ];
 
