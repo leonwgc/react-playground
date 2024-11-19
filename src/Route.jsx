@@ -198,6 +198,10 @@ const routes = [
   {
     path: '/use-inviewport',
     component: lazy(() => import('./demos/UseInViewportDemo'))
+  },
+  {
+    path: '/use-clickaway',
+    component: lazy(() => import('./demos/UseClickAwayDemo'))
   }
 ];
 
