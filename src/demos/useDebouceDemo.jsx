@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import useDebounceValue from '../hooks/useDebounceValue';
+import useDebounce from '../hooks/useDebounce';
 
 export default () => {
   const [value, setValue] = useState();
-  const debouncedValue = useDebounceValue(value);
+  const debouncedValue = useDebounce(value);
 
   return (
     <div>
