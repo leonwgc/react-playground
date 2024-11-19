@@ -206,6 +206,10 @@ const routes = [
   {
     path: '/use-copy-to-clipboard',
     component: lazy(() => import('./demos/UseCopyToClipboardDemo'))
+  },
+  {
+    path: '/use-toggle',
+    component: lazy(() => import('./demos/UseToggleDemo'))
   }
 ];
 
