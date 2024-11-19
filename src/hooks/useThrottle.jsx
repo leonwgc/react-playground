@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 /**
  * useThrottle
@@ -10,29 +10,26 @@ import React, { useEffect, useRef, useState } from 'react';
 const useThrottle = (value, interval = 600) => {
   const [throttleValue, setThrottleValue] = useState(value);
   const lastTimeRef = React.useRef(0);
-  const lastTimerRef = useRef(0);
 
   useEffect(() => {
     const now = Date.now();
+    let timer = 0;
 
     if (now - lastTimeRef.current >= interval) {
       setThrottleValue(value);
       lastTimeRef.current = now;
     } else {
-      if (lastTimerRef.current) {
-        clearTimeout(lastTimerRef.current);
+      if (timer) {
+        clearTimeout(timer);
       }
-      lastTimerRef.current = setTimeout(() => {
+      timer = setTimeout(() => {
         setThrottleValue(value);
         lastTimeRef.current = now;
       }, interval);
+      return () => {
+        clearTimeout(timer);
+      };
     }
-
-    return () => {
-      if (lastTimerRef.current) {
-        clearTimeout(lastTimerRef.current);
-      }
-    };
   }, [value, interval]);
 
   return throttleValue;
