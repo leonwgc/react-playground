@@ -202,6 +202,10 @@ const routes = [
   {
     path: '/use-clickaway',
     component: lazy(() => import('./demos/UseClickAwayDemo'))
+  },
+  {
+    path: '/use-copy-to-clipboard',
+    component: lazy(() => import('./demos/UseCopyToClipboardDemo'))
   }
 ];
 
