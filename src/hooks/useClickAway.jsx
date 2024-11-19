@@ -1,12 +1,9 @@
 import React from 'react';
+import { useLatest } from 'react-uni-comps';
 
 export default function useClickAway(cb) {
   const ref = React.useRef(null);
-  const cbRef = React.useRef(cb);
-
-  React.useLayoutEffect(() => {
-    cbRef.current = cb;
-  });
+  const cbRef = useLatest(cb);
 
   React.useEffect(() => {
     const handler = (e) => {
