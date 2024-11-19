@@ -35,11 +35,6 @@ export default function useCopyToClipboard() {
   return [state, copyToClipboard];
 }
 
-/**
- * Copy given text to clipboard using execCommand if navigator.clipboard is not available
- * @param {string} value - value to be copied
- * @returns {Promise<string|null>} copied value or null if failed
- */
 function legacyCopy(text) {
   const tempTextArea = document.createElement('textarea');
   tempTextArea.value = text;
