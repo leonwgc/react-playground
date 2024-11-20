@@ -19,7 +19,7 @@ const useTween = (
 
   if (process.env.NODE_ENV !== 'production') {
     if (typeof fn !== 'function') {
-      console.error(` ${easingName} is not a valid easing function name`);
+      console.error(`${easingName} is not a valid easing function name`);
       return 0;
     }
   }
