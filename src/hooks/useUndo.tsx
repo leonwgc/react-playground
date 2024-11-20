@@ -1,5 +1,17 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import insert from './insert';
+
+/**
+ * Inserts a value at a given index in an array.
+ *
+ * @param arr - The source array.
+ * @param cursor - The index to insert the value at.
+ * @param value - The value to insert.
+ *
+ * @returns A new array with the value inserted at the given index.
+ */
+function insert<T>(arr: T[], cursor: number, value: T) {
+  return [...arr.slice(0, cursor), value, ...arr.slice(cursor + 1)];
+}
 
 /**
  * Custom hook to manage undo and redo functionality for a given state.
