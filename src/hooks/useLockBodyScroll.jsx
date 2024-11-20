@@ -12,7 +12,7 @@ import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
  */
 export default function useLockBodyScroll() {
   useIsomorphicLayoutEffect(() => {
-    const originalStyle = window.getComputedStyle(document.body).overflow;
+    const originalStyle = window.getComputedStyle(document.body).getPropertyValue('overflow');
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = originalStyle;
