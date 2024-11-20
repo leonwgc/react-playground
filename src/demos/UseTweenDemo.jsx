@@ -1,8 +1,5 @@
 import React from 'react';
 import useTween from '../hooks/useTween';
-import { easing } from 'ts-easing';
-
-Object.keys(easing).map((key) => console.log(key));
 
 export default () => {
   const value = useTween('elastic', 1000, 500);
@@ -35,7 +32,7 @@ export default () => {
           transform: `translate(${blueBallOpacity * 100 - 100}px,200px)`
         }}
       />
-      // bounce in
+
       <div
         style={{
           width: 50,

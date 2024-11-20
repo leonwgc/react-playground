@@ -1,7 +1,6 @@
-import { easing } from 'ts-easing';
+import type { TEasing } from './easings';
+import easings from './easings';
 import useRaf from './useRaf';
-
-export type Easing = (t: number) => number;
 
 /**
  * re-renders component, while tweening a number from 0 to 1.
@@ -10,8 +9,12 @@ export type Easing = (t: number) => number;
  * @param delay
  * @returns
  */
-const useTween = (easingName: string = 'inCirc', ms: number = 200, delay: number = 0): number => {
-  const fn: Easing = easing[easingName];
+const useTween = (
+  easingName: keyof typeof easings = 'inCirc',
+  ms: number = 200,
+  delay: number = 0
+): number => {
+  const fn: TEasing = easings[easingName];
   const t = useRaf(ms, delay);
 
   if (process.env.NODE_ENV !== 'production') {
@@ -19,7 +22,7 @@ const useTween = (easingName: string = 'inCirc', ms: number = 200, delay: number
       console.error(
         'useTween() expected "easingName" property to be a valid easing function name, like:' +
           '"' +
-          Object.keys(easing).join('", "') +
+          Object.keys(easings).join('", "') +
           '".'
       );
       console.trace();
