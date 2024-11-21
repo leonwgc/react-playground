@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'animate.css';
-import useAnimateDotCSS from '../hooks/useAnimateDotCSS';
+import useAnimateDotCSS from '../hooks/useAnimateCSS';
 
 const allAnimationEffects = [
   'bounce',

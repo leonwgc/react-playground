@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
 
-type AnimateEffectNames =
+type AnimateEffects =
   | 'bounce'
   | 'flash'
   | 'pulse'
@@ -130,7 +130,7 @@ const animateCSS = (node, animation) =>
  * @param animationEndCallback
  * @returns
  */
-const useAnimationCSS = (animation: AnimateEffectNames = 'fadeIn', animationEndCallback) => {
+const useAnimateCSS = (animation: AnimateEffects = 'fadeIn', animationEndCallback) => {
   const [node, ref] = useState(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -142,4 +142,4 @@ const useAnimationCSS = (animation: AnimateEffectNames = 'fadeIn', animationEndC
   return ref;
 };
 
-export default useAnimationCSS;
+export default useAnimateCSS;
