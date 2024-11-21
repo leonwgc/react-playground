@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'animate.css';
-import useAnimationCSS from '../hooks/useAnimationCSS';
+import useAnimateDotCSS from '../hooks/useAnimateDotCSS';
 
 const effects = [
   'bounce',
@@ -40,7 +40,7 @@ let i = 0;
 export default () => {
   const [animation, setAnimation] = useState(effects[0]);
 
-  const ref = useAnimationCSS(
+  const ref = useAnimateDotCSS(
     animation,
     () => {
       setAnimation(effects[++i % effects.length]);
