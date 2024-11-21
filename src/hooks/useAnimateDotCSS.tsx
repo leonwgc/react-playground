@@ -128,24 +128,13 @@ const animateCSS = (node, animation) =>
  * Apply animation to element with animate.css.
  * @param animation
  * @param animationEndCallback
- * @param customProperties
  * @returns
  */
-const useAnimationCSS = (
-  animation: AnimateEffectNames = 'fadeIn',
-  animationEndCallback,
-  customProperties: Record<string, string> = {}
-) => {
+const useAnimationCSS = (animation: AnimateEffectNames = 'fadeIn', animationEndCallback) => {
   const [node, ref] = useState(null);
 
   useIsomorphicLayoutEffect(() => {
     if (node instanceof HTMLElement) {
-      if (customProperties) {
-        Object.entries(customProperties).forEach(([key, value]) => {
-          node.style.setProperty(`--animate-${key}`, value);
-        });
-      }
-
       animateCSS(node, animation).then(animationEndCallback);
     }
   }, [node, animation]);

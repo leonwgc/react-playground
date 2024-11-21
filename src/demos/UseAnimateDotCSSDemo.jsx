@@ -107,29 +107,25 @@ let i = 0;
 export default () => {
   const [animation, setAnimation] = useState(allAnimationEffects[0]);
 
-  const ref = useAnimateDotCSS(
-    animation,
-    () => {
-      setAnimation(allAnimationEffects[++i % allAnimationEffects.length]);
-    },
-    {
-      duration: '600ms',
-      delay: '.1s'
-    }
-  );
+  const ref = useAnimateDotCSS(animation, () => {
+    setAnimation(allAnimationEffects[++i % allAnimationEffects.length]);
+  });
 
   return (
     <div>
       <div
         ref={ref}
         style={{
-          width: 100,
-          height: 100,
-          borderRadius: '50%',
-          background: 'red',
-          position: 'fixed',
-          top: 100,
-          left: 200
+          '--animate-duration': '1s',
+          '--animate-delay': '.5s',
+          '--animate-repeat': 1,
+          'width': 100,
+          'height': 100,
+          'borderRadius': '50%',
+          'background': 'red',
+          'position': 'fixed',
+          'top': 100,
+          'left': 200
         }}
       />
     </div>
