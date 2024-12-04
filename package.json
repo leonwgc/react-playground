@@ -6,7 +6,8 @@
   "scripts": {
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "start": "node pack"
+    "start": "node pack",
+    "build":"node pack --build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
