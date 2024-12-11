@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, message, Space } from 'antd';
+import { Button, message, Space, Divider } from 'antd';
+import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
 
 export default function AntdDemos() {
   const [messageApi, contextHolder] = message.useMessage();
@@ -26,11 +27,22 @@ export default function AntdDemos() {
           type="primary"
           onClick={() => {
             messageApi.error('use messsage error ');
+            // message.error('bad luck');
           }}
         >
           message error
         </Button>
       </Space>
+
+      <Divider orientation="left">icons</Divider>
+
+      <div>
+        <Space>
+          <StarFilled style={{ color: 'red' }} />
+          <StarOutlined style={{ fontSize: 20, color: 'red' }} spin />
+          <StarTwoTone twoToneColor="red" rotate={45} />
+        </Space>
+      </div>
     </div>
   );
 }

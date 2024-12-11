@@ -10,6 +10,7 @@
     "build": "node pack --build"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.5.2",
     "@reduxjs/toolkit": "^1.9.3",
     "alcedo-ui": "^2.72.2",
     "animate.css": "^4.1.1",
