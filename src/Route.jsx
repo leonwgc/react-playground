@@ -222,6 +222,10 @@ const routes = [
   {
     path: '/use-throttle-func',
     component: lazy(() => import('./demos/UseThrottleFuncDemo'))
+  },
+  {
+    path: '/antd-demo',
+    component: lazy(() => import('./demos/AntdDemo'))
   }
 ];
 
