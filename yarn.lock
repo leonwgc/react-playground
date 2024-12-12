@@ -6950,10 +6950,10 @@ package-json-from-dist@^1.0.0:
   resolved "https://registry.npmjs.org/package-json-from-dist/-/package-json-from-dist-1.0.1.tgz"
   integrity sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==
 
-packw@^2.3.6:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/packw/-/packw-2.3.6.tgz#8157bd711f3a938c4ee9ce7203d8e3e5f8f1e1fd"
-  integrity sha512-W61NSZUHNUUntJBLNw6Sq6u5968sEBYgHEt8nP9OB2o9abQQa3d8Ye1+iRgGfNY7UwWtpdnei8F7Di8D5SAmjQ==
+packw@^2.3.7:
+  version "2.3.7"
+  resolved "https://registry.yarnpkg.com/packw/-/packw-2.3.7.tgz#8f40fc27ab2721281b1a57a13d8a031106a5ba62"
+  integrity sha512-ZT/UF85rCtEm3BSjOtsecaeH/sNpmj3pPHMfjg/rnjN4DPb2gNVj4u15zsGk+zVwrkpWL/Pq5R0XAJd3+WN0JA==
   dependencies:
     "@babel/cli" "^7.25.9"
     "@babel/core" "^7.26.0"
