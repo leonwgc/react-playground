@@ -16,8 +16,8 @@ const GlobalStyle = createGlobalStyle`
 
 const Item = styled.div`
   display: inline-block;
-  height: 200px;
-  width: 300px;
+  height: 300px;
+  width: 400px;
   transition: box-shadow 0.1s, transform 0.1s;
   background-image: url(https://img1.baidu.com/it/u=1109106620,180722445&fm=253&fmt=auto&app=138&f=JPEG?w=786&h=500);
   background-size: 100% 100%;
@@ -25,7 +25,6 @@ const Item = styled.div`
 
   &:hover {
     box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.6);
-    cursor: pointer;
   }
 `;
 
@@ -34,9 +33,7 @@ export default function Test() {
     <>
       <GlobalStyle />
       <ArcHoverEffect>
-        <div style={{ border: '1px solid red', width: 600, height: 300 }}>
-          <Item />
-        </div>
+        <Item />
       </ArcHoverEffect>
     </>
   );

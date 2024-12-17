@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { styled } from 'react-uni-comps';
+import React, { useRef } from 'react';
+import { styled, useEventListener } from 'react-uni-comps';
 
 const StyledContainer = styled.div`
   .ef-scene {
@@ -7,6 +7,7 @@ const StyledContainer = styled.div`
     .ef-object {
       transform-style: preserve-3d;
       position: relative;
+      transition: all 0.2s ease;
     }
   }
 `;
@@ -17,29 +18,20 @@ function handleMove(e) {
   const width = el.clientWidth;
   const xVal = e.offsetX;
   const yVal = e.offsetY;
-  const yRotation = 20 * ((xVal - width / 2) / width);
-  const xRotation = -20 * ((yVal - height / 2) / height);
-  const string = 'scale(1.1) rotateX(' + xRotation + 'deg) rotateY(' + yRotation + 'deg)';
-  e.currentTarget.style.transform = string;
+  const yRotation = 10 * ((xVal - width / 2) / width);
+  const xRotation = -10 * ((yVal - height / 2) / height);
+  e.currentTarget.style.transform = 'rotateX(' + xRotation + 'deg) rotateY(' + yRotation + 'deg)';
 }
 
 const onMouseOut = (e) => {
-  e.currentTarget.style.transform = 'scale(1) rotateX(0) rotateY(0)';
+  e.currentTarget.style.transform = 'rotateX(0) rotateY(0)';
 };
 
 export default function ArcHoverEffect({ children }) {
   const ref = useRef();
 
-  useEffect(() => {
-    let el = ref.current;
-    el.addEventListener('mousemove', handleMove);
-    el.addEventListener('mouseout', onMouseOut);
-
-    return () => {
-      el.removeEventListener('mousemove', handleMove);
-      el.removeEventListener('mouseout', onMouseOut);
-    };
-  }, []);
+  useEventListener(ref, 'mousemove', handleMove);
+  useEventListener(ref, 'mouseout', onMouseOut);
 
   return (
     <StyledContainer>
