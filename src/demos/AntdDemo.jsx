@@ -1,38 +1,69 @@
-import React from 'react';
-import { Button, message, Space, Divider } from 'antd';
+import React, { useEffect } from 'react';
+import { Button, message, Space, Divider, Row, Col, Form, Switch, Input, InputNumber } from 'antd';
 import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
+import { set } from 'lodash';
 
 export default function AntdDemos() {
-  const [messageApi, contextHolder] = message.useMessage();
+  const [form] = Form.useForm();
+  const [disabled, setDisabled] = React.useState(false);
+
+  const values = Form.useWatch([], form);
+
+  useEffect(() => {
+    form
+      .validateFields({ validateOnly: true })
+      .then(() => setDisabled(false))
+      .catch(() => setDisabled(true));
+  }, [form, values]);
 
   return (
     <div>
-      <Space size={32}>
-        <Button
-          type="primary"
-          onClick={() => {
-            message.open({
-              type: 'success',
-              content: 'success',
-              duration: 2
-            });
-          }}
-        >
-          message
-        </Button>
+      <Divider orientation="left">row col</Divider>
+      <Row gutter={16}>
+        <Col span={8} style={{ background: '#ccc' }}>
+          col1
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col offset={8} span={8} style={{ background: '#999' }}>
+          col2
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col offset={16} span={8} style={{ background: '#333', color: '#fff' }}>
+          col3
+        </Col>
+      </Row>
+      <Divider orientation="left">form</Divider>
 
-        {contextHolder}
-
-        <Button
-          type="primary"
-          onClick={() => {
-            messageApi.error('use messsage error ');
-            // message.error('bad luck');
-          }}
+      <Form form={form} layout="vertical" requiredMark onFinish={(values) => console.log(values)}>
+        <Form.Item
+          name="name"
+          required
+          label="Name"
+          rules={[{ type: 'string', max: 6, message: 'too long', warningOnly: false }]}
         >
-          message error
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="age"
+          label="Age"
+          validateFirst
+          rules={[
+            { required: true },
+            { max: 6, message: 'cant be more than 6' },
+            { max: 3, message: 'you can input 2 more numbers' }
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item name="checked" required label="Boy" valuePropName="checked">
+          <Switch />
+        </Form.Item>
+        <Button htmlType="submit" type="primary" disabled={disabled}>
+          submit
         </Button>
-      </Space>
+      </Form>
 
       <Divider orientation="left">icons</Divider>
 
