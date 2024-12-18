@@ -226,6 +226,10 @@ const routes = [
   {
     path: '/antd-demo',
     component: lazy(() => import('./demos/AntdDemo'))
+  },
+  {
+    path: '/sse',
+    component: lazy(() => import('./demos/SSEDemo'))
   }
 ];
 
