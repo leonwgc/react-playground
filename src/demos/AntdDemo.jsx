@@ -1,12 +1,23 @@
 import React, { useEffect } from 'react';
-import { Button, message, Space, Divider, Row, Col, Form, Switch, Input, InputNumber } from 'antd';
-import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
-import { set } from 'lodash';
+import { Button, Divider, Row, Col, Form, Switch, Input, Space, Upload } from 'antd';
+import { StarOutlined, StarFilled, StarTwoTone, UploadOutlined } from '@ant-design/icons';
+
+const normFile = (e) => {
+  console.log('Upload event:', e);
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
 
 export default function AntdDemos() {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = React.useState(false);
 
+  const formLayout = {
+    labelCol: { span: 4 },
+    wrapperCol: { span: 12 }
+  };
   const values = Form.useWatch([], form);
 
   useEffect(() => {
@@ -36,14 +47,32 @@ export default function AntdDemos() {
       </Row>
       <Divider orientation="left">form</Divider>
 
-      <Form form={form} layout="vertical" requiredMark onFinish={(values) => console.log(values)}>
+      <Form
+        {...formLayout}
+        form={form}
+        layout="vertical"
+        requiredMark
+        onFinish={(values) => console.log(values)}
+        scrollToFirstError={{ behavior: 'smooth', focus: true }}
+      >
         <Form.Item
           name="name"
           required
           label="Name"
-          rules={[{ type: 'string', max: 6, message: 'too long', warningOnly: false }]}
+          rules={[{ type: 'string', max: 6, message: 'too long', warningOnly: true }]} // warningOnly only show yellow warning , but will not block submit.
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          name="upload"
+          label="Upload"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          extra="longgggggggggggggggggggggggggggggggggg"
+        >
+          <Upload name="logo" action="/upload" listType="picture">
+            <Button icon={<UploadOutlined />}>Click to upload</Button>
+          </Upload>
         </Form.Item>
         <Form.Item
           name="age"
@@ -60,9 +89,41 @@ export default function AntdDemos() {
         <Form.Item name="checked" required label="Boy" valuePropName="checked">
           <Switch />
         </Form.Item>
-        <Button htmlType="submit" type="primary" disabled={disabled}>
-          submit
-        </Button>
+        <Form.Item name="password" required label="Password" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="confirmPassword"
+          required
+          label="Confirm Password"
+          dependencies={['password']}
+          validateTrigger="onBlur"
+          rules={[
+            {
+              required: true
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error('The confirm password that you entered do not match!')
+                );
+              }
+            })
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Space>
+          <Button onClick={() => form.scrollToField('name')}>Scroll to Name</Button>
+
+          <Button htmlType="submit" type="primary" disabled={disabled}>
+            submit
+          </Button>
+        </Space>
       </Form>
 
       <Divider orientation="left">icons</Divider>
