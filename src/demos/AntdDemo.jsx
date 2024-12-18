@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Divider, Row, Col, Form, Switch, Input, Space, Upload } from 'antd';
+import { Button, Divider, Row, Col, Form, Switch, Input, Space, Upload, Segmented } from 'antd';
 import { StarOutlined, StarFilled, StarTwoTone, UploadOutlined } from '@ant-design/icons';
 
 const normFile = (e) => {
@@ -20,9 +20,11 @@ export default function AntdDemos() {
   };
   const values = Form.useWatch([], form);
 
+  const variant = Form.useWatch('variant', form);
+
   useEffect(() => {
     form
-      .validateFields({ validateOnly: true })
+      .validateFields({ validateOnly: true }) // 5.5.0 新增。仅校验内容而不会将错误信息展示到 UI 上。
       .then(() => setDisabled(false))
       .catch(() => setDisabled(true));
   }, [form, values]);
@@ -50,15 +52,21 @@ export default function AntdDemos() {
       <Form
         {...formLayout}
         form={form}
-        layout="vertical"
+        layout="horizontal"
         requiredMark
         onFinish={(values) => console.log(values)}
         scrollToFirstError={{ behavior: 'smooth', focus: true }}
+        variant={variant || 'outlined'}
+        labelWrap
+        labelAlign="left"
       >
+        <Form.Item label="Form variant" name="variant">
+          <Segmented options={['outlined', 'filled', 'borderless']} />
+        </Form.Item>
         <Form.Item
           name="name"
           required
-          label="Name"
+          label="Name very long long label"
           rules={[{ type: 'string', max: 6, message: 'too long', warningOnly: true }]} // warningOnly only show yellow warning , but will not block submit.
         >
           <Input />
