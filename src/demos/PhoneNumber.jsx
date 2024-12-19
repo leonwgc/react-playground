@@ -10,6 +10,7 @@ export default function PhoneNumber({
   codeOnChange,
   onSubmit
 }) {
+  const { status, errors } = Form.Item.useStatus();
   // 自定义搜索。
   const filterOption = useCallback((input, option) => {
     const item = countryConfig.find((item) => item.countryCode === option?.value);
@@ -69,7 +70,14 @@ export default function PhoneNumber({
         onChange={codeOnChange}
       />
       <Input value={value} onChange={onChange} placeholder="Phone Number" />
-      <Button type="primary" onClick={onSubmit} disabled={!value} style={{ border: 'none' }}>
+      <Button
+        // type="primary"
+        onClick={onSubmit}
+        disabled={!value}
+        style={{ border: 'none' }}
+        color={status === 'error' ? 'danger' : 'primary'}
+        variant="solid"
+      >
         Send Code
       </Button>
     </Space.Compact>
