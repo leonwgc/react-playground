@@ -13,11 +13,9 @@ import {
 } from 'antd';
 import { StarOutlined, StarFilled, StarTwoTone, UploadOutlined } from '@ant-design/icons';
 import { countryConfig } from './antd.data';
-import './AntdDemo.less';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 
 const normFile = (e) => {
-  console.log('Upload event:', e);
   if (Array.isArray(e)) {
     return e;
   }
@@ -48,7 +46,7 @@ export default function AntdDemos() {
   // for phone number
   const onSelectChangeHandle = useCallback(
     (value) => {
-      const data = countryConfig.find((item) => item.phoneCode === value);
+      const data = countryConfig.find((item) => item.countryCode === value);
       form.setFieldValue('phoneCodeValue', data);
     },
     [countryConfig, form]
@@ -58,7 +56,7 @@ export default function AntdDemos() {
   // 自定义搜索。
   const filterOption = useCallback(
     (input, option) => {
-      const item = countryConfig.find((item) => item.phoneCode === option?.value);
+      const item = countryConfig.find((item) => item.countryCode === option?.value);
       return (
         item.chineseName.includes(input) ||
         item.englishName.toLowerCase().includes(input.toLowerCase()) ||
@@ -72,7 +70,7 @@ export default function AntdDemos() {
     () =>
       countryConfig.map((item) => ({
         label: (
-          <div className="phone-number-area-code-select">
+          <Space size={8} className="phone-number-area-code-select">
             <span className="area-code-flag">
               <span
                 className={`fi fi-${
@@ -84,15 +82,15 @@ export default function AntdDemos() {
               {language === 'zh-CN' ? item.chineseName : item.englishName}
             </span>
             <span className="area-code-number">{`+${item?.phoneCode}`}</span>
-          </div>
+          </Space>
         ),
-        value: item.phoneCode
+        value: item.countryCode // phone code maybe duplicated
       })),
     []
   );
 
   return (
-    <ConfigProvider componentSize="large" theme={{ cssVar: true }}>
+    <ConfigProvider componentSize="large">
       <div>
         <Divider orientation="left">form</Divider>
 
@@ -107,15 +105,14 @@ export default function AntdDemos() {
           labelWrap
           labelAlign="left"
         >
-          <Space.Compact block>
-            <Form.Item name="phoneCode" noStyle initialValue="86">
+          <Space.Compact>
+            <Form.Item name="phoneCode" noStyle initialValue="CN">
               <Select
-                className="phone-number-select"
-                popupClassName="phone-number-select-pop"
+                popupMatchSelectWidth={false}
                 showSearch
                 options={selectOptions}
                 labelRender={(data) => {
-                  const item = countryConfig.find((item) => item.phoneCode === data.value);
+                  const item = countryConfig.find((item) => item.countryCode === data.value);
                   return item?.phoneCode ? (
                     <Space className="phone-number-area-code-select" size={8}>
                       <span className="area-code-flag">
