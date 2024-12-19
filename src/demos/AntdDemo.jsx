@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Divider,
@@ -8,12 +8,10 @@ import {
   Space,
   Upload,
   Segmented,
-  Select,
   ConfigProvider
 } from 'antd';
 import { StarOutlined, StarFilled, StarTwoTone, UploadOutlined } from '@ant-design/icons';
-import { countryConfig } from './antd.data';
-import '/node_modules/flag-icons/css/flag-icons.min.css';
+import PhoneNumber from './PhoneNumber';
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -28,13 +26,11 @@ export default function AntdDemos() {
 
   const formLayout = {
     labelCol: { span: 4 },
-    wrapperCol: { span: 12 }
+    wrapperCol: { span: 20 }
   };
   const values = Form.useWatch([], form);
 
   const variant = Form.useWatch('variant', form);
-
-  const phoneNumber = Form.useWatch('phoneNumber', form) || '';
 
   useEffect(() => {
     form
@@ -42,52 +38,6 @@ export default function AntdDemos() {
       .then(() => setDisabled(false))
       .catch(() => setDisabled(true));
   }, [form, values]);
-
-  // for phone number
-  const onSelectChangeHandle = useCallback(
-    (value) => {
-      const data = countryConfig.find((item) => item.countryCode === value);
-      form.setFieldValue('phoneCodeValue', data);
-    },
-    [countryConfig, form]
-  );
-  const language = 'zh-CN';
-
-  // 自定义搜索。
-  const filterOption = useCallback(
-    (input, option) => {
-      const item = countryConfig.find((item) => item.countryCode === option?.value);
-      return (
-        item.chineseName.includes(input) ||
-        item.englishName.toLowerCase().includes(input.toLowerCase()) ||
-        item.phoneCode.includes(input)
-      );
-    },
-    [language]
-  );
-
-  const selectOptions = useMemo(
-    () =>
-      countryConfig.map((item) => ({
-        label: (
-          <Space size={8} className="phone-number-area-code-select">
-            <span className="area-code-flag">
-              <span
-                className={`fi fi-${
-                  item?.flagCode?.toLowerCase() || item?.countryCode?.toLowerCase()
-                }`}
-              />
-            </span>
-            <span className="area-code-country-name">
-              {language === 'zh-CN' ? item.chineseName : item.englishName}
-            </span>
-            <span className="area-code-number">{`+${item?.phoneCode}`}</span>
-          </Space>
-        ),
-        value: item.countryCode // phone code maybe duplicated
-      })),
-    []
-  );
 
   return (
     <ConfigProvider componentSize="large">
@@ -105,39 +55,16 @@ export default function AntdDemos() {
           labelWrap
           labelAlign="left"
         >
-          <Space.Compact>
-            <Form.Item name="phoneCode" noStyle initialValue="CN">
-              <Select
-                popupMatchSelectWidth={false}
-                showSearch
-                options={selectOptions}
-                labelRender={(data) => {
-                  const item = countryConfig.find((item) => item.countryCode === data.value);
-                  return item?.phoneCode ? (
-                    <Space className="phone-number-area-code-select" size={8}>
-                      <span className="area-code-flag">
-                        <span
-                          className={`fi fi-${
-                            item?.flagCode?.toLowerCase() || item?.countryCode?.toLowerCase()
-                          }`}
-                        />
-                      </span>
-                      <span className="area-code-number">{`+${item?.phoneCode}`}</span>
-                    </Space>
-                  ) : null;
-                }}
-                optionFilterProp="children"
-                filterOption={filterOption}
-                onChange={onSelectChangeHandle}
-              />
-            </Form.Item>
-            <Form.Item name="phoneNumber" noStyle>
-              <Input />
-            </Form.Item>
-            <Button type="primary" disabled={!phoneNumber.trim()}>
-              Send Code
-            </Button>
-          </Space.Compact>
+          <Form.Item
+            name="phone"
+            label="Phone"
+            rules={[
+              { required: true, message: 'please input phone number.' },
+              { max: 11, message: 'too long' }
+            ]}
+          >
+            <PhoneNumber />
+          </Form.Item>
 
           <Form.Item label="Form variant" name="variant">
             <Segmented options={['outlined', 'filled', 'borderless']} />
