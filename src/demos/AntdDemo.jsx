@@ -8,7 +8,8 @@ import {
   Space,
   Upload,
   Segmented,
-  ConfigProvider
+  ConfigProvider,
+  theme
 } from 'antd';
 import { StarOutlined, StarFilled, StarTwoTone, UploadOutlined } from '@ant-design/icons';
 import PhoneNumber from './PhoneNumber';
@@ -23,6 +24,11 @@ const normFile = (e) => {
 export default function AntdDemos() {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = React.useState(false);
+  const { token } = theme.useToken();
+
+  useEffect(() => {
+    console.log(token.colorPrimary);
+  }, []);
 
   const formLayout = {
     labelCol: { span: 4 },
@@ -43,6 +49,21 @@ export default function AntdDemos() {
     <ConfigProvider componentSize="large">
       <div>
         <Divider orientation="left">form</Divider>
+
+        <ConfigProvider
+          theme={{
+            // seed token
+            token: { colorPrimary: 'red', fontSize: 30 },
+            components: {
+              // for each component
+              Button: {
+                primaryColor: 'green'
+              }
+            }
+          }}
+        >
+          <Button type="primary">hello</Button>
+        </ConfigProvider>
 
         <Form
           {...formLayout}
