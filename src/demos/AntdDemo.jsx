@@ -46,7 +46,8 @@ export default function AntdDemos() {
   }, [form, values]);
 
   return (
-    <ConfigProvider componentSize="large">
+    // 因此如果你的应用依赖了 Ant Design 的主题能力，那么我们强烈建议你开启 CSS 变量模式。
+    <ConfigProvider componentSize="large" theme={{ cssVar: { key: 'app' }, hash: false }}>
       <div>
         <Divider orientation="left">form</Divider>
 
