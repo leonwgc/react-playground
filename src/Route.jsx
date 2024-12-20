@@ -230,6 +230,10 @@ const routes = [
   {
     path: '/sse',
     component: lazy(() => import('./demos/SSEDemo'))
+  },
+  {
+    path: '/resize',
+    component: lazy(() => import('./demos/ResizeableDemo'))
   }
 ];
 
