@@ -3,6 +3,22 @@ import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import { styled } from 'react-uni-comps';
 
+// {
+//     children: React.Element<any>,
+//     width: number,
+//     height: number,
+//     // If you change this, be sure to update your css
+//     handleSize: [number, number] = [10, 10],
+//     lockAspectRatio: boolean = false,
+//     axis: 'both' | 'x' | 'y' | 'none' = 'both',
+//     minConstraints: [number, number] = [10, 10],
+//     maxConstraints: [number, number] = [Infinity, Infinity],
+//     onResizeStop?: ?(e: SyntheticEvent, data: ResizeCallbackData) => any,
+//     onResizeStart?: ?(e: SyntheticEvent, data: ResizeCallbackData) => any,
+//     onResize?: ?(e: SyntheticEvent, data: ResizeCallbackData) => any,
+//     draggableOpts?: ?Object
+//   };
+
 const StyledRipple = styled.div`
   left: 50%;
   top: 50%;
@@ -66,6 +82,7 @@ export default function ResizableDemo() {
         onResize={onResize}
         minConstraints={[200, 200]}
         maxConstraints={[400, 400]}
+        axis="both"
       >
         <div
           style={{
