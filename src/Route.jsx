@@ -238,6 +238,10 @@ const routes = [
   {
     path: '/use-request',
     component: lazy(() => import('./demos/useRequestDemo'))
+  },
+  {
+    path: '/use-table',
+    component: lazy(() => import('./demos/useAntTableDemo'))
   }
 ];
 

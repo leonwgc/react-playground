@@ -1,6 +1,6 @@
 import React from 'react';
-import { useRequest, useAntdTable } from 'ahooks';
-import { Button, Divider, Skeleton, Space, Table } from 'antd';
+import { useRequest } from 'ahooks';
+import { Button, Divider, Skeleton, Space } from 'antd';
 
 const getUsers = () => {
   return new Promise((resolve) => {
@@ -26,35 +26,6 @@ const getUsers = () => {
   });
 };
 
-const getTableData = ({ current, pageSize }) => {
-  const query = `page=${current}&size=${pageSize}`;
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        total: 100,
-        list: [
-          {
-            id: 1,
-            name: 'wgc',
-            age: 18
-          },
-          {
-            id: 2,
-            name: 'giantfish',
-            age: 19
-          },
-          {
-            id: 3,
-            name: 'leon',
-            age: 20
-          }
-        ]
-      });
-    }, 300);
-  });
-};
-
 export default () => {
   const { loading, error, data, run, params, refresh, mutate, cancel } = useRequest(getUsers, {
     manual: true,
@@ -71,23 +42,6 @@ export default () => {
       console.log('finally', JSON.stringify(params));
     }
   });
-
-  const { tableProps } = useAntdTable(getTableData);
-
-  const columns = [
-    {
-      title: 'id',
-      dataIndex: 'id'
-    },
-    {
-      title: 'name',
-      dataIndex: 'name'
-    },
-    {
-      title: 'age',
-      dataIndex: 'age'
-    }
-  ];
 
   return (
     <div>
@@ -108,16 +62,12 @@ export default () => {
       {!loading ? (
         <div>
           {data?.map((item) => (
-            <div>{item.name}</div>
+            <div key={item.id}>{item.name}</div>
           ))}
         </div>
       ) : (
         <Skeleton />
       )}
-
-      <Divider orientation="left">table</Divider>
-
-      <Table columns={columns} rowKey="id" {...tableProps} />
     </div>
   );
 };
