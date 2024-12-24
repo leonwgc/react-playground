@@ -234,6 +234,10 @@ const routes = [
   {
     path: '/resize',
     component: lazy(() => import('./demos/ResizeableDemo'))
+  },
+  {
+    path: '/use-request',
+    component: lazy(() => import('./demos/useRequestDemo'))
   }
 ];
 

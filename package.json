@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
     "@reduxjs/toolkit": "^1.9.3",
+    "ahooks": "^3.8.4",
     "alcedo-ui": "^2.72.2",
     "animate.css": "^4.1.1",
     "antd": "^5.22.4",
