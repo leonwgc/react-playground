@@ -34,10 +34,15 @@ const getTableData = ({ current, pageSize }, formData) => {
 export default () => {
   const [form] = Form.useForm();
 
+  const result = useAntdTable(getTableData, { form, defaultPageSize: 15 });
+
+  // All parameters and returned results of useRequest are applicable to useAntdTable
   const {
     tableProps,
-    search: { submit, reset }
-  } = useAntdTable(getTableData, { form, defaultPageSize: 15 });
+    search: { submit, reset },
+    refresh,
+    ...rest // useRequest returned parameters
+  } = result;
 
   const columns = [
     {
@@ -63,9 +68,15 @@ export default () => {
         <Form.Item label="age" name="age">
           <Input />
         </Form.Item>
-        <Button type="primary" onClick={submit}>
-          Add
-        </Button>
+
+        <Space style={{ margin: '10px 0' }}>
+          <Button type="primary" onClick={submit}>
+            Add
+          </Button>
+          <Button type="secondary" onClick={refresh}>
+            refresh
+          </Button>
+        </Space>
       </Form>
 
       <Table columns={columns} rowKey="id" {...tableProps} />
