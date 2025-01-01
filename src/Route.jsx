@@ -232,6 +232,10 @@ const routes = [
     component: lazy(() => import('./demos/SSEDemo'))
   },
   {
+    path: '/better-sse',
+    component: lazy(() => import('./demos/BetterSSEDemo'))
+  },
+  {
     path: '/resize',
     component: lazy(() => import('./demos/ResizeableDemo'))
   },

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const { createSession } = require('better-sse');
 
 app.disable('x-powered-by');
 app.enable('trust proxy');
@@ -30,6 +31,25 @@ app.get('/sse', (req, res) => {
 
   // 设置客户端断开连接时的清理逻辑
   req.on('close', () => {
+    clearInterval(interval);
+  });
+});
+
+// https://matthewwid.github.io/better-sse/
+app.get('/better-sse', async (req, res) => {
+  const session = await createSession(req, res);
+
+  const interval = setInterval(() => {
+    session.push('This is a better sse message at ' + new Date().toISOString(), 'better-sse-event');
+  }, 1000);
+
+  session.addListener('disconnected', () => {
+    console.log('disconnected');
+    clearInterval(interval);
+  });
+
+  req.on('close', () => {
+    console.log('closed');
     clearInterval(interval);
   });
 });
