@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     resolve: {
       alias: {
-        '~': path.resolve(__dirname, 'node_modules')
+        '~': path.resolve(__dirname, 'src')
       }
     },
     server: {
