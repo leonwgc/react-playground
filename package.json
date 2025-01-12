@@ -7,7 +7,9 @@
     "prepare": "husky install",
     "lint-staged": "lint-staged",
     "start": "node pack",
-    "build": "node pack --build"
+    "rspack:dev": "rsbuild dev",
+    "rspack:build": "rsbuild build",
+    "rspack:preview": "rsbuild preview"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
@@ -37,6 +39,9 @@
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@hookform/devtools": "^4.3.1",
+    "@rsbuild/core": "^1.1.13",
+    "@rsbuild/plugin-react": "^1.1.0",
+    "@rsbuild/plugin-sass": "^1.1.2",
     "@types/react": "^16.8.2",
     "@types/react-dom": "^16.8.0",
     "@types/react-router-dom": "^5.3.3",
