@@ -20,9 +20,9 @@
     "strictNullChecks": false,
     "outDir": "types",
     "lib": ["es2015", "dom", "es2015.promise"],
-    "paths": {
-      "~": ["src"]
-    }
+    // "paths": {
+    //   "~/*": ["src/*"]
+    // }
   },
   "include": ["src"],
   "exclude": ["node_modules"]
