@@ -16,11 +16,12 @@ export default defineConfig(({ mode }) => {
       }
     },
     server: {
-      host: true
+      host: true,
+      port: 1000
     },
     css: {
       preprocessorOptions: {
-        sass: { api: 'legacy' }
+        sass: { api: 'modern' }
       }
     }
   };
