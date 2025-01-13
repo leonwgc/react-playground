@@ -1,12 +1,20 @@
-const { run, build } = require('packrs');
+const { run } = require('packrs');
 const path = require('path');
 
 run({
   banner: 'react-playground',
   index: './src/index',
   dist: './dist/dist',
+  port: 9100,
   rsConfig: {
-    mode: 'development',
+    html: {
+      title: 'react-playground',
+      favicon: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+      meta: {
+        description: 'react-playground description'
+      },
+      template: './index.html'
+    },
     resolve: {
       aliasStrategy: 'prefer-alias',
       alias: {
