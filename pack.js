@@ -1,28 +1,25 @@
-const { default: pack } = require('packw');
+const {run} = require('packrs');
 const path = require('path');
-const argv = require('yargs').argv;
 
-const build = !!argv.build;
+run({
 
-pack(
-  !build,
-  {
-    entry: {
-      index: `./src/index`
-    },
-    output: {
-      path: path.resolve(__dirname, 'dist')
-    },
-    devServer: {
-      port: 9100,
-      historyApiFallback: true
-    },
-    resolve: {
-      alias: {
-        '~': path.resolve(__dirname, './src')
-      }
+    index: './src/index',
+    dist: './dist/dist',
+    port: 9100,
+    rsConfig: {
+        html: {
+            title: 'react-playground',
+            favicon: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+            meta: {
+                description: 'react-playground description'
+            },
+            template: './index.html'
+        },
+        resolve: {
+            aliasStrategy: 'prefer-alias',
+            alias: {
+                '~': path.resolve(__dirname, './src')
+            }
+        }
     }
-  },
-  null,
-  'react-play'
-);
+});
